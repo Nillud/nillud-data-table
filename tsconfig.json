@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",                  // Устанавливает целевой стандарт ECMAScript.
+    "lib": ["dom", "dom.iterable", "esnext"],  // Библиотеки, которые используются для типизации в проекте.
+    "allowJs": true,                     // Разрешает использование JavaScript файлов.
+    "skipLibCheck": true,                // Пропускает проверку типов библиотек.
+    "strict": true,                      // Включает строгую типизацию.
+    "noEmit": true,                      // Не генерирует выходные файлы.
+    "esModuleInterop": true,             // Разрешает импорт CommonJS модулей.
+    "module": "ESNext",                  // Устанавливает стандарт модуля.
+    "moduleResolution": "bundler",       // Использует модульную систему "bundler", подходящую для Webpack и других сборщиков.
+    "resolveJsonModule": true,           // Разрешает импорт `.json` файлов.
+    "isolatedModules": true,             // Включает проверку изолированных модулей.
+    "jsx": "react-jsx",                  // Использует JSX в стиле React 17+ (автоматический импорт React).
+    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo"  // Указывает файл для метаинформации о сборке.
+  },
+  "include": [
+    "components/**/*",                  // Включает все файлы в папке components
+    "utils/**/*",                        // Включает все файлы в папке utils
+    "types/**/*"                         // Включает все типы
+  ],
+  "exclude": [
+    "node_modules",                      // Исключает папку node_modules
+    "dist"                               // Исключает папку dist
+  ]
+}

@@ -1,0 +1,796 @@
+// components/DataTable.tsx
+import { useImperativeHandle, useEffect as useEffect2, useState, useCallback, useMemo as useMemo2, forwardRef } from "react";
+
+// components/TableHeader.tsx
+import React from "react";
+
+// components/Column.tsx
+import { useMemo } from "react";
+
+// components/img/SortDown.tsx
+import { jsx } from "react/jsx-runtime";
+var SortDown = () => {
+  return /* @__PURE__ */ jsx("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", fill: "currentColor", className: "bi bi-caret-down-fill", viewBox: "0 0 16 16", children: /* @__PURE__ */ jsx("path", { d: "M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" }) });
+};
+var SortDown_default = SortDown;
+
+// components/img/SortUp.tsx
+import { jsx as jsx2 } from "react/jsx-runtime";
+var SortUp = () => {
+  return /* @__PURE__ */ jsx2("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", fill: "currentColor", className: "bi bi-caret-up-fill", viewBox: "0 0 16 16", children: /* @__PURE__ */ jsx2("path", { d: "m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" }) });
+};
+var SortUp_default = SortUp;
+
+// components/Column.tsx
+import { jsx as jsx3, jsxs } from "react/jsx-runtime";
+var Column = ({ column, getSortField, sortBy, getFilters, filters }) => {
+  var _a;
+  const currentSort = useMemo(() => {
+    return sortBy.col === column.field ? sortBy.type : null;
+  }, [sortBy, column.field]);
+  const toggleSort = () => {
+    const nextType = currentSort === "asc" ? "desc" : "asc";
+    getSortField({ col: column.field, type: nextType });
+  };
+  const onFilterChange = (e) => {
+    getFilters({ ...filters, [column.field]: e.target.value });
+  };
+  return /* @__PURE__ */ jsxs("div", { className: "ndt-column", children: [
+    /* @__PURE__ */ jsxs("div", { className: "ndt-column-head", children: [
+      /* @__PURE__ */ jsx3("span", { children: column.title }),
+      typeof column.autoinc === "undefined" && (typeof column.sortable === "undefined" || column.sortable) && /* @__PURE__ */ jsx3("div", { className: "ndt-sorter", onClick: toggleSort, children: currentSort === "asc" ? /* @__PURE__ */ jsx3(SortDown_default, {}) : currentSort === "desc" ? /* @__PURE__ */ jsx3(SortUp_default, {}) : null })
+    ] }),
+    /* @__PURE__ */ jsx3("div", { className: "ndt-column-footer", children: typeof column.autoinc === "undefined" && (typeof column.filterable === "undefined" || column.filterable) && /* @__PURE__ */ jsx3(
+      "input",
+      {
+        type: "text",
+        value: (_a = filters[column.field]) != null ? _a : "",
+        onChange: onFilterChange,
+        placeholder: "\u0424\u0438\u043B\u044C\u0442\u0440..."
+      }
+    ) })
+  ] });
+};
+var Column_default = Column;
+
+// components/TableHeader.tsx
+import { Fragment, jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
+var Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, headerGroup }) => {
+  const renderHeaderGroup = () => headerGroup && /* @__PURE__ */ jsx4("div", { className: "ndt-table-columns", style: { gridTemplateColumns: widths || "auto" }, children: headerGroup.map((col, id) => /* @__PURE__ */ jsx4("div", { className: "ndt-column", style: { gridColumn: `span ${col.cols || 1}` }, children: /* @__PURE__ */ jsx4("div", { className: "ndt-column-head", children: /* @__PURE__ */ jsx4("span", { children: col.title }) }) }, `header-group-${id}`)) });
+  const renderColumns = () => columns && columns.length > 0 ? columns.map((column, id) => /* @__PURE__ */ jsx4(
+    Column_default,
+    {
+      column,
+      getSortField,
+      sortBy,
+      getFilters,
+      filters
+    },
+    `column-${id}`
+  )) : /* @__PURE__ */ jsx4("div", { className: "ndt-data-error", children: "\u041E\u0448\u0438\u0431\u043A\u0430: columns is undefined" });
+  return /* @__PURE__ */ jsxs2(Fragment, { children: [
+    renderHeaderGroup(),
+    /* @__PURE__ */ jsx4("div", { className: "ndt-table-columns", style: { gridTemplateColumns: widths || "auto" }, children: renderColumns() })
+  ] });
+};
+var TableHeader_default = React.memo(Header);
+
+// components/TableBody.tsx
+import React2 from "react";
+
+// components/Cell.tsx
+import { jsx as jsx5 } from "react/jsx-runtime";
+var Cell = ({
+  row,
+  column,
+  rowId,
+  isTitles
+}) => {
+  const rawValue = row[column.field];
+  const stringValue = typeof rawValue !== "undefined" && rawValue !== null ? String(rawValue) : "";
+  const content = column.formatter ? column.formatter(stringValue, row) : typeof column.autoinc !== "undefined" ? /* @__PURE__ */ jsx5("span", { children: rowId + 1 }) : /* @__PURE__ */ jsx5("span", { children: stringValue });
+  return /* @__PURE__ */ jsx5(
+    "div",
+    {
+      className: "ndt-cell",
+      title: isTitles && stringValue ? stringValue : "",
+      children: content
+    }
+  );
+};
+var Cell_default = Cell;
+
+// components/Row.tsx
+import { jsx as jsx6 } from "react/jsx-runtime";
+var Row = ({ rowId, columns, row, widths, isTitles }) => /* @__PURE__ */ jsx6("div", { className: "ndt-table-row", style: { gridTemplateColumns: widths }, children: columns.map((column, id) => /* @__PURE__ */ jsx6(
+  Cell_default,
+  {
+    row,
+    column,
+    rowId,
+    isTitles
+  },
+  `cell-${rowId}-${id}`
+)) });
+var Row_default = Row;
+
+// utils/groupDataBy.ts
+var groupDataBy = (data, key) => {
+  const groups = /* @__PURE__ */ new Map();
+  data.forEach((item) => {
+    const groupKey = item[key] || "\u2014";
+    if (!groups.has(String(groupKey))) {
+      groups.set(String(groupKey), []);
+    }
+    groups.get(String(groupKey)).push(item);
+  });
+  return Array.from(groups.entries()).map(([key2, items]) => ({ key: key2, items }));
+};
+
+// components/TableBody.tsx
+import { jsx as jsx7, jsxs as jsxs3 } from "react/jsx-runtime";
+var TableBody = ({
+  columns,
+  tableData,
+  scrollable,
+  scrollHeight,
+  widths,
+  groupBy,
+  collapsedGroups = {},
+  toggleGroup,
+  isTitles
+}) => {
+  const grouped = groupBy ? groupDataBy(tableData, groupBy) : [];
+  if (!tableData || tableData.length === 0) {
+    return /* @__PURE__ */ jsx7("div", { className: `ndt-table-body${scrollable ? " ndt-table-body-scrollable" : ""}`, style: scrollable ? { height: scrollHeight } : {}, children: /* @__PURE__ */ jsx7("div", { className: "ndt-table-row", style: { height: "100%" }, children: /* @__PURE__ */ jsx7("div", { className: "ndt-row-item", style: { margin: "auto", padding: 20, fontWeight: "bold" }, children: "\u0414\u0430\u043D\u043D\u044B\u0445 \u043D\u0435\u0442" }) }) });
+  }
+  const renderGroupedRows = () => grouped.map((group, id) => /* @__PURE__ */ jsxs3(React2.Fragment, { children: [
+    /* @__PURE__ */ jsxs3(
+      "div",
+      {
+        className: "ndt-group-header",
+        onClick: () => toggleGroup == null ? void 0 : toggleGroup(group.key),
+        children: [
+          /* @__PURE__ */ jsx7("span", { style: { marginRight: 8 }, children: collapsedGroups[group.key] ? "\u25B6" : "\u25BC" }),
+          group.key,
+          " (",
+          group.items.length,
+          ")"
+        ]
+      }
+    ),
+    !collapsedGroups[group.key] && group.items.map((element, id2) => /* @__PURE__ */ jsx7(
+      Row_default,
+      {
+        rowId: id2,
+        row: element,
+        columns,
+        widths,
+        isTitles
+      },
+      `row-${group.key}-${id2}`
+    ))
+  ] }, `row-${group.key}-${id}`));
+  const renderFlatRows = () => tableData.map((element, id) => /* @__PURE__ */ jsx7(
+    Row_default,
+    {
+      rowId: id,
+      row: element,
+      columns,
+      widths
+    },
+    `row-${id}`
+  ));
+  return /* @__PURE__ */ jsx7("div", { className: `ndt-table-body${scrollable ? " ndt-table-body-scrollable" : ""}`, style: scrollable ? { height: scrollHeight } : {}, children: groupBy ? renderGroupedRows() : renderFlatRows() });
+};
+var TableBody_default = TableBody;
+
+// components/img/NextIcon.tsx
+import { jsx as jsx8 } from "react/jsx-runtime";
+var NextIcon = () => {
+  return /* @__PURE__ */ jsx8("svg", { width: "41", height: "65", viewBox: "0 0 41 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsx8("path", { d: "M0.674316 57.2669L25.3872 32.5L0.674316 7.73312L8.28244 0.125L40.6574 32.5L8.28244 64.875L0.674316 57.2669Z", fill: "#666666" }) });
+};
+var NextIcon_default = NextIcon;
+
+// components/img/LastIcon.tsx
+import { jsx as jsx9 } from "react/jsx-runtime";
+var LastIcon = () => {
+  return /* @__PURE__ */ jsx9("svg", { width: "68", height: "65", viewBox: "0 0 68 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsx9("path", { d: "M0.185059 7.73312L24.9519 32.5L0.185059 57.2669L7.79318 64.875L40.1682 32.5L7.79318 0.125L0.185059 7.73312ZM56.3557 0.125H67.1474V64.875H56.3557V0.125Z", fill: "#666666" }) });
+};
+var LastIcon_default = LastIcon;
+
+// components/img/PrevIcon.tsx
+import { jsx as jsx10 } from "react/jsx-runtime";
+var PrevIcon = () => {
+  return /* @__PURE__ */ jsx10("svg", { width: "41", height: "65", viewBox: "0 0 41 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsx10("path", { d: "M40.6574 57.2669L15.9445 32.5L40.6574 7.73312L33.0493 0.125L0.674316 32.5L33.0493 64.875L40.6574 57.2669Z", fill: "#666666" }) });
+};
+var PrevIcon_default = PrevIcon;
+
+// components/img/FirstIcon.tsx
+import { jsx as jsx11 } from "react/jsx-runtime";
+var FirstIcon = () => {
+  return /* @__PURE__ */ jsx11("svg", { width: "68", height: "65", viewBox: "0 0 68 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsx11("path", { d: "M67.1474 57.2669L42.3805 32.5L67.1474 7.73312L59.5392 0.125L27.1642 32.5L59.5392 64.875L67.1474 57.2669ZM0.185059 0.125H10.9767V64.875H0.185059V0.125Z", fill: "#666666" }) });
+};
+var FirstIcon_default = FirstIcon;
+
+// components/TableFooter.tsx
+import { jsx as jsx12, jsxs as jsxs4 } from "react/jsx-runtime";
+var TableFooter = ({
+  tableData,
+  paginationCounts,
+  paginationSize,
+  getPaginationSize,
+  paginationPage,
+  getPaginationPage
+}) => {
+  const totalItems = tableData.length;
+  const totalPages = paginationSize === 0 ? 1 : Math.ceil(totalItems / paginationSize);
+  if (totalItems === 0) return null;
+  const handleCountChange = (e) => {
+    getPaginationSize(Number(e.target.value));
+  };
+  const handlePageChange = (newPage) => {
+    if (newPage >= 0 && newPage < totalPages) {
+      getPaginationPage(newPage);
+    }
+  };
+  const renderPageNumbers = () => {
+    if (totalPages <= 1) return null;
+    const pages = [];
+    const maxVisible = 5;
+    let start = Math.max(0, paginationPage - Math.floor(maxVisible / 2));
+    const end = Math.min(totalPages - 1, start + maxVisible - 1);
+    if (end - start + 1 < maxVisible) {
+      start = Math.max(0, end - maxVisible + 1);
+    }
+    if (start > 0) {
+      pages.push(
+        /* @__PURE__ */ jsx12("button", { onClick: () => handlePageChange(0), children: "1" }, "page-0")
+      );
+      if (start > 1) {
+        pages.push(/* @__PURE__ */ jsx12("span", { children: "..." }, "ellipsis-start"));
+      }
+    }
+    for (let i = start; i <= end; i++) {
+      pages.push(
+        /* @__PURE__ */ jsx12(
+          "button",
+          {
+            className: i === paginationPage ? "btn-active" : "",
+            onClick: () => handlePageChange(i),
+            disabled: i === paginationPage,
+            children: i + 1
+          },
+          `page-${i}`
+        )
+      );
+    }
+    if (end < totalPages - 1) {
+      if (end < totalPages - 2) {
+        pages.push(/* @__PURE__ */ jsx12("span", { children: "..." }, "ellipsis-end"));
+      }
+      pages.push(
+        /* @__PURE__ */ jsx12("button", { onClick: () => handlePageChange(totalPages - 1), children: totalPages }, `page-${totalPages - 1}`)
+      );
+    }
+    return pages;
+  };
+  const firstItem = paginationSize === 0 ? 1 : paginationPage * paginationSize + 1;
+  const lastItem = paginationSize === 0 ? totalItems : Math.min((paginationPage + 1) * paginationSize, totalItems);
+  return /* @__PURE__ */ jsxs4("div", { className: "ndt-table-footer", children: [
+    /* @__PURE__ */ jsxs4("div", { className: "ndt-footer-count", children: [
+      /* @__PURE__ */ jsxs4("span", { children: [
+        "\u041F\u043E\u043A\u0430\u0437\u0430\u043D\u044B \u0441\u0442\u0440\u043E\u043A\u0438 \u0441 ",
+        firstItem,
+        " \u043F\u043E ",
+        lastItem,
+        ", "
+      ] }),
+      /* @__PURE__ */ jsxs4("span", { children: [
+        "\u0412\u0441\u0435\u0433\u043E: ",
+        totalItems
+      ] })
+    ] }),
+    paginationCounts && /* @__PURE__ */ jsxs4("div", { className: "ndt-footer-pagination", children: [
+      /* @__PURE__ */ jsxs4("div", { className: "ndt-pagination-counts", children: [
+        /* @__PURE__ */ jsx12("span", { children: "\u041F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0442\u044C \u0441\u0442\u0440\u043E\u043A: " }),
+        /* @__PURE__ */ jsx12("select", { value: paginationSize, onChange: handleCountChange, children: paginationCounts.map((count) => /* @__PURE__ */ jsx12("option", { value: count, children: count === 0 ? "\u0412\u0441\u0435" : count }, `count-${count}`)) })
+      ] }),
+      /* @__PURE__ */ jsxs4("div", { className: "ndt-pagination-buttons", children: [
+        /* @__PURE__ */ jsx12(
+          "button",
+          {
+            disabled: paginationPage === 0,
+            onClick: () => handlePageChange(0),
+            "aria-label": "\u041F\u0435\u0440\u0432\u0430\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0430",
+            children: /* @__PURE__ */ jsx12(FirstIcon_default, {})
+          }
+        ),
+        /* @__PURE__ */ jsx12(
+          "button",
+          {
+            disabled: paginationPage === 0,
+            onClick: () => handlePageChange(paginationPage - 1),
+            "aria-label": "\u041F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0430\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0430",
+            children: /* @__PURE__ */ jsx12(PrevIcon_default, {})
+          }
+        ),
+        /* @__PURE__ */ jsx12("div", { className: "ndt-buttons-num", children: renderPageNumbers() }),
+        /* @__PURE__ */ jsx12(
+          "button",
+          {
+            disabled: paginationPage >= totalPages - 1,
+            onClick: () => handlePageChange(paginationPage + 1),
+            "aria-label": "\u0421\u043B\u0435\u0434\u0443\u044E\u0449\u0430\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0430",
+            children: /* @__PURE__ */ jsx12(NextIcon_default, {})
+          }
+        ),
+        /* @__PURE__ */ jsx12(
+          "button",
+          {
+            disabled: paginationPage >= totalPages - 1,
+            onClick: () => handlePageChange(totalPages - 1),
+            "aria-label": "\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u044F\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0430",
+            children: /* @__PURE__ */ jsx12(LastIcon_default, {})
+          }
+        )
+      ] })
+    ] })
+  ] });
+};
+var TableFooter_default = TableFooter;
+
+// components/functions/sort-data.ts
+var sortByAsc = (data, column) => {
+  const sortedData = data.sort((a, b) => {
+    if (!isNaN(+a[column]) && !isNaN(+b[column])) {
+      return +a[column] - +b[column];
+    }
+    if (`${a[column]}`.toLowerCase() < `${b[column]}`.toLowerCase()) {
+      return -1;
+    }
+    if (`${a[column]}`.toLowerCase() > `${b[column]}`.toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  });
+  return sortedData;
+};
+var sortByDesc = (data, column) => {
+  const sortedData = data.sort((a, b) => {
+    if (!isNaN(+a[column]) && !isNaN(+b[column])) {
+      return +b[column] - +a[column];
+    }
+    if (`${a[column]}`.toLowerCase() > `${b[column]}`.toLowerCase()) {
+      return -1;
+    }
+    if (`${a[column]}`.toLowerCase() < `${b[column]}`.toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  });
+  return sortedData;
+};
+var sortData = (data, col, type) => {
+  if (type === "asc") {
+    return sortByAsc(data, col);
+  } else {
+    return sortByDesc(data, col);
+  }
+};
+var filterData = (data, filter, value) => {
+  if (value == "") return data;
+  const filteredData = data.filter((element) => `${element[filter]}`.toLowerCase().includes(value.toLowerCase()));
+  return filteredData;
+};
+
+// components/export/WordExport.tsx
+import {
+  AlignmentType,
+  Document,
+  Packer,
+  PageOrientation,
+  Paragraph,
+  Table,
+  TableCell,
+  TableRow,
+  TextRun,
+  VerticalAlign,
+  WidthType
+} from "docx";
+import { saveAs } from "file-saver";
+
+// utils/exportUtils/ExportHelpers.ts
+function prepareExportRows(columns, data) {
+  return data.map(
+    (row) => columns.map((col) => {
+      const value = row[col.field];
+      return typeof col.exportCustomCell !== "undefined" ? col.exportCustomCell(String(value), row) : String(value != null ? value : "");
+    })
+  );
+}
+function prepareExportHeaders(columns) {
+  return columns.map((col) => col.title);
+}
+
+// components/export/WordExport.tsx
+import { jsx as jsx13 } from "react/jsx-runtime";
+var WordExport = ({
+  wordData,
+  columns,
+  title,
+  options = {
+    fontSize: 20,
+    boldHeaders: false,
+    autoLandscape: false,
+    maxColumnsBeforeLandscape: 5
+  }
+  // exportCustomColumns 
+}) => {
+  const createNewWord = async () => {
+    const {
+      fontSize = 0,
+      boldHeaders = true,
+      autoLandscape = true,
+      maxColumnsBeforeLandscape = 5
+    } = options;
+    const isLandscape = autoLandscape && columns.length > maxColumnsBeforeLandscape;
+    const headerCells = prepareExportHeaders(columns).map((header) => new TableCell({
+      children: [new Paragraph({
+        children: [new TextRun({
+          text: header,
+          size: fontSize,
+          bold: boldHeaders
+        })],
+        alignment: AlignmentType.CENTER
+      })],
+      verticalAlign: VerticalAlign.CENTER
+    }));
+    const tableHeaderRow = new TableRow({ children: headerCells });
+    const rows = prepareExportRows(columns, wordData).map((cells) => {
+      const rowCells = cells.map(
+        (value) => new TableCell({
+          children: [new Paragraph({
+            children: [new TextRun({
+              text: value,
+              size: fontSize
+            })],
+            alignment: AlignmentType.CENTER
+          })],
+          verticalAlign: VerticalAlign.CENTER
+        })
+      );
+      return new TableRow({ children: rowCells });
+    });
+    const table = new Table({
+      rows: [tableHeaderRow, ...rows],
+      width: { size: 11e3, type: WidthType.DXA },
+      indent: { size: -1e3, type: WidthType.DXA }
+    });
+    const doc = new Document({
+      sections: [{
+        children: [table, new Paragraph({ text: "" })],
+        properties: isLandscape ? { page: { size: { orientation: PageOrientation.LANDSCAPE } } } : {}
+      }]
+    });
+    Packer.toBlob(doc).then((blob) => {
+      saveAs(blob, `${title}.docx`);
+    });
+  };
+  return /* @__PURE__ */ jsx13("button", { className: `ndt-buttonExport ndt-Word}`, onClick: createNewWord, children: "\u0421\u043A\u0430\u0447\u0430\u0442\u044C Word" });
+};
+var WordExport_default = WordExport;
+
+// utils/exportUtils/exportUtils.ts
+var generateExcelColumns = (columns, exportCustomColumns) => {
+  let excelColumns = columns.map((column) => ({
+    header: column.title,
+    key: column.field,
+    width: 20
+  }));
+  if (exportCustomColumns) {
+    exportCustomColumns.forEach((custom) => {
+      excelColumns = excelColumns.map(
+        (col) => col.key === custom.key ? { ...col, ...custom } : col
+      );
+    });
+  }
+  return excelColumns;
+};
+var applyHeaderStyles = (row, columnCount) => {
+  row.height = 40;
+  row.font = { size: 12, bold: true };
+  row.alignment = { vertical: "middle", horizontal: "center" };
+  for (let i = 1; i <= columnCount; i++) {
+    const cell = row.getCell(i);
+    cell.alignment = { wrapText: true, vertical: "middle", horizontal: "center" };
+    cell.border = {
+      top: { style: "thin" },
+      left: { style: "thin" },
+      bottom: { style: "thin" },
+      right: { style: "thin" }
+    };
+  }
+};
+var applyRowStyles = (row, columnCount) => {
+  row.height = 40;
+  row.font = { size: 12 };
+  row.alignment = { vertical: "middle", horizontal: "center" };
+  for (let i = 1; i <= columnCount; i++) {
+    const cell = row.getCell(i);
+    cell.alignment = { wrapText: true, vertical: "middle", horizontal: "center" };
+    cell.border = {
+      top: { style: "thin" },
+      left: { style: "thin" },
+      bottom: { style: "thin" },
+      right: { style: "thin" }
+    };
+  }
+};
+var generateExcelDataRows = (columns, data) => {
+  return data.map((element) => {
+    const rowData = {};
+    columns.forEach((col) => {
+      const value = element[col.field];
+      rowData[col.field] = typeof col.exportCustomCell !== "undefined" ? col.exportCustomCell(String(value), element) : value != null ? value : "";
+    });
+    return rowData;
+  });
+};
+var setColumnAutoWidths = (sheet) => {
+  var _a;
+  (_a = sheet.columns) == null ? void 0 : _a.forEach((column) => {
+    var _a2;
+    let maxLength = 10;
+    (_a2 = column.eachCell) == null ? void 0 : _a2.call(column, { includeEmpty: true }, (cell) => {
+      const cellValue = cell.value ? String(cell.value) : "";
+      maxLength = Math.max(maxLength, cellValue.length + 5);
+    });
+    column.width = maxLength;
+  });
+};
+
+// components/export/ExportExcel.tsx
+import ExcelJS from "exceljs";
+import { jsx as jsx14 } from "react/jsx-runtime";
+var ExportExcel = ({ columns, excelData, title, exportCustomColumns }) => {
+  const exportExcel = () => {
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet(title, {
+      pageSetup: {
+        fitToPage: true,
+        fitToHeight: 2,
+        fitToWidth: 1,
+        orientation: "landscape"
+      },
+      headerFooter: {
+        oddFooter: "\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430 &P \u0438\u0437 &N",
+        evenFooter: "\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430 &P \u0438\u0437 &N"
+      }
+    });
+    const excelColumns = generateExcelColumns(columns, exportCustomColumns);
+    sheet.columns = excelColumns;
+    const headerRow = sheet.getRow(1);
+    applyHeaderStyles(headerRow, sheet.columns.length);
+    const dataRows = generateExcelDataRows(columns, excelData);
+    dataRows.forEach((data) => {
+      const row = sheet.addRow(data);
+      applyRowStyles(row, sheet.columns.length);
+    });
+    setColumnAutoWidths(sheet);
+    if (excelData.length > 15) {
+      sheet.pageSetup.fitToHeight = Math.floor(excelData.length / 15);
+    } else {
+      sheet.pageSetup.fitToHeight = 1;
+    }
+    workbook.xlsx.writeBuffer().then((data) => {
+      const blob = new Blob([data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = `${title}.xlsx`;
+      anchor.click();
+      window.URL.revokeObjectURL(url);
+    });
+  };
+  return /* @__PURE__ */ jsx14("button", { className: `ndt-buttonExport ndt-Excel`, onClick: exportExcel, children: "\u0421\u043A\u0430\u0447\u0430\u0442\u044C Excel" });
+};
+var ExportExcel_default = ExportExcel;
+
+// components/ExportSection.tsx
+import { Fragment as Fragment2, jsx as jsx15, jsxs as jsxs5 } from "react/jsx-runtime";
+var ExportSection = ({ wordBtn, excelBtn, downloadSectionLeftSideContent, tableData, columns, tableName, exportCustomColumns, wordOptions }) => {
+  return /* @__PURE__ */ jsx15(Fragment2, { children: /* @__PURE__ */ jsxs5("div", { className: "ndt-download-section", children: [
+    /* @__PURE__ */ jsx15("div", { className: "ndt-download-content", children: (wordBtn || excelBtn) && downloadSectionLeftSideContent !== null && downloadSectionLeftSideContent }),
+    /* @__PURE__ */ jsxs5("div", { className: "ndt-download-buttons", children: [
+      wordBtn && /* @__PURE__ */ jsx15(
+        WordExport_default,
+        {
+          wordData: tableData,
+          columns,
+          title: tableName,
+          exportCustomColumns,
+          options: wordOptions
+        }
+      ),
+      excelBtn && /* @__PURE__ */ jsx15(
+        ExportExcel_default,
+        {
+          excelData: tableData,
+          columns,
+          title: tableName,
+          exportCustomColumns
+        }
+      )
+    ] })
+  ] }) });
+};
+var ExportSection_default = ExportSection;
+
+// utils/useDebouncedEffect.tsx
+import { useEffect } from "react";
+function useDebouncedEffect(callback, deps, delay) {
+  useEffect(() => {
+    const handler = setTimeout(() => callback(), delay);
+    return () => clearTimeout(handler);
+  }, [...deps, delay]);
+}
+
+// components/DataTable.tsx
+import { jsx as jsx16, jsxs as jsxs6 } from "react/jsx-runtime";
+var DataTable = forwardRef(({
+  tableData,
+  columns,
+  tableName = "table-data",
+  loading = false,
+  loadingElement = null,
+  isFooter = false,
+  paginationCounts = null,
+  scrollable = false,
+  scrollHeight = 300,
+  exportCustomColumns = null,
+  excelBtn = false,
+  wordBtn = false,
+  downloadSectionLeftSideContent = null,
+  headerGroup = null,
+  groupBy = null,
+  isTitles = false,
+  wordOptions
+}, ref) => {
+  const [filters, setFilters] = useState({});
+  const [sortBy, setSortBy] = useState({ col: "", type: "asc" });
+  const [paginationSize, setPaginationSize] = useState((paginationCounts == null ? void 0 : paginationCounts[0]) || 10);
+  const [paginationPage, setPaginationPage] = useState(0);
+  const [collapsedGroups, setCollapsedGroups] = useState({});
+  const toggleGroup = (groupKey) => {
+    setCollapsedGroups((prev) => ({
+      ...prev,
+      [groupKey]: !prev[groupKey]
+    }));
+  };
+  const widths = useMemo2(() => {
+    return columns.map((c) => c.width ? `${c.width}px` : "1fr").join(" ");
+  }, [columns]);
+  const loadFromLocalStorage = useCallback(() => {
+    try {
+      const s = localStorage.getItem(`${tableName}-sort-by`);
+      const f = localStorage.getItem(`${tableName}-filters`);
+      const c = localStorage.getItem(`${tableName}-counts`);
+      const p = localStorage.getItem(`${tableName}-page`);
+      if (s) setSortBy(JSON.parse(s));
+      if (f) setFilters(JSON.parse(f));
+      if (c) setPaginationSize(c === "all" ? 0 : Number(c));
+      if (p) setPaginationPage(Number(p));
+    } catch (e) {
+      console.error("Error parsing localStorage data:", e);
+      setSortBy({ col: "", type: "asc" });
+      setFilters({});
+      setPaginationSize((paginationCounts == null ? void 0 : paginationCounts[0]) || 10);
+      setPaginationPage(0);
+    }
+  }, [tableName, paginationCounts]);
+  useEffect2(() => {
+    loadFromLocalStorage();
+  }, [loadFromLocalStorage]);
+  const processedData = useMemo2(() => {
+    let result = [...tableData];
+    const columnMap = new Map(columns.map((col) => [col.field, col]));
+    for (const field in filters) {
+      const filterValue = String(filters[field]);
+      if (filterValue === "") continue;
+      const column = columnMap.get(field);
+      if (!column) continue;
+      result = column.headerFilter ? result.filter((e) => column.headerFilter(filterValue, String(e[field]))) : filterData(result, field, filterValue);
+    }
+    if (sortBy.col) {
+      result = sortData(result, sortBy.col, sortBy.type);
+    }
+    return result;
+  }, [tableData, filters, sortBy, columns]);
+  const displayData = useMemo2(() => {
+    if (paginationSize === 0) return processedData;
+    const start = paginationPage * paginationSize;
+    return processedData.slice(start, start + paginationSize);
+  }, [processedData, paginationPage, paginationSize]);
+  useEffect2(() => {
+    setPaginationPage(0);
+  }, [filters, sortBy]);
+  useDebouncedEffect(() => {
+    localStorage.setItem(`${tableName}-filters`, JSON.stringify(filters));
+  }, [filters, tableName], 500);
+  useDebouncedEffect(() => {
+    localStorage.setItem(`${tableName}-sort-by`, JSON.stringify(sortBy));
+  }, [sortBy, tableName], 500);
+  useEffect2(() => {
+    localStorage.setItem(`${tableName}-counts`, paginationSize === 0 ? "all" : paginationSize.toString());
+  }, [paginationSize, tableName]);
+  useEffect2(() => {
+    localStorage.setItem(`${tableName}-page`, paginationPage.toString());
+  }, [paginationPage, tableName]);
+  useImperativeHandle(ref, () => ({
+    getData: () => processedData,
+    getCurrentData: () => displayData
+  }), [processedData, displayData]);
+  return /* @__PURE__ */ jsxs6("div", { className: "ndt-table-container", children: [
+    (wordBtn || excelBtn) && /* @__PURE__ */ jsx16(
+      ExportSection_default,
+      {
+        wordBtn,
+        excelBtn,
+        downloadSectionLeftSideContent,
+        tableData: displayData,
+        columns,
+        tableName,
+        exportCustomColumns,
+        wordOptions
+      }
+    ),
+    /* @__PURE__ */ jsxs6("div", { className: "ndt-table", children: [
+      /* @__PURE__ */ jsx16(
+        TableHeader_default,
+        {
+          columns,
+          sortBy,
+          getSortField: setSortBy,
+          filters,
+          getFilters: setFilters,
+          widths,
+          headerGroup
+        }
+      ),
+      loading ? loadingElement !== null ? loadingElement : /* @__PURE__ */ jsx16("span", { style: { marginLeft: 10, fontWeight: "bold" }, children: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430 \u0434\u0430\u043D\u043D\u044B\u0445..." }) : /* @__PURE__ */ jsx16(
+        TableBody_default,
+        {
+          tableData: displayData,
+          columns,
+          scrollable,
+          scrollHeight,
+          widths,
+          groupBy,
+          collapsedGroups,
+          toggleGroup,
+          isTitles
+        }
+      ),
+      isFooter && /* @__PURE__ */ jsx16(
+        TableFooter_default,
+        {
+          paginationCounts,
+          tableData: processedData,
+          paginationSize,
+          getPaginationSize: setPaginationSize,
+          paginationPage,
+          getPaginationPage: setPaginationPage
+        }
+      )
+    ] })
+  ] });
+});
+DataTable.displayName = "DataTable";
+var DataTable_default = DataTable;
+export {
+  DataTable_default as DataTable
+};
+//# sourceMappingURL=index.mjs.map

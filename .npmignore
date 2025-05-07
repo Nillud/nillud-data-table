@@ -1,0 +1,5 @@
+*.scss
+styles/
+build-styles.js
+.vscode/
+example/
