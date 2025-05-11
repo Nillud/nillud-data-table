@@ -1,16 +1,17 @@
-const path = require("path");
-const sass = require("sass");
-const fs = require("fs");
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { exec } from 'child_process';
+import { promisify } from 'util';
 
-const inputPath = path.resolve(__dirname, "styles/data-table.scss");
-const outputDir = path.resolve(__dirname, "dist");
-const outputPath = path.join(outputDir, "styles.css");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const result = sass.compile(inputPath, {
-  style: "compressed",
-});
+const execAsync = promisify(exec);
 
-fs.mkdirSync(outputDir, { recursive: true });
-fs.writeFileSync(outputPath, result.css);
+// Например, компилируем SCSS в CSS
+const inputPath = path.resolve(__dirname, 'styles', 'index.scss');
+const outputPath = path.resolve(__dirname, 'dist', 'styles.css');
 
-console.log("✅ Стили собраны в dist/styles.css");
+execAsync(`sass ${inputPath}:${outputPath}`)
+  .then(() => console.log('✔️  SCSS compiled to dist/styles.css'))
+  .catch(err => console.error('❌ SCSS compilation error:', err));

@@ -24,6 +24,7 @@ yarn add nillud-data-table
 
 ```tsx
 import { DataTable } from 'nillud-data-table'
+import 'nillud-data-table/styles.css'
 
 const columns = [{ field: 'name', title: 'Имя' }]
 const data = [{ name: 'Иван' }]
@@ -37,6 +38,7 @@ const data = [{ name: 'Иван' }]
 
 ```tsx
 import { DataTable } from 'nillud-data-table'
+import 'nillud-data-table/styles.css'
 
 const columns = [{ field: 'name', title: 'Имя' }]
 const data = [{ name: 'Иван' }]
@@ -493,4 +495,26 @@ groupBy={'status'}
 
 ```tsx
 isTitles
+```
+
+### Возможности useRef
+
+Возможность подключиться напрямую к таблице и получить данные после всех манипуляций
+
+```tsx
+import { useRef } from "react";
+
+const tableRef = useRef<DataTableRef>(null);
+
+<DataTable
+    ...
+    ref={tableRef}
+    ...
+/>
+
+const func = () => {
+    const data = tableRef.current.getData() // Получить текущие данные, после сортировки и фильтрации
+    const currData = tableRef.current.getCurrentData() // Получить данные с текущей таблицы пагинации
+}
+
 ```

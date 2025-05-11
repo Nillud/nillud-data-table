@@ -1,31 +1,67 @@
+"use strict";
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// index.ts
+var index_exports = {};
+__export(index_exports, {
+  DataTable: () => DataTable_default
+});
+module.exports = __toCommonJS(index_exports);
+
 // components/DataTable.tsx
-import { useImperativeHandle, useEffect as useEffect2, useState, useCallback, useMemo as useMemo2, forwardRef } from "react";
+var import_react5 = require("react");
 
 // components/TableHeader.tsx
-import React from "react";
+var import_react2 = __toESM(require("react"), 1);
 
 // components/Column.tsx
-import { useMemo } from "react";
+var import_react = require("react");
 
 // components/img/SortDown.tsx
-import { jsx } from "react/jsx-runtime";
+var import_jsx_runtime = require("react/jsx-runtime");
 var SortDown = () => {
-  return /* @__PURE__ */ jsx("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", fill: "currentColor", className: "bi bi-caret-down-fill", viewBox: "0 0 16 16", children: /* @__PURE__ */ jsx("path", { d: "M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", fill: "currentColor", className: "bi bi-caret-down-fill", viewBox: "0 0 16 16", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" }) });
 };
 var SortDown_default = SortDown;
 
 // components/img/SortUp.tsx
-import { jsx as jsx2 } from "react/jsx-runtime";
+var import_jsx_runtime2 = require("react/jsx-runtime");
 var SortUp = () => {
-  return /* @__PURE__ */ jsx2("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", fill: "currentColor", className: "bi bi-caret-up-fill", viewBox: "0 0 16 16", children: /* @__PURE__ */ jsx2("path", { d: "m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", fill: "currentColor", className: "bi bi-caret-up-fill", viewBox: "0 0 16 16", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("path", { d: "m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" }) });
 };
 var SortUp_default = SortUp;
 
 // components/Column.tsx
-import { jsx as jsx3, jsxs } from "react/jsx-runtime";
+var import_jsx_runtime3 = require("react/jsx-runtime");
 var Column = ({ column, getSortField, sortBy, getFilters, filters }) => {
   var _a;
-  const currentSort = useMemo(() => {
+  const currentSort = (0, import_react.useMemo)(() => {
     return sortBy.col === column.field ? sortBy.type : null;
   }, [sortBy, column.field]);
   const toggleSort = () => {
@@ -35,12 +71,12 @@ var Column = ({ column, getSortField, sortBy, getFilters, filters }) => {
   const onFilterChange = (e) => {
     getFilters({ ...filters, [column.field]: e.target.value });
   };
-  return /* @__PURE__ */ jsxs("div", { className: "ndt-column", children: [
-    /* @__PURE__ */ jsxs("div", { className: "ndt-column-head", children: [
-      /* @__PURE__ */ jsx3("span", { children: column.title }),
-      typeof column.autoinc === "undefined" && (typeof column.sortable === "undefined" || column.sortable) && /* @__PURE__ */ jsx3("div", { className: "ndt-sorter", onClick: toggleSort, children: currentSort === "asc" ? /* @__PURE__ */ jsx3(SortDown_default, {}) : currentSort === "desc" ? /* @__PURE__ */ jsx3(SortUp_default, {}) : null })
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "ndt-column", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "ndt-column-head", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: column.title }),
+      typeof column.autoinc === "undefined" && (typeof column.sortable === "undefined" || column.sortable) && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "ndt-sorter", onClick: toggleSort, children: currentSort === "asc" ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(SortDown_default, {}) : currentSort === "desc" ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(SortUp_default, {}) : null })
     ] }),
-    /* @__PURE__ */ jsx3("div", { className: "ndt-column-footer", children: typeof column.autoinc === "undefined" && (typeof column.filterable === "undefined" || column.filterable) && /* @__PURE__ */ jsx3(
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "ndt-column-footer", children: typeof column.autoinc === "undefined" && (typeof column.filterable === "undefined" || column.filterable) && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
       "input",
       {
         type: "text",
@@ -54,10 +90,10 @@ var Column = ({ column, getSortField, sortBy, getFilters, filters }) => {
 var Column_default = Column;
 
 // components/TableHeader.tsx
-import { Fragment, jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
+var import_jsx_runtime4 = require("react/jsx-runtime");
 var Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, headerGroup }) => {
-  const renderHeaderGroup = () => headerGroup && /* @__PURE__ */ jsx4("div", { className: "ndt-table-columns", style: { gridTemplateColumns: widths || "auto" }, children: headerGroup.map((col, id) => /* @__PURE__ */ jsx4("div", { className: "ndt-column", style: { gridColumn: `span ${col.cols || 1}` }, children: /* @__PURE__ */ jsx4("div", { className: "ndt-column-head", children: /* @__PURE__ */ jsx4("span", { children: col.title }) }) }, `header-group-${id}`)) });
-  const renderColumns = () => columns && columns.length > 0 ? columns.map((column, id) => /* @__PURE__ */ jsx4(
+  const renderHeaderGroup = () => headerGroup && /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "ndt-table-columns", style: { gridTemplateColumns: widths || "auto" }, children: headerGroup.map((col, id) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "ndt-column", style: { gridColumn: `span ${col.cols || 1}` }, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "ndt-column-head", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { children: col.title }) }) }, `header-group-${id}`)) });
+  const renderColumns = () => columns && columns.length > 0 ? columns.map((column, id) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
     Column_default,
     {
       column,
@@ -67,19 +103,19 @@ var Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, head
       filters
     },
     `column-${id}`
-  )) : /* @__PURE__ */ jsx4("div", { className: "ndt-data-error", children: "\u041E\u0448\u0438\u0431\u043A\u0430: columns is undefined" });
-  return /* @__PURE__ */ jsxs2(Fragment, { children: [
+  )) : /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "ndt-data-error", children: "\u041E\u0448\u0438\u0431\u043A\u0430: columns is undefined" });
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(import_jsx_runtime4.Fragment, { children: [
     renderHeaderGroup(),
-    /* @__PURE__ */ jsx4("div", { className: "ndt-table-columns", style: { gridTemplateColumns: widths || "auto" }, children: renderColumns() })
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "ndt-table-columns", style: { gridTemplateColumns: widths || "auto" }, children: renderColumns() })
   ] });
 };
-var TableHeader_default = React.memo(Header);
+var TableHeader_default = import_react2.default.memo(Header);
 
 // components/TableBody.tsx
-import React2 from "react";
+var import_react3 = __toESM(require("react"), 1);
 
 // components/Cell.tsx
-import { jsx as jsx5 } from "react/jsx-runtime";
+var import_jsx_runtime5 = require("react/jsx-runtime");
 var Cell = ({
   row,
   column,
@@ -88,8 +124,8 @@ var Cell = ({
 }) => {
   const rawValue = row[column.field];
   const stringValue = typeof rawValue !== "undefined" && rawValue !== null ? String(rawValue) : "";
-  const content = column.formatter ? column.formatter(stringValue, row) : typeof column.autoinc !== "undefined" ? /* @__PURE__ */ jsx5("span", { children: rowId + 1 }) : /* @__PURE__ */ jsx5("span", { children: stringValue });
-  return /* @__PURE__ */ jsx5(
+  const content = column.formatter ? column.formatter(stringValue, row) : typeof column.autoinc !== "undefined" ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { children: rowId + 1 }) : /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { children: stringValue });
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
     "div",
     {
       className: "ndt-cell",
@@ -101,8 +137,8 @@ var Cell = ({
 var Cell_default = Cell;
 
 // components/Row.tsx
-import { jsx as jsx6 } from "react/jsx-runtime";
-var Row = ({ rowId, columns, row, widths, isTitles }) => /* @__PURE__ */ jsx6("div", { className: "ndt-table-row", style: { gridTemplateColumns: widths }, children: columns.map((column, id) => /* @__PURE__ */ jsx6(
+var import_jsx_runtime6 = require("react/jsx-runtime");
+var Row = ({ rowId, columns, row, widths, isTitles }) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "ndt-table-row", style: { gridTemplateColumns: widths }, children: columns.map((column, id) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
   Cell_default,
   {
     row,
@@ -128,7 +164,7 @@ var groupDataBy = (data, key) => {
 };
 
 // components/TableBody.tsx
-import { jsx as jsx7, jsxs as jsxs3 } from "react/jsx-runtime";
+var import_jsx_runtime7 = require("react/jsx-runtime");
 var TableBody = ({
   columns,
   tableData,
@@ -142,16 +178,16 @@ var TableBody = ({
 }) => {
   const grouped = groupBy ? groupDataBy(tableData, groupBy) : [];
   if (!tableData || tableData.length === 0) {
-    return /* @__PURE__ */ jsx7("div", { className: `ndt-table-body${scrollable ? " ndt-table-body-scrollable" : ""}`, style: scrollable ? { height: scrollHeight } : {}, children: /* @__PURE__ */ jsx7("div", { className: "ndt-table-row", style: { height: "100%" }, children: /* @__PURE__ */ jsx7("div", { className: "ndt-row-item", style: { margin: "auto", padding: 20, fontWeight: "bold" }, children: "\u0414\u0430\u043D\u043D\u044B\u0445 \u043D\u0435\u0442" }) }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: `ndt-table-body${scrollable ? " ndt-table-body-scrollable" : ""}`, style: scrollable ? { height: scrollHeight } : {}, children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "ndt-table-row", style: { height: "100%" }, children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "ndt-row-item", style: { margin: "auto", padding: 20, fontWeight: "bold" }, children: "\u0414\u0430\u043D\u043D\u044B\u0445 \u043D\u0435\u0442" }) }) });
   }
-  const renderGroupedRows = () => grouped.map((group, id) => /* @__PURE__ */ jsxs3(React2.Fragment, { children: [
-    /* @__PURE__ */ jsxs3(
+  const renderGroupedRows = () => grouped.map((group, id) => /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(import_react3.default.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
       "div",
       {
         className: "ndt-group-header",
         onClick: () => toggleGroup == null ? void 0 : toggleGroup(group.key),
         children: [
-          /* @__PURE__ */ jsx7("span", { style: { marginRight: 8 }, children: collapsedGroups[group.key] ? "\u25B6" : "\u25BC" }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { style: { marginRight: 8 }, children: collapsedGroups[group.key] ? "\u25B6" : "\u25BC" }),
           group.key,
           " (",
           group.items.length,
@@ -159,7 +195,7 @@ var TableBody = ({
         ]
       }
     ),
-    !collapsedGroups[group.key] && group.items.map((element, id2) => /* @__PURE__ */ jsx7(
+    !collapsedGroups[group.key] && group.items.map((element, id2) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
       Row_default,
       {
         rowId: id2,
@@ -171,7 +207,7 @@ var TableBody = ({
       `row-${group.key}-${id2}`
     ))
   ] }, `row-${group.key}-${id}`));
-  const renderFlatRows = () => tableData.map((element, id) => /* @__PURE__ */ jsx7(
+  const renderFlatRows = () => tableData.map((element, id) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
     Row_default,
     {
       rowId: id,
@@ -181,40 +217,40 @@ var TableBody = ({
     },
     `row-${id}`
   ));
-  return /* @__PURE__ */ jsx7("div", { className: `ndt-table-body${scrollable ? " ndt-table-body-scrollable" : ""}`, style: scrollable ? { height: scrollHeight } : {}, children: groupBy ? renderGroupedRows() : renderFlatRows() });
+  return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: `ndt-table-body${scrollable ? " ndt-table-body-scrollable" : ""}`, style: scrollable ? { height: scrollHeight } : {}, children: groupBy ? renderGroupedRows() : renderFlatRows() });
 };
 var TableBody_default = TableBody;
 
 // components/img/NextIcon.tsx
-import { jsx as jsx8 } from "react/jsx-runtime";
+var import_jsx_runtime8 = require("react/jsx-runtime");
 var NextIcon = () => {
-  return /* @__PURE__ */ jsx8("svg", { width: "41", height: "65", viewBox: "0 0 41 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsx8("path", { d: "M0.674316 57.2669L25.3872 32.5L0.674316 7.73312L8.28244 0.125L40.6574 32.5L8.28244 64.875L0.674316 57.2669Z", fill: "#666666" }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("svg", { width: "41", height: "65", viewBox: "0 0 41 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("path", { d: "M0.674316 57.2669L25.3872 32.5L0.674316 7.73312L8.28244 0.125L40.6574 32.5L8.28244 64.875L0.674316 57.2669Z", fill: "#666666" }) });
 };
 var NextIcon_default = NextIcon;
 
 // components/img/LastIcon.tsx
-import { jsx as jsx9 } from "react/jsx-runtime";
+var import_jsx_runtime9 = require("react/jsx-runtime");
 var LastIcon = () => {
-  return /* @__PURE__ */ jsx9("svg", { width: "68", height: "65", viewBox: "0 0 68 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsx9("path", { d: "M0.185059 7.73312L24.9519 32.5L0.185059 57.2669L7.79318 64.875L40.1682 32.5L7.79318 0.125L0.185059 7.73312ZM56.3557 0.125H67.1474V64.875H56.3557V0.125Z", fill: "#666666" }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("svg", { width: "68", height: "65", viewBox: "0 0 68 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("path", { d: "M0.185059 7.73312L24.9519 32.5L0.185059 57.2669L7.79318 64.875L40.1682 32.5L7.79318 0.125L0.185059 7.73312ZM56.3557 0.125H67.1474V64.875H56.3557V0.125Z", fill: "#666666" }) });
 };
 var LastIcon_default = LastIcon;
 
 // components/img/PrevIcon.tsx
-import { jsx as jsx10 } from "react/jsx-runtime";
+var import_jsx_runtime10 = require("react/jsx-runtime");
 var PrevIcon = () => {
-  return /* @__PURE__ */ jsx10("svg", { width: "41", height: "65", viewBox: "0 0 41 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsx10("path", { d: "M40.6574 57.2669L15.9445 32.5L40.6574 7.73312L33.0493 0.125L0.674316 32.5L33.0493 64.875L40.6574 57.2669Z", fill: "#666666" }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("svg", { width: "41", height: "65", viewBox: "0 0 41 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("path", { d: "M40.6574 57.2669L15.9445 32.5L40.6574 7.73312L33.0493 0.125L0.674316 32.5L33.0493 64.875L40.6574 57.2669Z", fill: "#666666" }) });
 };
 var PrevIcon_default = PrevIcon;
 
 // components/img/FirstIcon.tsx
-import { jsx as jsx11 } from "react/jsx-runtime";
+var import_jsx_runtime11 = require("react/jsx-runtime");
 var FirstIcon = () => {
-  return /* @__PURE__ */ jsx11("svg", { width: "68", height: "65", viewBox: "0 0 68 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsx11("path", { d: "M67.1474 57.2669L42.3805 32.5L67.1474 7.73312L59.5392 0.125L27.1642 32.5L59.5392 64.875L67.1474 57.2669ZM0.185059 0.125H10.9767V64.875H0.185059V0.125Z", fill: "#666666" }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("svg", { width: "68", height: "65", viewBox: "0 0 68 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("path", { d: "M67.1474 57.2669L42.3805 32.5L67.1474 7.73312L59.5392 0.125L27.1642 32.5L59.5392 64.875L67.1474 57.2669ZM0.185059 0.125H10.9767V64.875H0.185059V0.125Z", fill: "#666666" }) });
 };
 var FirstIcon_default = FirstIcon;
 
 // components/TableFooter.tsx
-import { jsx as jsx12, jsxs as jsxs4 } from "react/jsx-runtime";
+var import_jsx_runtime12 = require("react/jsx-runtime");
 var TableFooter = ({
   tableData,
   paginationCounts,
@@ -245,15 +281,15 @@ var TableFooter = ({
     }
     if (start > 0) {
       pages.push(
-        /* @__PURE__ */ jsx12("button", { onClick: () => handlePageChange(0), children: "1" }, "page-0")
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { onClick: () => handlePageChange(0), children: "1" }, "page-0")
       );
       if (start > 1) {
-        pages.push(/* @__PURE__ */ jsx12("span", { children: "..." }, "ellipsis-start"));
+        pages.push(/* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { children: "..." }, "ellipsis-start"));
       }
     }
     for (let i = start; i <= end; i++) {
       pages.push(
-        /* @__PURE__ */ jsx12(
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
           "button",
           {
             className: i === paginationPage ? "btn-active" : "",
@@ -267,71 +303,71 @@ var TableFooter = ({
     }
     if (end < totalPages - 1) {
       if (end < totalPages - 2) {
-        pages.push(/* @__PURE__ */ jsx12("span", { children: "..." }, "ellipsis-end"));
+        pages.push(/* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { children: "..." }, "ellipsis-end"));
       }
       pages.push(
-        /* @__PURE__ */ jsx12("button", { onClick: () => handlePageChange(totalPages - 1), children: totalPages }, `page-${totalPages - 1}`)
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { onClick: () => handlePageChange(totalPages - 1), children: totalPages }, `page-${totalPages - 1}`)
       );
     }
     return pages;
   };
   const firstItem = paginationSize === 0 ? 1 : paginationPage * paginationSize + 1;
   const lastItem = paginationSize === 0 ? totalItems : Math.min((paginationPage + 1) * paginationSize, totalItems);
-  return /* @__PURE__ */ jsxs4("div", { className: "ndt-table-footer", children: [
-    /* @__PURE__ */ jsxs4("div", { className: "ndt-footer-count", children: [
-      /* @__PURE__ */ jsxs4("span", { children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "ndt-table-footer", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "ndt-footer-count", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", { children: [
         "\u041F\u043E\u043A\u0430\u0437\u0430\u043D\u044B \u0441\u0442\u0440\u043E\u043A\u0438 \u0441 ",
         firstItem,
         " \u043F\u043E ",
         lastItem,
         ", "
       ] }),
-      /* @__PURE__ */ jsxs4("span", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", { children: [
         "\u0412\u0441\u0435\u0433\u043E: ",
         totalItems
       ] })
     ] }),
-    paginationCounts && /* @__PURE__ */ jsxs4("div", { className: "ndt-footer-pagination", children: [
-      /* @__PURE__ */ jsxs4("div", { className: "ndt-pagination-counts", children: [
-        /* @__PURE__ */ jsx12("span", { children: "\u041F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0442\u044C \u0441\u0442\u0440\u043E\u043A: " }),
-        /* @__PURE__ */ jsx12("select", { value: paginationSize, onChange: handleCountChange, children: paginationCounts.map((count) => /* @__PURE__ */ jsx12("option", { value: count, children: count === 0 ? "\u0412\u0441\u0435" : count }, `count-${count}`)) })
+    paginationCounts && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "ndt-footer-pagination", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "ndt-pagination-counts", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { children: "\u041F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0442\u044C \u0441\u0442\u0440\u043E\u043A: " }),
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("select", { value: paginationSize, onChange: handleCountChange, children: paginationCounts.map((count) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("option", { value: count, children: count === 0 ? "\u0412\u0441\u0435" : count }, `count-${count}`)) })
       ] }),
-      /* @__PURE__ */ jsxs4("div", { className: "ndt-pagination-buttons", children: [
-        /* @__PURE__ */ jsx12(
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "ndt-pagination-buttons", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
           "button",
           {
             disabled: paginationPage === 0,
             onClick: () => handlePageChange(0),
             "aria-label": "\u041F\u0435\u0440\u0432\u0430\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0430",
-            children: /* @__PURE__ */ jsx12(FirstIcon_default, {})
+            children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(FirstIcon_default, {})
           }
         ),
-        /* @__PURE__ */ jsx12(
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
           "button",
           {
             disabled: paginationPage === 0,
             onClick: () => handlePageChange(paginationPage - 1),
             "aria-label": "\u041F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0430\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0430",
-            children: /* @__PURE__ */ jsx12(PrevIcon_default, {})
+            children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(PrevIcon_default, {})
           }
         ),
-        /* @__PURE__ */ jsx12("div", { className: "ndt-buttons-num", children: renderPageNumbers() }),
-        /* @__PURE__ */ jsx12(
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "ndt-buttons-num", children: renderPageNumbers() }),
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
           "button",
           {
             disabled: paginationPage >= totalPages - 1,
             onClick: () => handlePageChange(paginationPage + 1),
             "aria-label": "\u0421\u043B\u0435\u0434\u0443\u044E\u0449\u0430\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0430",
-            children: /* @__PURE__ */ jsx12(NextIcon_default, {})
+            children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(NextIcon_default, {})
           }
         ),
-        /* @__PURE__ */ jsx12(
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
           "button",
           {
             disabled: paginationPage >= totalPages - 1,
             onClick: () => handlePageChange(totalPages - 1),
             "aria-label": "\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u044F\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0430",
-            children: /* @__PURE__ */ jsx12(LastIcon_default, {})
+            children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(LastIcon_default, {})
           }
         )
       ] })
@@ -385,20 +421,8 @@ var filterData = (data, filter, value) => {
 };
 
 // components/export/WordExport.tsx
-import {
-  AlignmentType,
-  Document,
-  Packer,
-  PageOrientation,
-  Paragraph,
-  Table,
-  TableCell,
-  TableRow,
-  TextRun,
-  VerticalAlign,
-  WidthType
-} from "docx";
-import { saveAs } from "file-saver";
+var import_docx = require("docx");
+var import_file_saver = __toESM(require("file-saver"), 1);
 
 // utils/exportUtils/ExportHelpers.ts
 function prepareExportRows(columns, data) {
@@ -414,7 +438,7 @@ function prepareExportHeaders(columns) {
 }
 
 // components/export/WordExport.tsx
-import { jsx as jsx13 } from "react/jsx-runtime";
+var import_jsx_runtime13 = require("react/jsx-runtime");
 var WordExport = ({
   wordData,
   columns,
@@ -435,49 +459,49 @@ var WordExport = ({
       maxColumnsBeforeLandscape = 5
     } = options;
     const isLandscape = autoLandscape && columns.length > maxColumnsBeforeLandscape;
-    const headerCells = prepareExportHeaders(columns).map((header) => new TableCell({
-      children: [new Paragraph({
-        children: [new TextRun({
+    const headerCells = prepareExportHeaders(columns).map((header) => new import_docx.TableCell({
+      children: [new import_docx.Paragraph({
+        children: [new import_docx.TextRun({
           text: header,
           size: fontSize,
           bold: boldHeaders
         })],
-        alignment: AlignmentType.CENTER
+        alignment: import_docx.AlignmentType.CENTER
       })],
-      verticalAlign: VerticalAlign.CENTER
+      verticalAlign: import_docx.VerticalAlign.CENTER
     }));
-    const tableHeaderRow = new TableRow({ children: headerCells });
+    const tableHeaderRow = new import_docx.TableRow({ children: headerCells });
     const rows = prepareExportRows(columns, wordData).map((cells) => {
       const rowCells = cells.map(
-        (value) => new TableCell({
-          children: [new Paragraph({
-            children: [new TextRun({
+        (value) => new import_docx.TableCell({
+          children: [new import_docx.Paragraph({
+            children: [new import_docx.TextRun({
               text: value,
               size: fontSize
             })],
-            alignment: AlignmentType.CENTER
+            alignment: import_docx.AlignmentType.CENTER
           })],
-          verticalAlign: VerticalAlign.CENTER
+          verticalAlign: import_docx.VerticalAlign.CENTER
         })
       );
-      return new TableRow({ children: rowCells });
+      return new import_docx.TableRow({ children: rowCells });
     });
-    const table = new Table({
+    const table = new import_docx.Table({
       rows: [tableHeaderRow, ...rows],
-      width: { size: 11e3, type: WidthType.DXA },
-      indent: { size: -1e3, type: WidthType.DXA }
+      width: { size: 11e3, type: import_docx.WidthType.DXA },
+      indent: { size: -1e3, type: import_docx.WidthType.DXA }
     });
-    const doc = new Document({
+    const doc = new import_docx.Document({
       sections: [{
-        children: [table, new Paragraph({ text: "" })],
-        properties: isLandscape ? { page: { size: { orientation: PageOrientation.LANDSCAPE } } } : {}
+        children: [table, new import_docx.Paragraph({ text: "" })],
+        properties: isLandscape ? { page: { size: { orientation: import_docx.PageOrientation.LANDSCAPE } } } : {}
       }]
     });
-    Packer.toBlob(doc).then((blob) => {
-      saveAs(blob, `${title}.docx`);
+    import_docx.Packer.toBlob(doc).then((blob) => {
+      (0, import_file_saver.default)(blob, `${title}.docx`);
     });
   };
-  return /* @__PURE__ */ jsx13("button", { className: `ndt-buttonExport ndt-Word}`, onClick: createNewWord, children: "\u0421\u043A\u0430\u0447\u0430\u0442\u044C Word" });
+  return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("button", { className: `ndt-buttonExport ndt-Word}`, onClick: createNewWord, children: "\u0421\u043A\u0430\u0447\u0430\u0442\u044C Word" });
 };
 var WordExport_default = WordExport;
 
@@ -551,11 +575,11 @@ var setColumnAutoWidths = (sheet) => {
 };
 
 // components/export/ExportExcel.tsx
-import ExcelJS from "exceljs";
-import { jsx as jsx14 } from "react/jsx-runtime";
+var import_exceljs = __toESM(require("exceljs"), 1);
+var import_jsx_runtime14 = require("react/jsx-runtime");
 var ExportExcel = ({ columns, excelData, title, exportCustomColumns }) => {
   const exportExcel = () => {
-    const workbook = new ExcelJS.Workbook();
+    const workbook = new import_exceljs.default.Workbook();
     const sheet = workbook.addWorksheet(title, {
       pageSetup: {
         fitToPage: true,
@@ -595,17 +619,17 @@ var ExportExcel = ({ columns, excelData, title, exportCustomColumns }) => {
       window.URL.revokeObjectURL(url);
     });
   };
-  return /* @__PURE__ */ jsx14("button", { className: `ndt-buttonExport ndt-Excel`, onClick: exportExcel, children: "\u0421\u043A\u0430\u0447\u0430\u0442\u044C Excel" });
+  return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("button", { className: `ndt-buttonExport ndt-Excel`, onClick: exportExcel, children: "\u0421\u043A\u0430\u0447\u0430\u0442\u044C Excel" });
 };
 var ExportExcel_default = ExportExcel;
 
 // components/ExportSection.tsx
-import { Fragment as Fragment2, jsx as jsx15, jsxs as jsxs5 } from "react/jsx-runtime";
+var import_jsx_runtime15 = require("react/jsx-runtime");
 var ExportSection = ({ wordBtn, excelBtn, downloadSectionLeftSideContent, tableData, columns, tableName, exportCustomColumns, wordOptions }) => {
-  return /* @__PURE__ */ jsx15(Fragment2, { children: /* @__PURE__ */ jsxs5("div", { className: "ndt-download-section", children: [
-    /* @__PURE__ */ jsx15("div", { className: "ndt-download-content", children: (wordBtn || excelBtn) && downloadSectionLeftSideContent !== null && downloadSectionLeftSideContent }),
-    /* @__PURE__ */ jsxs5("div", { className: "ndt-download-buttons", children: [
-      wordBtn && /* @__PURE__ */ jsx15(
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_jsx_runtime15.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "ndt-download-section", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "ndt-download-content", children: (wordBtn || excelBtn) && downloadSectionLeftSideContent !== null && downloadSectionLeftSideContent }),
+    /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "ndt-download-buttons", children: [
+      wordBtn && /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
         WordExport_default,
         {
           wordData: tableData,
@@ -615,7 +639,7 @@ var ExportSection = ({ wordBtn, excelBtn, downloadSectionLeftSideContent, tableD
           options: wordOptions
         }
       ),
-      excelBtn && /* @__PURE__ */ jsx15(
+      excelBtn && /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(
         ExportExcel_default,
         {
           excelData: tableData,
@@ -630,17 +654,17 @@ var ExportSection = ({ wordBtn, excelBtn, downloadSectionLeftSideContent, tableD
 var ExportSection_default = ExportSection;
 
 // utils/useDebouncedEffect.tsx
-import { useEffect } from "react";
+var import_react4 = require("react");
 function useDebouncedEffect(callback, deps, delay) {
-  useEffect(() => {
+  (0, import_react4.useEffect)(() => {
     const handler = setTimeout(() => callback(), delay);
     return () => clearTimeout(handler);
   }, [...deps, delay]);
 }
 
 // components/DataTable.tsx
-import { jsx as jsx16, jsxs as jsxs6 } from "react/jsx-runtime";
-var DataTable = forwardRef(({
+var import_jsx_runtime16 = require("react/jsx-runtime");
+var DataTable = (0, import_react5.forwardRef)(({
   tableData,
   columns,
   tableName = "table-data",
@@ -659,21 +683,21 @@ var DataTable = forwardRef(({
   isTitles = false,
   wordOptions
 }, ref) => {
-  const [filters, setFilters] = useState({});
-  const [sortBy, setSortBy] = useState({ col: "", type: "asc" });
-  const [paginationSize, setPaginationSize] = useState((paginationCounts == null ? void 0 : paginationCounts[0]) || 10);
-  const [paginationPage, setPaginationPage] = useState(0);
-  const [collapsedGroups, setCollapsedGroups] = useState({});
+  const [filters, setFilters] = (0, import_react5.useState)({});
+  const [sortBy, setSortBy] = (0, import_react5.useState)({ col: "", type: "asc" });
+  const [paginationSize, setPaginationSize] = (0, import_react5.useState)((paginationCounts == null ? void 0 : paginationCounts[0]) || 10);
+  const [paginationPage, setPaginationPage] = (0, import_react5.useState)(0);
+  const [collapsedGroups, setCollapsedGroups] = (0, import_react5.useState)({});
   const toggleGroup = (groupKey) => {
     setCollapsedGroups((prev) => ({
       ...prev,
       [groupKey]: !prev[groupKey]
     }));
   };
-  const widths = useMemo2(() => {
+  const widths = (0, import_react5.useMemo)(() => {
     return columns.map((c) => c.width ? `${c.width}px` : "1fr").join(" ");
   }, [columns]);
-  const loadFromLocalStorage = useCallback(() => {
+  const loadFromLocalStorage = (0, import_react5.useCallback)(() => {
     try {
       const s = localStorage.getItem(`${tableName}-sort-by`);
       const f = localStorage.getItem(`${tableName}-filters`);
@@ -691,10 +715,10 @@ var DataTable = forwardRef(({
       setPaginationPage(0);
     }
   }, [tableName, paginationCounts]);
-  useEffect2(() => {
+  (0, import_react5.useEffect)(() => {
     loadFromLocalStorage();
   }, [loadFromLocalStorage]);
-  const processedData = useMemo2(() => {
+  const processedData = (0, import_react5.useMemo)(() => {
     let result = [...tableData];
     const columnMap = new Map(columns.map((col) => [col.field, col]));
     for (const field in filters) {
@@ -709,12 +733,12 @@ var DataTable = forwardRef(({
     }
     return result;
   }, [tableData, filters, sortBy, columns]);
-  const displayData = useMemo2(() => {
+  const displayData = (0, import_react5.useMemo)(() => {
     if (paginationSize === 0) return processedData;
     const start = paginationPage * paginationSize;
     return processedData.slice(start, start + paginationSize);
   }, [processedData, paginationPage, paginationSize]);
-  useEffect2(() => {
+  (0, import_react5.useEffect)(() => {
     setPaginationPage(0);
   }, [filters, sortBy]);
   useDebouncedEffect(() => {
@@ -723,18 +747,18 @@ var DataTable = forwardRef(({
   useDebouncedEffect(() => {
     localStorage.setItem(`${tableName}-sort-by`, JSON.stringify(sortBy));
   }, [sortBy, tableName], 500);
-  useEffect2(() => {
+  (0, import_react5.useEffect)(() => {
     localStorage.setItem(`${tableName}-counts`, paginationSize === 0 ? "all" : paginationSize.toString());
   }, [paginationSize, tableName]);
-  useEffect2(() => {
+  (0, import_react5.useEffect)(() => {
     localStorage.setItem(`${tableName}-page`, paginationPage.toString());
   }, [paginationPage, tableName]);
-  useImperativeHandle(ref, () => ({
+  (0, import_react5.useImperativeHandle)(ref, () => ({
     getData: () => processedData,
     getCurrentData: () => displayData
   }), [processedData, displayData]);
-  return /* @__PURE__ */ jsxs6("div", { className: "ndt-table-container", children: [
-    (wordBtn || excelBtn) && /* @__PURE__ */ jsx16(
+  return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "ndt-table-container", children: [
+    (wordBtn || excelBtn) && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
       ExportSection_default,
       {
         wordBtn,
@@ -747,8 +771,8 @@ var DataTable = forwardRef(({
         wordOptions
       }
     ),
-    /* @__PURE__ */ jsxs6("div", { className: "ndt-table", children: [
-      /* @__PURE__ */ jsx16(
+    /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "ndt-table", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
         TableHeader_default,
         {
           columns,
@@ -760,7 +784,7 @@ var DataTable = forwardRef(({
           headerGroup
         }
       ),
-      loading ? loadingElement !== null ? loadingElement : /* @__PURE__ */ jsx16("span", { style: { marginLeft: 10, fontWeight: "bold" }, children: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430 \u0434\u0430\u043D\u043D\u044B\u0445..." }) : /* @__PURE__ */ jsx16(
+      loading ? loadingElement !== null ? loadingElement : /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { style: { marginLeft: 10, fontWeight: "bold" }, children: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430 \u0434\u0430\u043D\u043D\u044B\u0445..." }) : /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
         TableBody_default,
         {
           tableData: displayData,
@@ -774,7 +798,7 @@ var DataTable = forwardRef(({
           isTitles
         }
       ),
-      isFooter && /* @__PURE__ */ jsx16(
+      isFooter && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
         TableFooter_default,
         {
           paginationCounts,
@@ -790,7 +814,8 @@ var DataTable = forwardRef(({
 });
 DataTable.displayName = "DataTable";
 var DataTable_default = DataTable;
-export {
-  DataTable_default as DataTable
-};
-//# sourceMappingURL=index.mjs.map
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  DataTable
+});
+//# sourceMappingURL=index.cjs.map

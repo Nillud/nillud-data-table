@@ -4,7 +4,7 @@ import {
   // PageOrientation, 
   Paragraph, Table, TableCell, TableRow, TextRun, VerticalAlign, WidthType
 } from "docx"
-import { saveAs } from "file-saver"
+import saveAs from "file-saver"
 import { Column, ExportOptions, TableData, TableProps } from '../../types/DataTable.types'
 import { prepareExportHeaders, prepareExportRows } from '../../utils/exportUtils/ExportHelpers'
 

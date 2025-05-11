@@ -7,6 +7,7 @@
     "strict": true,                      // Включает строгую типизацию.
     "noEmit": true,                      // Не генерирует выходные файлы.
     "esModuleInterop": true,             // Разрешает импорт CommonJS модулей.
+    "allowSyntheticDefaultImports": true,          
     "module": "ESNext",                  // Устанавливает стандарт модуля.
     "moduleResolution": "bundler",       // Использует модульную систему "bundler", подходящую для Webpack и других сборщиков.
     "resolveJsonModule": true,           // Разрешает импорт `.json` файлов.
