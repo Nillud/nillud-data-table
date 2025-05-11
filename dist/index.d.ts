@@ -1,5 +1,4 @@
-import * as react from 'react';
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 
 type TableElement = {
     [key: string]: string | number;
@@ -53,6 +52,6 @@ type DataTableRef = {
     getCurrentData: () => TableData;
 };
 
-declare const DataTable: react.ForwardRefExoticComponent<TableProps & react.RefAttributes<DataTableRef>>;
+declare const DataTable: React.ForwardRefExoticComponent<TableProps & React.RefAttributes<DataTableRef>>;
 
 export { type Column, DataTable, type TableElement, type TableProps };

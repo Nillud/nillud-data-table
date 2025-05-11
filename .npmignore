@@ -1,4 +1,5 @@
 *.scss
+*.css.map
 styles/
 build-styles.js
 .vscode/

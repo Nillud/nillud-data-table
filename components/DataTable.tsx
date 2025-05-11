@@ -1,11 +1,12 @@
-import { useImperativeHandle, useEffect, useState, useCallback, useMemo, forwardRef } from 'react'
+import React, { useImperativeHandle, useEffect, useState, useCallback, useMemo, forwardRef, Suspense } from 'react'
 import { DataTableRef, LocalStorageData, LocalStorageSort, PaginationPage, PaginationSize, TableProps } from '../types/DataTable.types'
 import TableHeader from './TableHeader'
 import TableBody from './TableBody'
 import TableFooter from './TableFooter'
 import { filterData, sortData } from './functions/sort-data'
-import ExportSection from './ExportSection'
 import { useDebouncedEffect } from '../utils/useDebouncedEffect'
+
+const ExportSection = React.lazy(() => import('./ExportSection'));
 
 const DataTable = forwardRef<DataTableRef, TableProps>(({
     tableData,
@@ -133,18 +134,20 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
 
     return (
         <div className="ndt-table-container">
-            {(wordBtn || excelBtn) && (
-                <ExportSection
-                    wordBtn={wordBtn}
-                    excelBtn={excelBtn}
-                    downloadSectionLeftSideContent={downloadSectionLeftSideContent}
-                    tableData={displayData}
-                    columns={columns}
-                    tableName={tableName}
-                    exportCustomColumns={exportCustomColumns}
-                    wordOptions={wordOptions}
-                />
-            )}
+            <Suspense fallback={<div>Загрузка...</div>}>
+                {(wordBtn || excelBtn) && (
+                    <ExportSection
+                        wordBtn={wordBtn}
+                        excelBtn={excelBtn}
+                        downloadSectionLeftSideContent={downloadSectionLeftSideContent}
+                        tableData={displayData}
+                        columns={columns}
+                        tableName={tableName}
+                        exportCustomColumns={exportCustomColumns}
+                        wordOptions={wordOptions}
+                    />
+                )}
+            </Suspense>
 
             <div className="ndt-table">
                 <TableHeader

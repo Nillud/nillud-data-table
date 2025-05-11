@@ -1,17 +1,27 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['index.ts'],
+  entry: [
+    'index.ts',
+    'components/export/ExportExcel.ts',
+    'components/export/WordExport.ts'
+  ],
   dts: true,
-  sourcemap: true,
+  sourcemap: false,
   clean: true,
-  format: ['esm', 'cjs'], // tsup создаст .js и .cjs
+  format: ['esm'],
   outExtension({ format }) {
     return {
-      js: format === 'cjs' ? '.cjs' : '.js', // 👈 избавляемся от .mjs
+      js: '.js'
     };
   },
-  external: ['react', 'react-dom'],
+  external: [
+    'react',
+    'react-dom',
+    'docx',
+    'exceljs',
+    'file-saver'
+  ],
   target: 'es2018',
-  tsconfig: './tsconfig.json',
+  tsconfig: './tsconfig.json'
 });

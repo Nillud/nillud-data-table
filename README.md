@@ -434,23 +434,19 @@ excelCustomColumns={[
 
 Для использования модуля Excel необходимо установить библиотеку [exceljs](https://www.npmjs.com/package/exceljs)
 
-```tsx
-npm i exceljs
--или-
-yarn add exceljs
-```
+Для использования модуля экспорта необходимо его подключить
+```ts
+import { exportToExcel } from 'nillud-data-table/export-excel';
+``` 
 
 ### wordBtn
 
 Необязательный параметр. Тип **boolean**, по умолчанию **false**. При значении **true** над таблицей с правой стороны появляется кнопка экспорта Word, которая по умолчанию принимает в себя исходный массив **tableData**
 
-Для использования модуля Word необходимо установить библиотеки [docx](https://www.npmjs.com/package/docx) и [file-saver](https://www.npmjs.com/package/file-saver)
-
-```tsx
-npm i docx file-saver
--или-
-yarn add docx file-saver
-```
+Для использования модуля экспорта необходимо его подключить
+```ts
+import { exportToWord } from 'nillud-data-table/export-word';
+``` 
 
 ### wordOptions
 
