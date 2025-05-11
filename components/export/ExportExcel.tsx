@@ -10,7 +10,7 @@ type Props = {
 }
 
 const ExportExcel = ({ columns, excelData, title, exportCustomColumns }: Props) => {
-    const exportExcel = () => {
+    const exportExcel = async () => {
         const workbook = new ExcelJS.Workbook()
         const sheet = workbook.addWorksheet(title, {
             pageSetup: {

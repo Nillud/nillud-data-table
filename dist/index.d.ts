@@ -1,4 +1,5 @@
-import React, { ReactElement } from 'react';
+import React$1, { ReactElement } from 'react';
+import * as react_jsx_runtime from 'react/jsx-runtime';
 
 type TableElement = {
     [key: string]: string | number;
@@ -46,12 +47,42 @@ type TableProps = {
     groupBy?: string | null;
     isTitles?: boolean;
     wordOptions?: ExportOptions;
+    WordExportComponent?: React.ComponentType<{
+        wordData: TableData;
+        columns: Array<Column>;
+        title: string;
+        options?: ExportOptions;
+        exportCustomColumns?: TableProps["exportCustomColumns"];
+    }>;
+    ExportExcelComponent?: React.ComponentType<{
+        excelData: TableData;
+        columns: Array<Column>;
+        title: string;
+        exportCustomColumns?: TableProps["exportCustomColumns"];
+    }>;
 };
 type DataTableRef = {
     getData: () => TableData;
     getCurrentData: () => TableData;
 };
 
-declare const DataTable: React.ForwardRefExoticComponent<TableProps & React.RefAttributes<DataTableRef>>;
+declare const DataTable: React$1.ForwardRefExoticComponent<TableProps & React$1.RefAttributes<DataTableRef>>;
 
-export { type Column, DataTable, type TableElement, type TableProps };
+type Props$1 = {
+    wordData: TableData;
+    columns: Array<Column>;
+    title: string;
+    options?: ExportOptions;
+    exportCustomColumns?: TableProps["exportCustomColumns"];
+};
+declare const WordExport: ({ wordData, columns, title, options }: Props$1) => react_jsx_runtime.JSX.Element;
+
+type Props = {
+    columns: Array<Column>;
+    excelData: Array<TableElement>;
+    title: string;
+    exportCustomColumns: TableProps["exportCustomColumns"];
+};
+declare const ExportExcel: ({ columns, excelData, title, exportCustomColumns }: Props) => react_jsx_runtime.JSX.Element;
+
+export { type Column, DataTable, ExportExcel, type TableElement, type TableProps, WordExport };

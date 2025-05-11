@@ -5,8 +5,7 @@ import TableBody from './TableBody'
 import TableFooter from './TableFooter'
 import { filterData, sortData } from './functions/sort-data'
 import { useDebouncedEffect } from '../utils/useDebouncedEffect'
-
-const ExportSection = React.lazy(() => import('./ExportSection'));
+import ExportSection from './ExportSection'
 
 const DataTable = forwardRef<DataTableRef, TableProps>(({
     tableData,
@@ -134,20 +133,18 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
 
     return (
         <div className="ndt-table-container">
-            <Suspense fallback={<div>Загрузка...</div>}>
-                {(wordBtn || excelBtn) && (
-                    <ExportSection
-                        wordBtn={wordBtn}
-                        excelBtn={excelBtn}
-                        downloadSectionLeftSideContent={downloadSectionLeftSideContent}
-                        tableData={displayData}
-                        columns={columns}
-                        tableName={tableName}
-                        exportCustomColumns={exportCustomColumns}
-                        wordOptions={wordOptions}
-                    />
-                )}
-            </Suspense>
+            {(wordBtn || excelBtn) && (
+                <ExportSection
+                    wordBtn={wordBtn}
+                    excelBtn={excelBtn}
+                    downloadSectionLeftSideContent={downloadSectionLeftSideContent}
+                    tableData={displayData}
+                    columns={columns}
+                    tableName={tableName}
+                    exportCustomColumns={exportCustomColumns}
+                    wordOptions={wordOptions}
+                />
+            )}
 
             <div className="ndt-table">
                 <TableHeader

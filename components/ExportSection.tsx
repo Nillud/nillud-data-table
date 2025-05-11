@@ -1,7 +1,7 @@
-import { ReactElement } from "react"
+import { ReactElement, useEffect, useState } from "react"
+import { Column, ExportOptions, TableData, TableProps } from "../types/DataTable.types"
 import WordExport from "./export/WordExport"
 import ExportExcel from "./export/ExportExcel"
-import { Column, ExportOptions, TableData, TableProps } from "../types/DataTable.types"
 
 type Props = {
     wordBtn: boolean
@@ -14,7 +14,16 @@ type Props = {
     wordOptions?: ExportOptions
 }
 
-const ExportSection = ({ wordBtn, excelBtn, downloadSectionLeftSideContent, tableData, columns, tableName, exportCustomColumns, wordOptions }: Props) => {
+const ExportSection = ({
+    wordBtn,
+    excelBtn,
+    downloadSectionLeftSideContent,
+    tableData,
+    columns,
+    tableName,
+    exportCustomColumns,
+    wordOptions
+}: Props) => {
     return (
         <>
             <div className={'ndt-download-section'}>

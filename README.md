@@ -40,6 +40,9 @@ const data = [{ name: 'Иван' }]
 import { DataTable } from 'nillud-data-table'
 import 'nillud-data-table/styles.css'
 
+import ExportExcel from 'nillud-data-table/export/ExportExcel';
+import WordExport from 'nillud-data-table/export/WordExport';
+
 const columns = [{ field: 'name', title: 'Имя' }]
 const data = [{ name: 'Иван' }]
 
@@ -55,6 +58,8 @@ const data = [{ name: 'Иван' }]
     scrollHeight={410}
     excelBtn
     wordBtn
+    WordExportComponent={WordExport}
+    ExportExcelComponent={ExportExcel}
     downloadSectionLeftSideContent={<button className='base-button' onClick={() => setCanvas(true)}>OffCanvas</button>}
     excelCustomColumns={[
         {
@@ -434,19 +439,45 @@ excelCustomColumns={[
 
 Для использования модуля Excel необходимо установить библиотеку [exceljs](https://www.npmjs.com/package/exceljs)
 
-Для использования модуля экспорта необходимо его подключить
-```ts
-import { exportToExcel } from 'nillud-data-table/export-excel';
-``` 
+```bash
+npm i exceljs
+-или-
+yarn add exceljs
+```
+
+```tsx
+import ExportExcel from 'nillud-data-table/export/ExportExcel';
+
+<DataTable>
+    ...
+    excelBtn
+    ExportExcelComponent={ExportExcel}
+    ...
+</DataTable>
+```
 
 ### wordBtn
 
 Необязательный параметр. Тип **boolean**, по умолчанию **false**. При значении **true** над таблицей с правой стороны появляется кнопка экспорта Word, которая по умолчанию принимает в себя исходный массив **tableData**
 
-Для использования модуля экспорта необходимо его подключить
-```ts
-import { exportToWord } from 'nillud-data-table/export-word';
-``` 
+Для использования модуля Word необходимо установить библиотеки [docx](https://www.npmjs.com/package/docx) и [file-saver](https://www.npmjs.com/package/file-saver)
+
+```bash
+npm i docx file-saver
+-или-
+yarn add docx file-saver
+```
+
+```tsx
+import WordExport from 'nillud-data-table/export/WordExport';
+
+<DataTable>
+    ...
+    wordBtn
+    WordExportComponent={WordExport}
+    ...
+</DataTable>
+```
 
 ### wordOptions
 

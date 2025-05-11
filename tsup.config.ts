@@ -2,19 +2,12 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig({
   entry: [
-    'index.ts',
-    'components/export/ExportExcel.ts',
-    'components/export/WordExport.ts'
+    'index.ts'
   ],
   dts: true,
   sourcemap: false,
   clean: true,
   format: ['esm'],
-  outExtension({ format }) {
-    return {
-      js: '.js'
-    };
-  },
   external: [
     'react',
     'react-dom',
@@ -22,6 +15,7 @@ export default defineConfig({
     'exceljs',
     'file-saver'
   ],
+  minify: false,
   target: 'es2018',
   tsconfig: './tsconfig.json'
 });
