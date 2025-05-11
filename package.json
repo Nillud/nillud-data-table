@@ -1,8 +1,9 @@
 {
   "name": "nillud-data-table",
-  "version": "1.0.7",
+  "version": "1.2.0",
   "type": "module",
   "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "style": "./dist/styles.css",
   "files": [
@@ -10,7 +11,12 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./export": {
+      "import": "./dist/export/index.js",
+      "types": "./dist/export.index.d.ts"
     },
     "./types": "./dist/index.d.ts",
     "./styles.css": "./dist/styles.css"

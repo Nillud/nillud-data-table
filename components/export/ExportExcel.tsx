@@ -1,15 +1,8 @@
-import { Column, TableElement, TableProps } from '../../types/DataTable.types'
-import { applyHeaderStyles, applyRowStyles, generateExcelColumns, generateExcelDataRows, setColumnAutoWidths } from '../../utils/exportUtils/exportUtils'
+import { applyHeaderStyles, applyRowStyles, generateExcelColumns, generateExcelDataRows, setColumnAutoWidths } from './exportUtils/exportUtils'
 import ExcelJS from 'exceljs'
+import { ExcelExportTypes } from './types/ExportSection.types'
 
-type Props = {
-    columns: Array<Column>
-    excelData: Array<TableElement>
-    title: string
-    exportCustomColumns: TableProps["exportCustomColumns"]
-}
-
-const ExportExcel = ({ columns, excelData, title, exportCustomColumns }: Props) => {
+const ExportExcel = ({ columns, excelData, title, exportCustomColumns }: ExcelExportTypes) => {
     const exportExcel = async () => {
         const workbook = new ExcelJS.Workbook()
         const sheet = workbook.addWorksheet(title, {

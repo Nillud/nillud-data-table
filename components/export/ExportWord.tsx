@@ -1,5 +1,4 @@
-import { Column, ExportOptions, TableData, TableProps } from '../../types/DataTable.types'
-import { prepareExportHeaders, prepareExportRows } from '../../utils/exportUtils/ExportHelpers'
+import { prepareExportHeaders, prepareExportRows } from './exportUtils/ExportHelpers'
 import {
   AlignmentType, Document, Packer,
   PageOrientation,
@@ -7,15 +6,7 @@ import {
   Paragraph, Table, TableCell, TableRow, TextRun, VerticalAlign, WidthType
 } from "docx"
 import { saveAs } from "file-saver"
-
-
-type Props = {
-  wordData: TableData
-  columns: Array<Column>
-  title: string
-  options?: ExportOptions
-  exportCustomColumns?: TableProps["exportCustomColumns"]
-}
+import { ExportWordTypes } from './types/ExportSection.types'
 
 const WordExport = ({
   wordData,
@@ -27,8 +18,7 @@ const WordExport = ({
     autoLandscape: false,
     maxColumnsBeforeLandscape: 5
   }
-  // exportCustomColumns 
-}: Props) => {
+}: ExportWordTypes) => {
   const createNewWord = async () => {
     const {
       fontSize = 0,

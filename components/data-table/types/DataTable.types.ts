@@ -35,21 +35,12 @@ type TableProps = {
     paginationCounts?: Array<number> | null	// Принимает массив чисел, число - количество строк для пагинации
     scrollable?: boolean	// Зафиксировать высоту таблицы и добавить скролл
     scrollHeight?: number	// Высота тела таблицы, работает, если scrollable: true
-    exportCustomColumns?: Array<{
-        header: string
-        key: string
-        width: number
-    }> | null	// Принимает в себя массив объектов
-    excelBtn?: boolean	// Показывать кнопку экспорта Excel
-    wordBtn?: boolean	// Показывать кнопку экспорта Word
-    downloadSectionLeftSideContent?: ReactElement | null	// React Component	Отображать контент с левой стороны от кнопок экспорта
     headerGroup?: Array<{
         title: string,
         cols: number
     }> | null // Добавляет группировку заголовков (заголовок - title, растягивается на cols - столбцов)
     groupBy?: string | null // Добавляет группировку по полю (groupBy = column.field)
     isTitles?: boolean // Добавляет html title в ячейки, по умолчанию column.title
-    wordOptions?: ExportOptions
 }
 
 type LocalStorageData = {

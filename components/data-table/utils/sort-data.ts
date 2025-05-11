@@ -1,4 +1,4 @@
-import { Column, TableData } from "../../types/DataTable.types";
+import { Column, TableData } from "../types/DataTable.types";
 
 const sortByAsc = (data: TableData, column: Column["field"]) => {
     const sortedData = data.sort((a, b) => {

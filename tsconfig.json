@@ -17,8 +17,8 @@
   },
   "include": [
     "components/**/*",                  // Включает все файлы в папке components
-    "utils/**/*",                        // Включает все файлы в папке utils
-    "types/**/*"                         // Включает все типы
+    "components/data-table/utils/**/*",                        // Включает все файлы в папке utils
+    "components/data-table/types/**/*"                         // Включает все типы
   ],
   "exclude": [
     "node_modules",                      // Исключает папку node_modules

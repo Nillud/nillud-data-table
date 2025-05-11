@@ -1,4 +1,4 @@
-import { Column, TableElement, TableProps } from '../types/DataTable.types'
+import { Column, TableElement, TableProps } from './types/DataTable.types'
 
 type Props = {
     row: TableElement

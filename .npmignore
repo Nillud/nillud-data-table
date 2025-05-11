@@ -1,6 +1,5 @@
-*.scss
-*.css.map
-styles/
+dist/
 build-styles.js
-.vscode/
-example/
+tsconfig.json
+tsup.config.ts
+src/ (если используешь сборку из tsup/dist)

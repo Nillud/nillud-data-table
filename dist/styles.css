@@ -1,14 +1,4 @@
 @charset "UTF-8";
-.ndt-table-container .ndt-download-section {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-.ndt-table-container .ndt-download-section button:not(:last-child) {
-  margin-right: 10px;
-}
 .ndt-table-container .ndt-table {
   border-radius: 4px;
   border: 1px solid #ddd;
@@ -198,6 +188,17 @@
   background-color: #fff;
   border: 1px solid #48ae78;
   color: #48ae78;
+}
+
+.ndt-download-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.ndt-download-section button:not(:last-child) {
+  margin-right: 10px;
 }
 
 /*# sourceMappingURL=styles.css.map */

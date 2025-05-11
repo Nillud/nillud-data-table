@@ -9,9 +9,9 @@ const __dirname = path.dirname(__filename);
 const execAsync = promisify(exec);
 
 // Например, компилируем SCSS в CSS
-const inputPath = path.resolve(__dirname, 'styles', 'index.scss');
-const outputPath = path.resolve(__dirname, 'dist', 'styles.css');
+const inputPath = path.resolve(`${__dirname}/components/data-table`, 'styles', 'index.scss');
+const outputPath = path.resolve(`${__dirname}`, 'dist', 'styles.css');
 
 execAsync(`sass ${inputPath}:${outputPath}`)
   .then(() => console.log('✔️  SCSS compiled to dist/styles.css'))
-  .catch(err => console.error('❌ SCSS compilation error:', err));
+  .catch(err => console.error(`❌ SCSS compilation error: ${__dirname}`, err));

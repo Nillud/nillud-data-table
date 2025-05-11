@@ -1,8 +1,8 @@
-import { PaginationPage, PaginationSize, TableData, TableProps } from '../types/DataTable.types';
-import NextIcon from './img/NextIcon';
-import LastIcon from './img/LastIcon';
-import PrevIcon from './img/PrevIcon';
-import FirstIcon from './img/FirstIcon';
+import { PaginationPage, PaginationSize, TableData, TableProps } from './types/DataTable.types'
+import NextIcon from './img/NextIcon'
+import LastIcon from './img/LastIcon'
+import PrevIcon from './img/PrevIcon'
+import FirstIcon from './img/FirstIcon'
 
 type Props = {
   tableData: TableData;

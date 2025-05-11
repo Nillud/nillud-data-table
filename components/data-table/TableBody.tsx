@@ -1,7 +1,7 @@
 import React from 'react'
-import { Column, TableData, TableElement, TableProps } from '../types/DataTable.types'
-import Row from './Row'
-import { groupDataBy } from '../utils/groupDataBy'
+import { Column, TableData, TableElement, TableProps } from './types/DataTable.types'
+import Row from '../data-table/Row'
+import { groupDataBy } from './utils/groupDataBy'
 
 type Props = {
     columns: Array<Column>

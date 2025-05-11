@@ -1,27 +1,27 @@
-// components/DataTable.tsx
+// components/data-table/DataTable.tsx
 import { useImperativeHandle, useEffect as useEffect2, useState, useCallback, useMemo as useMemo2, forwardRef } from "react";
 
-// components/TableHeader.tsx
+// components/data-table/TableHeader.tsx
 import React from "react";
 
-// components/Column.tsx
+// components/data-table/Column.tsx
 import { useMemo } from "react";
 
-// components/img/SortDown.tsx
+// components/data-table/img/SortDown.tsx
 import { jsx } from "react/jsx-runtime";
 var SortDown = () => {
   return /* @__PURE__ */ jsx("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", fill: "currentColor", className: "bi bi-caret-down-fill", viewBox: "0 0 16 16", children: /* @__PURE__ */ jsx("path", { d: "M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" }) });
 };
 var SortDown_default = SortDown;
 
-// components/img/SortUp.tsx
+// components/data-table/img/SortUp.tsx
 import { jsx as jsx2 } from "react/jsx-runtime";
 var SortUp = () => {
   return /* @__PURE__ */ jsx2("svg", { xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", fill: "currentColor", className: "bi bi-caret-up-fill", viewBox: "0 0 16 16", children: /* @__PURE__ */ jsx2("path", { d: "m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" }) });
 };
 var SortUp_default = SortUp;
 
-// components/Column.tsx
+// components/data-table/Column.tsx
 import { jsx as jsx3, jsxs } from "react/jsx-runtime";
 var Column = ({ column, getSortField, sortBy, getFilters, filters }) => {
   var _a;
@@ -53,7 +53,7 @@ var Column = ({ column, getSortField, sortBy, getFilters, filters }) => {
 };
 var Column_default = Column;
 
-// components/TableHeader.tsx
+// components/data-table/TableHeader.tsx
 import { Fragment, jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
 var Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, headerGroup }) => {
   const renderHeaderGroup = () => headerGroup && /* @__PURE__ */ jsx4("div", { className: "ndt-table-columns", style: { gridTemplateColumns: widths || "auto" }, children: headerGroup.map((col, id) => /* @__PURE__ */ jsx4("div", { className: "ndt-column", style: { gridColumn: `span ${col.cols || 1}` }, children: /* @__PURE__ */ jsx4("div", { className: "ndt-column-head", children: /* @__PURE__ */ jsx4("span", { children: col.title }) }) }, `header-group-${id}`)) });
@@ -75,10 +75,10 @@ var Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, head
 };
 var TableHeader_default = React.memo(Header);
 
-// components/TableBody.tsx
+// components/data-table/TableBody.tsx
 import React2 from "react";
 
-// components/Cell.tsx
+// components/data-table/Cell.tsx
 import { jsx as jsx5 } from "react/jsx-runtime";
 var Cell = ({
   row,
@@ -100,7 +100,7 @@ var Cell = ({
 };
 var Cell_default = Cell;
 
-// components/Row.tsx
+// components/data-table/Row.tsx
 import { jsx as jsx6 } from "react/jsx-runtime";
 var Row = ({ rowId, columns, row, widths, isTitles }) => /* @__PURE__ */ jsx6("div", { className: "ndt-table-row", style: { gridTemplateColumns: widths }, children: columns.map((column, id) => /* @__PURE__ */ jsx6(
   Cell_default,
@@ -114,7 +114,7 @@ var Row = ({ rowId, columns, row, widths, isTitles }) => /* @__PURE__ */ jsx6("d
 )) });
 var Row_default = Row;
 
-// utils/groupDataBy.ts
+// components/data-table/utils/groupDataBy.ts
 var groupDataBy = (data, key) => {
   const groups = /* @__PURE__ */ new Map();
   data.forEach((item) => {
@@ -127,7 +127,7 @@ var groupDataBy = (data, key) => {
   return Array.from(groups.entries()).map(([key2, items]) => ({ key: key2, items }));
 };
 
-// components/TableBody.tsx
+// components/data-table/TableBody.tsx
 import { jsx as jsx7, jsxs as jsxs3 } from "react/jsx-runtime";
 var TableBody = ({
   columns,
@@ -185,35 +185,35 @@ var TableBody = ({
 };
 var TableBody_default = TableBody;
 
-// components/img/NextIcon.tsx
+// components/data-table/img/NextIcon.tsx
 import { jsx as jsx8 } from "react/jsx-runtime";
 var NextIcon = () => {
   return /* @__PURE__ */ jsx8("svg", { width: "41", height: "65", viewBox: "0 0 41 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsx8("path", { d: "M0.674316 57.2669L25.3872 32.5L0.674316 7.73312L8.28244 0.125L40.6574 32.5L8.28244 64.875L0.674316 57.2669Z", fill: "#666666" }) });
 };
 var NextIcon_default = NextIcon;
 
-// components/img/LastIcon.tsx
+// components/data-table/img/LastIcon.tsx
 import { jsx as jsx9 } from "react/jsx-runtime";
 var LastIcon = () => {
   return /* @__PURE__ */ jsx9("svg", { width: "68", height: "65", viewBox: "0 0 68 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsx9("path", { d: "M0.185059 7.73312L24.9519 32.5L0.185059 57.2669L7.79318 64.875L40.1682 32.5L7.79318 0.125L0.185059 7.73312ZM56.3557 0.125H67.1474V64.875H56.3557V0.125Z", fill: "#666666" }) });
 };
 var LastIcon_default = LastIcon;
 
-// components/img/PrevIcon.tsx
+// components/data-table/img/PrevIcon.tsx
 import { jsx as jsx10 } from "react/jsx-runtime";
 var PrevIcon = () => {
   return /* @__PURE__ */ jsx10("svg", { width: "41", height: "65", viewBox: "0 0 41 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsx10("path", { d: "M40.6574 57.2669L15.9445 32.5L40.6574 7.73312L33.0493 0.125L0.674316 32.5L33.0493 64.875L40.6574 57.2669Z", fill: "#666666" }) });
 };
 var PrevIcon_default = PrevIcon;
 
-// components/img/FirstIcon.tsx
+// components/data-table/img/FirstIcon.tsx
 import { jsx as jsx11 } from "react/jsx-runtime";
 var FirstIcon = () => {
   return /* @__PURE__ */ jsx11("svg", { width: "68", height: "65", viewBox: "0 0 68 65", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsx11("path", { d: "M67.1474 57.2669L42.3805 32.5L67.1474 7.73312L59.5392 0.125L27.1642 32.5L59.5392 64.875L67.1474 57.2669ZM0.185059 0.125H10.9767V64.875H0.185059V0.125Z", fill: "#666666" }) });
 };
 var FirstIcon_default = FirstIcon;
 
-// components/TableFooter.tsx
+// components/data-table/TableFooter.tsx
 import { jsx as jsx12, jsxs as jsxs4 } from "react/jsx-runtime";
 var TableFooter = ({
   tableData,
@@ -340,7 +340,7 @@ var TableFooter = ({
 };
 var TableFooter_default = TableFooter;
 
-// components/functions/sort-data.ts
+// components/data-table/utils/sort-data.ts
 var sortByAsc = (data, column) => {
   const sortedData = data.sort((a, b) => {
     if (!isNaN(+a[column]) && !isNaN(+b[column])) {
@@ -384,7 +384,7 @@ var filterData = (data, filter, value) => {
   return filteredData;
 };
 
-// utils/useDebouncedEffect.tsx
+// components/data-table/utils/useDebouncedEffect.tsx
 import { useEffect } from "react";
 function useDebouncedEffect(callback, deps, delay) {
   useEffect(() => {
@@ -393,49 +393,8 @@ function useDebouncedEffect(callback, deps, delay) {
   }, [...deps, delay]);
 }
 
-// components/ExportSection.tsx
-import { Fragment as Fragment2, jsx as jsx13, jsxs as jsxs5 } from "react/jsx-runtime";
-var ExportSection = ({
-  wordBtn,
-  excelBtn,
-  downloadSectionLeftSideContent,
-  tableData,
-  columns,
-  tableName,
-  exportCustomColumns,
-  wordOptions,
-  WordExportComponent,
-  ExportExcelComponent
-}) => {
-  return /* @__PURE__ */ jsx13(Fragment2, { children: /* @__PURE__ */ jsxs5("div", { className: "ndt-download-section", children: [
-    /* @__PURE__ */ jsx13("div", { className: "ndt-download-content", children: (wordBtn || excelBtn) && downloadSectionLeftSideContent !== null && downloadSectionLeftSideContent }),
-    /* @__PURE__ */ jsxs5("div", { className: "ndt-download-buttons", children: [
-      wordBtn && WordExportComponent && /* @__PURE__ */ jsx13(
-        WordExportComponent,
-        {
-          wordData: tableData,
-          columns,
-          title: tableName,
-          exportCustomColumns,
-          options: wordOptions
-        }
-      ),
-      excelBtn && ExportExcelComponent && /* @__PURE__ */ jsx13(
-        ExportExcelComponent,
-        {
-          excelData: tableData,
-          columns,
-          title: tableName,
-          exportCustomColumns
-        }
-      )
-    ] })
-  ] }) });
-};
-var ExportSection_default = ExportSection;
-
-// components/DataTable.tsx
-import { jsx as jsx14, jsxs as jsxs6 } from "react/jsx-runtime";
+// components/data-table/DataTable.tsx
+import { jsx as jsx13, jsxs as jsxs5 } from "react/jsx-runtime";
 var DataTable = forwardRef(({
   tableData,
   columns,
@@ -446,16 +405,9 @@ var DataTable = forwardRef(({
   paginationCounts = null,
   scrollable = false,
   scrollHeight = 300,
-  exportCustomColumns = null,
-  excelBtn = false,
-  wordBtn = false,
-  downloadSectionLeftSideContent = null,
   headerGroup = null,
   groupBy = null,
-  isTitles = false,
-  wordOptions,
-  WordExportComponent,
-  ExportExcelComponent
+  isTitles = false
 }, ref) => {
   const [filters, setFilters] = useState({});
   const [sortBy, setSortBy] = useState({ col: "", type: "asc" });
@@ -531,281 +483,48 @@ var DataTable = forwardRef(({
     getData: () => processedData,
     getCurrentData: () => displayData
   }), [processedData, displayData]);
-  return /* @__PURE__ */ jsxs6("div", { className: "ndt-table-container", children: [
-    (wordBtn || excelBtn) && /* @__PURE__ */ jsx14(
-      ExportSection_default,
+  return /* @__PURE__ */ jsx13("div", { className: "ndt-table-container", children: /* @__PURE__ */ jsxs5("div", { className: "ndt-table", children: [
+    /* @__PURE__ */ jsx13(
+      TableHeader_default,
       {
-        wordBtn,
-        excelBtn,
-        downloadSectionLeftSideContent,
-        tableData: displayData,
         columns,
-        tableName,
-        exportCustomColumns,
-        wordOptions,
-        WordExportComponent,
-        ExportExcelComponent
+        sortBy,
+        getSortField: setSortBy,
+        filters,
+        getFilters: setFilters,
+        widths,
+        headerGroup
       }
     ),
-    /* @__PURE__ */ jsxs6("div", { className: "ndt-table", children: [
-      /* @__PURE__ */ jsx14(
-        TableHeader_default,
-        {
-          columns,
-          sortBy,
-          getSortField: setSortBy,
-          filters,
-          getFilters: setFilters,
-          widths,
-          headerGroup
-        }
-      ),
-      loading ? loadingElement !== null ? loadingElement : /* @__PURE__ */ jsx14("span", { style: { marginLeft: 10, fontWeight: "bold" }, children: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430 \u0434\u0430\u043D\u043D\u044B\u0445..." }) : /* @__PURE__ */ jsx14(
-        TableBody_default,
-        {
-          tableData: displayData,
-          columns,
-          scrollable,
-          scrollHeight,
-          widths,
-          groupBy,
-          collapsedGroups,
-          toggleGroup,
-          isTitles
-        }
-      ),
-      isFooter && /* @__PURE__ */ jsx14(
-        TableFooter_default,
-        {
-          paginationCounts,
-          tableData: processedData,
-          paginationSize,
-          getPaginationSize: setPaginationSize,
-          paginationPage,
-          getPaginationPage: setPaginationPage
-        }
-      )
-    ] })
-  ] });
+    loading ? loadingElement !== null ? loadingElement : /* @__PURE__ */ jsx13("span", { style: { marginLeft: 10, fontWeight: "bold" }, children: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430 \u0434\u0430\u043D\u043D\u044B\u0445..." }) : /* @__PURE__ */ jsx13(
+      TableBody_default,
+      {
+        tableData: displayData,
+        columns,
+        scrollable,
+        scrollHeight,
+        widths,
+        groupBy,
+        collapsedGroups,
+        toggleGroup,
+        isTitles
+      }
+    ),
+    isFooter && /* @__PURE__ */ jsx13(
+      TableFooter_default,
+      {
+        paginationCounts,
+        tableData: processedData,
+        paginationSize,
+        getPaginationSize: setPaginationSize,
+        paginationPage,
+        getPaginationPage: setPaginationPage
+      }
+    )
+  ] }) });
 });
 DataTable.displayName = "DataTable";
 var DataTable_default = DataTable;
-
-// utils/exportUtils/ExportHelpers.ts
-function prepareExportRows(columns, data) {
-  return data.map(
-    (row) => columns.map((col) => {
-      const value = row[col.field];
-      return typeof col.exportCustomCell !== "undefined" ? col.exportCustomCell(String(value), row) : String(value != null ? value : "");
-    })
-  );
-}
-function prepareExportHeaders(columns) {
-  return columns.map((col) => col.title);
-}
-
-// components/export/WordExport.tsx
-import { jsx as jsx15 } from "react/jsx-runtime";
-var WordExport = ({
-  wordData,
-  columns,
-  title,
-  options = {
-    fontSize: 20,
-    boldHeaders: false,
-    autoLandscape: false,
-    maxColumnsBeforeLandscape: 5
-  }
-  // exportCustomColumns 
-}) => {
-  const createNewWord = async () => {
-    const {
-      AlignmentType,
-      Document,
-      Packer,
-      PageOrientation,
-      // PageOrientation, 
-      Paragraph,
-      Table,
-      TableCell,
-      TableRow,
-      TextRun,
-      VerticalAlign,
-      WidthType
-    } = await import("docx");
-    const { saveAs } = await import("file-saver");
-    const {
-      fontSize = 0,
-      boldHeaders = true,
-      autoLandscape = true,
-      maxColumnsBeforeLandscape = 5
-    } = options;
-    const isLandscape = autoLandscape && columns.length > maxColumnsBeforeLandscape;
-    const headerCells = prepareExportHeaders(columns).map((header) => new TableCell({
-      children: [new Paragraph({
-        children: [new TextRun({
-          text: header,
-          size: fontSize,
-          bold: boldHeaders
-        })],
-        alignment: AlignmentType.CENTER
-      })],
-      verticalAlign: VerticalAlign.CENTER
-    }));
-    const tableHeaderRow = new TableRow({ children: headerCells });
-    const rows = prepareExportRows(columns, wordData).map((cells) => {
-      const rowCells = cells.map(
-        (value) => new TableCell({
-          children: [new Paragraph({
-            children: [new TextRun({
-              text: value,
-              size: fontSize
-            })],
-            alignment: AlignmentType.CENTER
-          })],
-          verticalAlign: VerticalAlign.CENTER
-        })
-      );
-      return new TableRow({ children: rowCells });
-    });
-    const table = new Table({
-      rows: [tableHeaderRow, ...rows],
-      width: { size: 11e3, type: WidthType.DXA },
-      indent: { size: -1e3, type: WidthType.DXA }
-    });
-    const doc = new Document({
-      sections: [{
-        children: [table, new Paragraph({ text: "" })],
-        properties: isLandscape ? { page: { size: { orientation: PageOrientation.LANDSCAPE } } } : {}
-      }]
-    });
-    Packer.toBlob(doc).then((blob) => {
-      saveAs(blob, `${title}.docx`);
-    });
-  };
-  return /* @__PURE__ */ jsx15("button", { className: `ndt-buttonExport ndt-Word}`, onClick: createNewWord, children: "\u0421\u043A\u0430\u0447\u0430\u0442\u044C Word" });
-};
-var WordExport_default = WordExport;
-
-// utils/exportUtils/exportUtils.ts
-var generateExcelColumns = (columns, exportCustomColumns) => {
-  let excelColumns = columns.map((column) => ({
-    header: column.title,
-    key: column.field,
-    width: 20
-  }));
-  if (exportCustomColumns) {
-    exportCustomColumns.forEach((custom) => {
-      excelColumns = excelColumns.map(
-        (col) => col.key === custom.key ? { ...col, ...custom } : col
-      );
-    });
-  }
-  return excelColumns;
-};
-var applyHeaderStyles = (row, columnCount) => {
-  row.height = 40;
-  row.font = { size: 12, bold: true };
-  row.alignment = { vertical: "middle", horizontal: "center" };
-  for (let i = 1; i <= columnCount; i++) {
-    const cell = row.getCell(i);
-    cell.alignment = { wrapText: true, vertical: "middle", horizontal: "center" };
-    cell.border = {
-      top: { style: "thin" },
-      left: { style: "thin" },
-      bottom: { style: "thin" },
-      right: { style: "thin" }
-    };
-  }
-};
-var applyRowStyles = (row, columnCount) => {
-  row.height = 40;
-  row.font = { size: 12 };
-  row.alignment = { vertical: "middle", horizontal: "center" };
-  for (let i = 1; i <= columnCount; i++) {
-    const cell = row.getCell(i);
-    cell.alignment = { wrapText: true, vertical: "middle", horizontal: "center" };
-    cell.border = {
-      top: { style: "thin" },
-      left: { style: "thin" },
-      bottom: { style: "thin" },
-      right: { style: "thin" }
-    };
-  }
-};
-var generateExcelDataRows = (columns, data) => {
-  return data.map((element) => {
-    const rowData = {};
-    columns.forEach((col) => {
-      const value = element[col.field];
-      rowData[col.field] = typeof col.exportCustomCell !== "undefined" ? col.exportCustomCell(String(value), element) : value != null ? value : "";
-    });
-    return rowData;
-  });
-};
-var setColumnAutoWidths = (sheet) => {
-  var _a;
-  (_a = sheet.columns) == null ? void 0 : _a.forEach((column) => {
-    var _a2;
-    let maxLength = 10;
-    (_a2 = column.eachCell) == null ? void 0 : _a2.call(column, { includeEmpty: true }, (cell) => {
-      const cellValue = cell.value ? String(cell.value) : "";
-      maxLength = Math.max(maxLength, cellValue.length + 5);
-    });
-    column.width = maxLength;
-  });
-};
-
-// components/export/ExportExcel.tsx
-import { jsx as jsx16 } from "react/jsx-runtime";
-var ExportExcel = ({ columns, excelData, title, exportCustomColumns }) => {
-  const exportExcel = async () => {
-    const ExcelJS = await import("exceljs");
-    const workbook = new ExcelJS.Workbook();
-    const sheet = workbook.addWorksheet(title, {
-      pageSetup: {
-        fitToPage: true,
-        fitToHeight: 2,
-        fitToWidth: 1,
-        orientation: "landscape"
-      },
-      headerFooter: {
-        oddFooter: "\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430 &P \u0438\u0437 &N",
-        evenFooter: "\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430 &P \u0438\u0437 &N"
-      }
-    });
-    const excelColumns = generateExcelColumns(columns, exportCustomColumns);
-    sheet.columns = excelColumns;
-    const headerRow = sheet.getRow(1);
-    applyHeaderStyles(headerRow, sheet.columns.length);
-    const dataRows = generateExcelDataRows(columns, excelData);
-    dataRows.forEach((data) => {
-      const row = sheet.addRow(data);
-      applyRowStyles(row, sheet.columns.length);
-    });
-    setColumnAutoWidths(sheet);
-    if (excelData.length > 15) {
-      sheet.pageSetup.fitToHeight = Math.floor(excelData.length / 15);
-    } else {
-      sheet.pageSetup.fitToHeight = 1;
-    }
-    workbook.xlsx.writeBuffer().then((data) => {
-      const blob = new Blob([data], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      });
-      const url = window.URL.createObjectURL(blob);
-      const anchor = document.createElement("a");
-      anchor.href = url;
-      anchor.download = `${title}.xlsx`;
-      anchor.click();
-      window.URL.revokeObjectURL(url);
-    });
-  };
-  return /* @__PURE__ */ jsx16("button", { className: `ndt-buttonExport ndt-Excel`, onClick: exportExcel, children: "\u0421\u043A\u0430\u0447\u0430\u0442\u044C Excel" });
-};
-var ExportExcel_default = ExportExcel;
 export {
-  DataTable_default as DataTable,
-  ExportExcel_default as ExportExcel,
-  WordExport_default as WordExport
+  DataTable_default as DataTable
 };

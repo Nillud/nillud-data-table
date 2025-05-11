@@ -86,6 +86,7 @@ const data = [{ name: 'Иван' }]
 | [paginationCounts](#paginationcounts)                                 |    -     | array<number>  | Принимает массив чисел, число - количество строк для пагинации, (0 это все) |
 | [scrollable](#scrollable)                                             |    -     | boolean      | Зафиксировать высоту таблицы и добавить скролл         |
 | [scrollHeight](#scrollheight)                                         |    -     | number       | Высота тела таблицы, работает, если scrollable: true         |
+| [exportSectionComponent](#exportsectioncomponent)                     |    -     | import module|  Необходимо импортировать модуль ExportSection
 | [exportCustomColumns](#exportcustomcolumns)                           |    -     | array [\{\}] |  Принимает в себя массив объектов (\{\ key: string, width: number \}\)  |
 | [excelBtn](#excelbtn)                                                 |    -     | boolean      | Показывать кнопку экспорта Excel        |
 | [wordBtn](#wordbtn)                                                   |    -     | boolean      | Показывать кнопку экспорта Word        |
@@ -413,7 +414,7 @@ scrollable
 scrollHeight={410}
 ```
 
-### exportCustomColumns
+<!-- ### exportCustomColumns
 
 Необязательный параметр. Принимает в себя массив объектов формата.
 По умолчанию:
@@ -431,52 +432,6 @@ excelCustomColumns={[
         width: 50
     }
 ]}
-```
-
-### excelBtn
-
-Необязательный параметр. Тип **boolean**, по умолчанию **false**. При значении **true** над таблицей с правой стороны появляется кнопка экспорта Excel, которая по умолчанию принимает в себя исходный массив **tableData**
-
-Для использования модуля Excel необходимо установить библиотеку [exceljs](https://www.npmjs.com/package/exceljs)
-
-```bash
-npm i exceljs
--или-
-yarn add exceljs
-```
-
-```tsx
-import ExportExcel from 'nillud-data-table/export/ExportExcel';
-
-<DataTable>
-    ...
-    excelBtn
-    ExportExcelComponent={ExportExcel}
-    ...
-</DataTable>
-```
-
-### wordBtn
-
-Необязательный параметр. Тип **boolean**, по умолчанию **false**. При значении **true** над таблицей с правой стороны появляется кнопка экспорта Word, которая по умолчанию принимает в себя исходный массив **tableData**
-
-Для использования модуля Word необходимо установить библиотеки [docx](https://www.npmjs.com/package/docx) и [file-saver](https://www.npmjs.com/package/file-saver)
-
-```bash
-npm i docx file-saver
--или-
-yarn add docx file-saver
-```
-
-```tsx
-import WordExport from 'nillud-data-table/export/WordExport';
-
-<DataTable>
-    ...
-    wordBtn
-    WordExportComponent={WordExport}
-    ...
-</DataTable>
 ```
 
 ### wordOptions
@@ -498,7 +453,7 @@ options = {
 
 ```tsx
 downloadSectionLeftSideContent={<button className='base-button' onClick={() => setCanvas(true)}>OffCanvas</button>}
-```
+``` -->
 
 ### headerGroup
 

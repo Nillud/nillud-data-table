@@ -1,11 +1,11 @@
-import React, { useImperativeHandle, useEffect, useState, useCallback, useMemo, forwardRef, Suspense } from 'react'
-import { DataTableRef, LocalStorageData, LocalStorageSort, PaginationPage, PaginationSize, TableProps } from '../types/DataTable.types'
+import React, { useImperativeHandle, useEffect, useState, useCallback, useMemo, forwardRef } from 'react'
+import { DataTableRef, LocalStorageData, LocalStorageSort, PaginationPage, PaginationSize, TableProps } from './types/DataTable.types'
 import TableHeader from './TableHeader'
 import TableBody from './TableBody'
 import TableFooter from './TableFooter'
-import { filterData, sortData } from './functions/sort-data'
-import { useDebouncedEffect } from '../utils/useDebouncedEffect'
-import ExportSection from './ExportSection'
+import { filterData, sortData } from './utils/sort-data'
+import { useDebouncedEffect } from './utils/useDebouncedEffect'
+// import ExportSection from './ExportSection'
 
 const DataTable = forwardRef<DataTableRef, TableProps>(({
     tableData,
@@ -17,14 +17,9 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
     paginationCounts = null,
     scrollable = false,
     scrollHeight = 300,
-    exportCustomColumns = null,
-    excelBtn = false,
-    wordBtn = false,
-    downloadSectionLeftSideContent = null,
     headerGroup = null,
     groupBy = null,
     isTitles = false,
-    wordOptions
 }: TableProps, ref) => {
     const [filters, setFilters] = useState<LocalStorageData>({})
     const [sortBy, setSortBy] = useState<LocalStorageSort>({ col: '', type: 'asc' })
@@ -133,19 +128,6 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
 
     return (
         <div className="ndt-table-container">
-            {(wordBtn || excelBtn) && (
-                <ExportSection
-                    wordBtn={wordBtn}
-                    excelBtn={excelBtn}
-                    downloadSectionLeftSideContent={downloadSectionLeftSideContent}
-                    tableData={displayData}
-                    columns={columns}
-                    tableName={tableName}
-                    exportCustomColumns={exportCustomColumns}
-                    wordOptions={wordOptions}
-                />
-            )}
-
             <div className="ndt-table">
                 <TableHeader
                     columns={columns}

@@ -1,18 +1,8 @@
 import { ReactElement, useEffect, useState } from "react"
-import { Column, ExportOptions, TableData, TableProps } from "../types/DataTable.types"
-import WordExport from "./export/WordExport"
-import ExportExcel from "./export/ExportExcel"
-
-type Props = {
-    wordBtn: boolean
-    excelBtn: boolean
-    downloadSectionLeftSideContent: ReactElement | null
-    tableData: TableData
-    columns: Array<Column>
-    tableName: string
-    exportCustomColumns?: TableProps['exportCustomColumns']
-    wordOptions?: ExportOptions
-}
+import { Column, ExportOptions, TableData, TableProps } from "../data-table/types/DataTable.types"
+import WordExport from "./ExportWord"
+import ExportExcel from "./ExportExcel"
+import { ExportSectionTypes } from "./types/ExportSection.types"
 
 const ExportSection = ({
     wordBtn,
@@ -23,7 +13,7 @@ const ExportSection = ({
     tableName,
     exportCustomColumns,
     wordOptions
-}: Props) => {
+}: ExportSectionTypes) => {
     return (
         <>
             <div className={'ndt-download-section'}>
@@ -38,7 +28,6 @@ const ExportSection = ({
                             wordData={tableData}
                             columns={columns}
                             title={tableName}
-                            exportCustomColumns={exportCustomColumns}
                             options={wordOptions}
                         />
                     }

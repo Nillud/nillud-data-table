@@ -1,5 +1,4 @@
-import React from 'react'
-import { Column, TableElement, TableProps } from '../types/DataTable.types'
+import { Column, TableElement, TableProps } from './types/DataTable.types'
 import Cell from './Cell'
 
 type Props = {

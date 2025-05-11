@@ -1,5 +1,5 @@
 import React from 'react'
-import { Column as ColumnType, LocalStorageData, LocalStorageSort, TableProps } from '../types/DataTable.types'
+import { Column as ColumnType, LocalStorageData, LocalStorageSort, TableProps } from './types/DataTable.types'
 import Column from './Column'
 
 type Props = {

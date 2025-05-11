@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Column as ColumnType, LocalStorageData, LocalStorageSort } from '../types/DataTable.types'
+import { Column as ColumnType, LocalStorageData, LocalStorageSort } from './types/DataTable.types'
 import SortDown from './img/SortDown'
 import SortUp from './img/SortUp'
 
