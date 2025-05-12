@@ -38,9 +38,14 @@ const TableFooter = ({
 
   const renderPageNumbers = () => {
     if (totalPages <= 1) return (
-      <button key="page-0" onClick={() => handlePageChange(0)}>
+      <button
+        key="page-0"
+        className='btn-active'
+        onClick={() => handlePageChange(0)}
+        disabled
+      >
         1
-      </button>
+      </button >
     )
 
     const pages = [];

@@ -11,7 +11,7 @@ type Column = {
     autoinc?: boolean;
     formatter?: (cell: string, row: TableElement) => ReactElement;
     exportCustomCell?: (cell: string, row: TableElement) => string;
-    headerFilter?: (headerValue: string, rowValue: string) => string;
+    headerFilter?: (headerValue: string, rowValue: string) => boolean;
     sortable?: boolean;
     filterable?: boolean;
 };

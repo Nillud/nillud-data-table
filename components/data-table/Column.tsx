@@ -14,16 +14,16 @@ type Props = {
 const Column = ({ column, getSortField, sortBy, getFilters, filters }: Props) => {
     const currentSort = useMemo(() => {
         return sortBy.col === column.field ? sortBy.type : null
-      }, [sortBy, column.field])
-    
-      const toggleSort = () => {
+    }, [sortBy, column.field])
+
+    const toggleSort = () => {
         const nextType = currentSort === 'asc' ? 'desc' : 'asc'
         getSortField({ col: column.field, type: nextType })
-      }
-    
-      const onFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    }
+
+    const onFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         getFilters({ ...filters, [column.field]: e.target.value })
-      }
+    }
 
     return (
         <div className={'ndt-column'}>
@@ -33,7 +33,12 @@ const Column = ({ column, getSortField, sortBy, getFilters, filters }: Props) =>
                 {typeof column.autoinc === 'undefined' &&
                     (typeof column.sortable === 'undefined' || column.sortable) && (
                         <div className="ndt-sorter" onClick={toggleSort}>
-                            {currentSort === 'asc' ? <SortDown /> : currentSort === 'desc' ? <SortUp /> : null}
+                            {currentSort === 'asc'
+                                ? <SortDown />
+                                : currentSort === 'desc'
+                                    ? <SortUp />
+                                    : <SortDown />
+                            }
                         </div>
                     )}
             </div>

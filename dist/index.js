@@ -38,7 +38,7 @@ var Column = ({ column, getSortField, sortBy, getFilters, filters }) => {
   return /* @__PURE__ */ jsxs("div", { className: "ndt-column", children: [
     /* @__PURE__ */ jsxs("div", { className: "ndt-column-head", children: [
       /* @__PURE__ */ jsx3("span", { children: column.title }),
-      typeof column.autoinc === "undefined" && (typeof column.sortable === "undefined" || column.sortable) && /* @__PURE__ */ jsx3("div", { className: "ndt-sorter", onClick: toggleSort, children: currentSort === "asc" ? /* @__PURE__ */ jsx3(SortDown_default, {}) : currentSort === "desc" ? /* @__PURE__ */ jsx3(SortUp_default, {}) : null })
+      typeof column.autoinc === "undefined" && (typeof column.sortable === "undefined" || column.sortable) && /* @__PURE__ */ jsx3("div", { className: "ndt-sorter", onClick: toggleSort, children: currentSort === "asc" ? /* @__PURE__ */ jsx3(SortDown_default, {}) : currentSort === "desc" ? /* @__PURE__ */ jsx3(SortUp_default, {}) : /* @__PURE__ */ jsx3(SortDown_default, {}) })
     ] }),
     /* @__PURE__ */ jsx3("div", { className: "ndt-column-footer", children: typeof column.autoinc === "undefined" && (typeof column.filterable === "undefined" || column.filterable) && /* @__PURE__ */ jsx3(
       "input",
@@ -235,7 +235,16 @@ var TableFooter = ({
     }
   };
   const renderPageNumbers = () => {
-    if (totalPages <= 1) return /* @__PURE__ */ jsx12("button", { onClick: () => handlePageChange(0), children: "1" }, "page-0");
+    if (totalPages <= 1) return /* @__PURE__ */ jsx12(
+      "button",
+      {
+        className: "btn-active",
+        onClick: () => handlePageChange(0),
+        disabled: true,
+        children: "1"
+      },
+      "page-0"
+    );
     const pages = [];
     const maxVisible = 5;
     let start = Math.max(0, paginationPage - Math.floor(maxVisible / 2));
