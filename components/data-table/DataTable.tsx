@@ -24,7 +24,7 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
     const [filters, setFilters] = useState<LocalStorageData>({})
     const [sortBy, setSortBy] = useState<LocalStorageSort>({ col: '', type: 'asc' })
 
-    const [paginationSize, setPaginationSize] = useState<PaginationSize>(paginationCounts?.[0] || 10)
+    const [paginationSize, setPaginationSize] = useState<PaginationSize>(paginationCounts?.[0] || 0)
     const [paginationPage, setPaginationPage] = useState<PaginationPage>(0)
 
     const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({})

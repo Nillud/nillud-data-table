@@ -1,4 +1,4 @@
-import { Column, TableElement } from "../../types/DataTable.types"
+import { Column, TableElement } from "../types/ExportSection.types"
 
 export function prepareExportRows(
   columns: Column[],

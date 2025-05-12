@@ -414,47 +414,6 @@ scrollable
 scrollHeight={410}
 ```
 
-<!-- ### exportCustomColumns
-
-Необязательный параметр. Принимает в себя массив объектов формата.
-По умолчанию:
-- Ключ header содержит в себе значение **title** объекта из массива columns
-- Ключ key содержит в себе значение **field** объекта из массива columns
-- Ключ width по умолчанию умеет ширину 20 у.е. по системе Excel
-
-Дополнительные параметры можно добавлять исходя из документации [exceljs](https://www.npmjs.com/package/exceljs). 
-Для изменения/добавления каких-либо параметров в массиве необходимо указать объект с нужным ключом **key**
-
-```tsx
-excelCustomColumns={[
-    {
-        key: 'name',
-        width: 50
-    }
-]}
-```
-
-### wordOptions
-
-Необязательный параметр. Используется вместе с **wordBtn**. Принимает в себя объект
-
-```tsx
-options = {
-    fontSize: 20, // размер шрифта, 
-    boldHeaders: false, // Заголовки жирным начертанием, 
-    autoLandscape: false, // делать ли альбомный формат, 
-    maxColumnsBeforeLandscape: 5 // и от скольки столбцов. 
-}
-```
-
-### downloadSectionLeftSideContent
-
-Необязательный параметр. Передается **React.Component**. Отображает компонент с левой стороны от кнопок экспорта. Создано для экономии места
-
-```tsx
-downloadSectionLeftSideContent={<button className='base-button' onClick={() => setCanvas(true)}>OffCanvas</button>}
-``` -->
-
 ### headerGroup
 
 Необязательный параметр. Передается **массив объектов**. Отображает сгруппированные заголовки таблицы, где title - заголовок группы, а cols - количество столбцов, на которое растягивается группа
@@ -499,4 +458,105 @@ const func = () => {
     const currData = tableRef.current.getCurrentData() // Получить данные с текущей таблицы пагинации
 }
 
+```
+
+## Возможности экспорта данных
+
+### ExportExcel
+
+Требует установки пакета Exceljs
+
+```bash
+npm install exceljs
+# или
+yarn add exceljs
+```
+
+Пример вызова
+```tsx
+<ExportExcel
+    columns={columns} // Колонки таблицы
+    excelData={tableData} // Данные таблицы
+    title={'table-name'} // Название таблицы
+    exportCustomColumns={[{
+        header: 'Наименование',
+        key: 'name',
+        width: 50,
+        ...
+    }]} // Описание ниже
+/>
+```
+
+#### exportCustomColumns
+
+Необязательный параметр. Принимает в себя массив объектов формата.
+По умолчанию:
+- Ключ header содержит в себе значение **title** объекта из массива columns
+- Ключ key содержит в себе значение **field** объекта из массива columns
+- Ключ width по умолчанию умеет ширину 20 у.е. по системе Excel
+
+Дополнительные параметры можно добавлять исходя из документации [exceljs](https://www.npmjs.com/package/exceljs). 
+Для изменения/добавления каких-либо параметров в массиве необходимо указать объект с нужным ключом **key**
+
+### ExportWord
+
+Требует установки пакетов docx и file-saver
+
+```bash
+npm install docx file-saver
+# или
+yarn add docx file-saver
+```
+
+Пример вызова
+```tsx
+<ExportWord
+    columns={columns} // Колонки таблицы
+    wordData={tableData} // Данные таблицы
+    title={'table-name'} // Название таблицы
+    options={
+        fontSize: 20,
+        boldHeaders: false,
+        autoLandscape: false,
+        maxColumnsBeforeLandscape: 5
+    } // Описание ниже
+/>
+```
+
+#### wordOptions
+
+Необязательный параметр. Принимает в себя объект:
+
+```tsx
+options = {{
+    fontSize: 20, // размер шрифта, 
+    boldHeaders: false, // Заголовки жирным начертанием, 
+    autoLandscape: false, // делать ли альбомный формат, 
+    maxColumnsBeforeLandscape: 5 // и от скольки столбцов. 
+}}
+```
+
+### ExportSection
+
+Если нужно использовать секцию, по умолчанию 2 кнопки Word и Excel справа. А так же **downloadSectionLeftSideContent** принимает **React.Component**
+
+```tsx
+<ExportSection
+    wordBtn // boolean - использовать экспорт Word
+    excelBtn // boolean - использовать экспорт Excel
+    downloadSectionLeftSideContent={<>...</>} // React.Component - произвольный контент
+    tableData={tableData} // Данные таблицы
+    columns={columns} // Колонки таблицы
+    tableName={'table-name'} // Название таблицы
+    exportCustomColumns={[{...}, {...}]}
+    wordOptions={{...}}
+/>
+```
+
+##### downloadSectionLeftSideContent
+
+Необязательный параметр. Передается **React.Component**. Отображает компонент с левой стороны от кнопок экспорта. Создано для экономии места
+
+```tsx
+downloadSectionLeftSideContent={<button className='base-button' onClick={() => setCanvas(true)}>OffCanvas</button>}
 ```

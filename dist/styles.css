@@ -15,12 +15,14 @@
   border-bottom: 2px solid #ddd;
 }
 .ndt-table-container .ndt-table .ndt-table-columns .ndt-column {
-  padding: 16px 10px;
+  padding: 10px 10px;
 }
 .ndt-table-container .ndt-table .ndt-table-columns .ndt-column:not(:last-child) {
   border-right: 1px solid #ddd;
 }
 .ndt-table-container .ndt-table .ndt-table-columns .ndt-column .ndt-column-head {
+  font-size: 14px;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,7 +47,15 @@
 }
 .ndt-table-container .ndt-table .ndt-table-columns .ndt-column .ndt-column-footer input {
   width: 100%;
-  padding: 4px;
+  color: #222;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 24px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 4px 11px;
+  height: 43px;
 }
 .ndt-table-container .ndt-table .ndt-table-body {
   z-index: 1000;
@@ -81,6 +91,13 @@
 .ndt-table-container .ndt-table .ndt-table-body .ndt-table-row:nth-child(2n) {
   background-color: rgba(0, 0, 0, 0.05);
 }
+.ndt-table-container .ndt-table .ndt-table-body .ndt-table-row .ndt-cell {
+  display: flex;
+  align-items: center;
+  color: #333;
+  font-size: 16px;
+  font-weight: 400;
+}
 .ndt-table-container .ndt-table .ndt-table-body .ndt-table-row .ndt-cell:not(:last-child) {
   border-right: 1px solid #ddd;
 }
@@ -91,14 +108,20 @@
   border-top: 2px solid #cccccc;
   padding: 10px;
 }
+.ndt-table-container .ndt-table .ndt-table-footer .ndt-footer-count {
+  font-size: 14px;
+  color: #777777;
+}
 .ndt-table-container .ndt-table .ndt-table-footer .ndt-footer-pagination {
   display: flex;
 }
 .ndt-table-container .ndt-table .ndt-table-footer .ndt-footer-pagination .ndt-pagination-counts span {
   margin-right: 5px;
+  color: #777777;
 }
 .ndt-table-container .ndt-table .ndt-table-footer .ndt-footer-pagination .ndt-pagination-counts select {
-  height: 25px;
+  height: 32px;
+  border: 1px solid #cccccc;
   min-width: 50px;
   text-align: center;
 }
@@ -107,12 +130,12 @@
   display: flex;
 }
 .ndt-table-container .ndt-table .ndt-table-footer .ndt-footer-pagination .ndt-pagination-buttons button {
-  margin-right: 5px;
+  margin-right: 10px;
   background-color: #fff;
   border: 1px solid #cccccc;
   border-radius: 4px;
   cursor: pointer;
-  padding: 4px;
+  padding: 4px 10px;
   height: 100%;
   font-size: 14px;
 }

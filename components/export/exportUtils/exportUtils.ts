@@ -1,10 +1,10 @@
 // exportUtils.ts
 import ExcelJS from 'exceljs'
-import { Column, TableElement, TableProps } from '../../types/DataTable.types'
+import { Column, CustomColumn, CustomColumns, TableElement } from "../types/ExportSection.types"
 
 export const generateExcelColumns = (
     columns: Column[],
-    exportCustomColumns?: TableProps['exportCustomColumns']
+    exportCustomColumns?: CustomColumns
 ): Partial<ExcelJS.Column>[] => {
     let excelColumns = columns.map(column => ({
         header: column.title,
@@ -13,7 +13,7 @@ export const generateExcelColumns = (
     }))
 
     if (exportCustomColumns) {
-        exportCustomColumns.forEach(custom => {
+        exportCustomColumns.forEach((custom: CustomColumn) => {
             excelColumns = excelColumns.map(col =>
                 col.key === custom.key ? { ...col, ...custom } : col
             )

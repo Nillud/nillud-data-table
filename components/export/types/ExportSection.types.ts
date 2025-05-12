@@ -23,6 +23,15 @@ type ExportOptions = {
     maxColumnsBeforeLandscape?: number
 }
 
+type CustomColumn = {
+    header: string
+    key: string
+    width?: number
+    [key: string]: any
+}
+
+type CustomColumns = Array<CustomColumn> | null
+
 type ExportSectionTypes = {
     wordBtn: boolean
     excelBtn: boolean
@@ -30,11 +39,7 @@ type ExportSectionTypes = {
     tableData: TableData
     columns: Array<Column>
     tableName: string
-    exportCustomColumns?: Array<{
-        header: string
-        key: string
-        width: number
-    }> | null
+    exportCustomColumns?: CustomColumns
     wordOptions?: ExportOptions
 }
 
@@ -42,7 +47,7 @@ type ExcelExportTypes = {
     columns: Array<Column>
     excelData: TableData
     title: string
-    exportCustomColumns: ExportSectionTypes["exportCustomColumns"]
+    exportCustomColumns?: ExportSectionTypes["exportCustomColumns"]
 }
 
 type ExportWordTypes = {
@@ -59,5 +64,7 @@ export type {
     ExportOptions,
     ExportSectionTypes,
     ExcelExportTypes,
-    ExportWordTypes
+    ExportWordTypes,
+    CustomColumn,
+    CustomColumns
 }

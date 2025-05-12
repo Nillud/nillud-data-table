@@ -37,7 +37,11 @@ const TableFooter = ({
   };
 
   const renderPageNumbers = () => {
-    if (totalPages <= 1) return null;
+    if (totalPages <= 1) return (
+      <button key="page-0" onClick={() => handlePageChange(0)}>
+        1
+      </button>
+    )
 
     const pages = [];
     const maxVisible = 5;

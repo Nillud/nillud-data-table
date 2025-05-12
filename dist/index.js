@@ -235,7 +235,7 @@ var TableFooter = ({
     }
   };
   const renderPageNumbers = () => {
-    if (totalPages <= 1) return null;
+    if (totalPages <= 1) return /* @__PURE__ */ jsx12("button", { onClick: () => handlePageChange(0), children: "1" }, "page-0");
     const pages = [];
     const maxVisible = 5;
     let start = Math.max(0, paginationPage - Math.floor(maxVisible / 2));
@@ -411,7 +411,7 @@ var DataTable = forwardRef(({
 }, ref) => {
   const [filters, setFilters] = useState({});
   const [sortBy, setSortBy] = useState({ col: "", type: "asc" });
-  const [paginationSize, setPaginationSize] = useState((paginationCounts == null ? void 0 : paginationCounts[0]) || 10);
+  const [paginationSize, setPaginationSize] = useState((paginationCounts == null ? void 0 : paginationCounts[0]) || 0);
   const [paginationPage, setPaginationPage] = useState(0);
   const [collapsedGroups, setCollapsedGroups] = useState({});
   const toggleGroup = (groupKey) => {

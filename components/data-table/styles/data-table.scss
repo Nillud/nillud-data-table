@@ -17,13 +17,15 @@
             border-bottom: 2px solid #ddd;
 
             .ndt-column {
-                padding: 16px 10px;
+                padding: 10px 10px;
 
                 &:not(:last-child) {
                     border-right: 1px solid #ddd;
                 }
 
                 .ndt-column-head {
+                    font-size: 14px;
+                    font-weight: 700;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
@@ -53,7 +55,15 @@
                 .ndt-column-footer {
                     input {
                         width: 100%;
-                        padding: 4px;
+                        color: #222;
+                        font-weight: 400;
+                        letter-spacing: -.01em;
+                        line-height: 24px;
+                        border: 1px solid #d9d9d9;
+                        border-radius: 5px;
+                        font-size: 14px;
+                        padding: 4px 11px;
+                        height: 43px;
                     }
                 }
             }
@@ -103,6 +113,12 @@
                 }
 
                 .ndt-cell {
+                    display: flex;
+                    align-items: center;
+                    color: #333;
+                    font-size: 16px;
+                    font-weight: 400;
+
                     &:not(:last-child) {
                         border-right: 1px solid #ddd;
                     }
@@ -117,7 +133,10 @@
             border-top: 2px solid #cccccc;
             padding: 10px;
 
-            .ndt-footer-count {}
+            .ndt-footer-count {
+                font-size: 14px;
+                color: #777777;
+            }
 
             .ndt-footer-pagination {
                 display: flex;
@@ -125,10 +144,12 @@
                 .ndt-pagination-counts {
                     span {
                         margin-right: 5px;
+                        color: #777777;
                     }
 
                     select {
-                        height: 25px;
+                        height: 32px;
+                        border: 1px solid #cccccc;
                         min-width: 50px;
                         text-align: center;
                     }
@@ -139,12 +160,12 @@
                     display: flex;
 
                     button {
-                        margin-right: 5px;
+                        margin-right: 10px;
                         background-color: #fff;
                         border: 1px solid #cccccc;
                         border-radius: 4px;
                         cursor: pointer;
-                        padding: 4px;
+                        padding: 4px 10px;
                         height: 100%;
                         font-size: 14px;
 
