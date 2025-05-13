@@ -12,7 +12,8 @@ type Column = {
     width?: number	// Принимает числовое значение, ограничивает ширину столбца в пикселях
     autoinc?: boolean	// Форматирует значения в столбце по порядку в таблице, начиная с 1
     formatter?: (cell: string, row: TableElement) => ReactElement // Кастомное форматирование, принимает в себя функцию, возвращает реакт компонент
-    exportCustomCell?: (cell: string, row: TableElement) => string	// Кастомное форматирование для Excel и Word, принимает в себя функцию, возвращает строку
+    headerFormatter?: (cell: string) => ReactElement // Кастомное форматирование заголовка таблицы, принимает в себя функцию, возвращает реакт компонент
+    exportCustomCell?: (title: string, row: TableElement) => string	// Кастомное форматирование для Excel и Word, принимает в себя функцию, возвращает строку
     headerFilter?: (headerValue: string, rowValue: string) => boolean	// Кастомный фильтр, принимает в себя функуцию, вернуть должен булевое значение
     sortable?: boolean	//  Убирает возможность сортировки, по умолчанию true
     filterable?: boolean // Убирает возможность фильтрации, по умолчанию true

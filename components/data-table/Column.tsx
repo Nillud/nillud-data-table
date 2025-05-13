@@ -28,7 +28,11 @@ const Column = ({ column, getSortField, sortBy, getFilters, filters }: Props) =>
     return (
         <div className={'ndt-column'}>
             <div className="ndt-column-head">
-                <span>{column.title}</span>
+                {
+                    column.headerFormatter
+                        ? column.headerFormatter(column.title)
+                        : <span>{column.title}</span>
+                }
 
                 {typeof column.autoinc === 'undefined' &&
                     (typeof column.sortable === 'undefined' || column.sortable) && (

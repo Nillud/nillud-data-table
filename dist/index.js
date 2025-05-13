@@ -37,7 +37,7 @@ var Column = ({ column, getSortField, sortBy, getFilters, filters }) => {
   };
   return /* @__PURE__ */ jsxs("div", { className: "ndt-column", children: [
     /* @__PURE__ */ jsxs("div", { className: "ndt-column-head", children: [
-      /* @__PURE__ */ jsx3("span", { children: column.title }),
+      column.headerFormatter ? column.headerFormatter(column.title) : /* @__PURE__ */ jsx3("span", { children: column.title }),
       typeof column.autoinc === "undefined" && (typeof column.sortable === "undefined" || column.sortable) && /* @__PURE__ */ jsx3("div", { className: "ndt-sorter", onClick: toggleSort, children: currentSort === "asc" ? /* @__PURE__ */ jsx3(SortDown_default, {}) : currentSort === "desc" ? /* @__PURE__ */ jsx3(SortUp_default, {}) : /* @__PURE__ */ jsx3(SortDown_default, {}) })
     ] }),
     /* @__PURE__ */ jsx3("div", { className: "ndt-column-footer", children: typeof column.autoinc === "undefined" && (typeof column.filterable === "undefined" || column.filterable) && /* @__PURE__ */ jsx3(
@@ -418,6 +418,7 @@ var DataTable = forwardRef(({
   groupBy = null,
   isTitles = false
 }, ref) => {
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [filters, setFilters] = useState({});
   const [sortBy, setSortBy] = useState({ col: "", type: "asc" });
   const [paginationSize, setPaginationSize] = useState((paginationCounts == null ? void 0 : paginationCounts[0]) || 0);
@@ -446,8 +447,10 @@ var DataTable = forwardRef(({
       console.error("Error parsing localStorage data:", e);
       setSortBy({ col: "", type: "asc" });
       setFilters({});
-      setPaginationSize((paginationCounts == null ? void 0 : paginationCounts[0]) || 10);
+      setPaginationSize((paginationCounts == null ? void 0 : paginationCounts[0]) || 0);
       setPaginationPage(0);
+    } finally {
+      setIsInitialLoad(false);
     }
   }, [tableName, paginationCounts]);
   useEffect2(() => {
@@ -474,8 +477,10 @@ var DataTable = forwardRef(({
     return processedData.slice(start, start + paginationSize);
   }, [processedData, paginationPage, paginationSize]);
   useEffect2(() => {
-    setPaginationPage(0);
-  }, [filters, sortBy]);
+    if (Object.values(filters).some((value) => {
+      return value !== null && value !== void 0 && value !== "";
+    })) setPaginationPage(0);
+  }, [filters]);
   useDebouncedEffect(() => {
     localStorage.setItem(`${tableName}-filters`, JSON.stringify(filters));
   }, [filters, tableName], 500);

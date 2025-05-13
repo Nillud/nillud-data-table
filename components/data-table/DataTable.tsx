@@ -21,6 +21,8 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
     groupBy = null,
     isTitles = false,
 }: TableProps, ref) => {
+    const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true)
+
     const [filters, setFilters] = useState<LocalStorageData>({})
     const [sortBy, setSortBy] = useState<LocalStorageSort>({ col: '', type: 'asc' })
 
@@ -56,8 +58,10 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
             console.error('Error parsing localStorage data:', e)
             setSortBy({ col: '', type: 'asc' })
             setFilters({})
-            setPaginationSize(paginationCounts?.[0] || 10)
+            setPaginationSize(paginationCounts?.[0] || 0)
             setPaginationPage(0)
+        } finally {
+            setIsInitialLoad(false) // Установить флаг после загрузки
         }
     }, [tableName, paginationCounts])
 
@@ -99,8 +103,10 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
 
     // Сброс страницы при изменении фильтров/сортировки
     useEffect(() => {
-        setPaginationPage(0)
-    }, [filters, sortBy])
+        if (Object.values(filters).some(value => {
+            return value !== null && value !== undefined && value !== '';
+        })) setPaginationPage(0)
+    }, [filters])
 
     // Сохраняем filters с задержкой
     useDebouncedEffect(() => {
