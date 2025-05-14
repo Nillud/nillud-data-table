@@ -1,6 +1,6 @@
-import { applyHeaderStyles, applyRowStyles, generateExcelColumns, generateExcelDataRows, setColumnAutoWidths } from './exportUtils/exportUtils'
+import { applyHeaderStyles, applyRowStyles, generateExcelColumns, generateExcelDataRows, setColumnAutoWidths } from './exportUtils'
 import ExcelJS from 'exceljs'
-import { ExcelExportTypes } from './types/ExportSection.types'
+import { ExcelExportTypes } from './types/ExportExcel.types'
 
 const ExportExcel = ({ columns, excelData, title, exportCustomColumns }: ExcelExportTypes) => {
     const exportExcel = async () => {

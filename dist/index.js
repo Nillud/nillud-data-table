@@ -88,7 +88,7 @@ var Cell = ({
 }) => {
   const rawValue = row[column.field];
   const stringValue = typeof rawValue !== "undefined" && rawValue !== null ? String(rawValue) : "";
-  const content = column.formatter ? column.formatter(stringValue, row) : typeof column.autoinc !== "undefined" ? /* @__PURE__ */ jsx5("span", { children: rowId + 1 }) : /* @__PURE__ */ jsx5("span", { children: stringValue });
+  const content = column.formatter ? column.formatter(stringValue, row, column) : typeof column.autoinc !== "undefined" ? /* @__PURE__ */ jsx5("span", { children: rowId + 1 }) : /* @__PURE__ */ jsx5("span", { children: stringValue });
   return /* @__PURE__ */ jsx5(
     "div",
     {

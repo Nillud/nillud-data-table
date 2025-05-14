@@ -1,4 +1,4 @@
-import { prepareExportHeaders, prepareExportRows } from './exportUtils/ExportHelpers'
+import { prepareExportHeaders, prepareExportRows } from './ExportHelpers'
 import {
   AlignmentType, Document, Packer,
   PageOrientation,
@@ -6,7 +6,7 @@ import {
   Paragraph, Table, TableCell, TableRow, TextRun, VerticalAlign, WidthType
 } from "docx"
 import { saveAs } from "file-saver"
-import { ExportWordTypes } from './types/ExportSection.types'
+import { ExportWordTypes } from './types/ExportWord.types'
 
 const WordExport = ({
   wordData,

@@ -18,7 +18,7 @@ const Cell = ({
     const stringValue = typeof rawValue !== 'undefined' && rawValue !== null ? String(rawValue) : ''
 
     const content = column.formatter
-        ? column.formatter(stringValue, row)
+        ? column.formatter(stringValue, row, column)
         : typeof column.autoinc !== 'undefined'
             ? <span>{rowId + 1}</span>
             : <span>{stringValue}</span>

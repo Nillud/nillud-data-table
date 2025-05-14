@@ -5,6 +5,7 @@ type TableElement = {
 }
 
 type TableData = Array<TableElement>
+
 type Column = {
     field: string	// Устанавливает связь по ключу в массиве данных tableData
     title: string	// Устанавливает заголовок столбца
@@ -16,6 +17,7 @@ type Column = {
     sortable?: boolean	//  Убирает возможность сортировки, по умолчанию true
     filterable?: boolean // Убирает возможность фильтрации, по умолчанию true
 }
+
 type ExportOptions = {
     fontSize?: number
     boldHeaders?: boolean
@@ -32,24 +34,6 @@ type CustomColumn = {
 
 type CustomColumns = Array<CustomColumn> | null
 
-type ExportSectionTypes = {
-    wordBtn: boolean
-    excelBtn: boolean
-    downloadSectionLeftSideContent: ReactElement | null
-    tableData: TableData
-    columns: Array<Column>
-    tableName: string
-    exportCustomColumns?: CustomColumns
-    wordOptions?: ExportOptions
-}
-
-type ExcelExportTypes = {
-    columns: Array<Column>
-    excelData: TableData
-    title: string
-    exportCustomColumns?: ExportSectionTypes["exportCustomColumns"]
-}
-
 type ExportWordTypes = {
     wordData: TableData
     columns: Array<Column>
@@ -62,8 +46,6 @@ export type {
     TableData,
     Column,
     ExportOptions,
-    ExportSectionTypes,
-    ExcelExportTypes,
     ExportWordTypes,
     CustomColumn,
     CustomColumns

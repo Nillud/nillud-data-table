@@ -1,6 +1,6 @@
 {
   "name": "nillud-data-table",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -14,12 +14,16 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./export": {
-      "import": "./dist/export/index.js",
-      "types": "./dist/export.index.d.ts"
-    },
     "./types": "./dist/index.d.ts",
-    "./styles.css": "./dist/styles.css"
+    "./styles.css": "./dist/styles.css",
+    "./export-excel": {
+      "import": "./dist/export/export-excel/index.js",
+      "types": "./dist/export/export-excel/index.d.ts"
+    },
+    "./export-word": {
+      "import": "./dist/export/export-word/index.js",
+      "types": "./dist/export/export-word/index.d.ts"
+    }
   },
   "peerDependencies": {
     "docx": "^8.1.2",

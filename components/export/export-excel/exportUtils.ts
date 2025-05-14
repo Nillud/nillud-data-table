@@ -1,6 +1,6 @@
 // exportUtils.ts
 import ExcelJS from 'exceljs'
-import { Column, CustomColumn, CustomColumns, TableElement } from "../types/ExportSection.types"
+import { Column, CustomColumn, CustomColumns, TableElement } from "../export-word/types/ExportWord.types"
 
 export const generateExcelColumns = (
     columns: Column[],
