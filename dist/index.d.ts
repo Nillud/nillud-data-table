@@ -9,7 +9,7 @@ type Column = {
     title: string;
     width?: number;
     autoinc?: boolean;
-    formatter?: (cell: string, row?: TableElement, column?: Column) => ReactElement;
+    formatter?: (cell: string, row: TableElement, column: Column) => ReactElement;
     headerFormatter?: (column: string) => ReactElement;
     exportCustomCell?: (title: string, row: TableElement) => string;
     headerFilter?: (headerValue: string, rowValue: string) => boolean;
