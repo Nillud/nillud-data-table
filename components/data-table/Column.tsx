@@ -54,7 +54,7 @@ const Column = ({ column, getSortField, sortBy, getFilters, filters }: Props) =>
                             type="text"
                             value={filters[column.field] ?? ''}
                             onChange={onFilterChange}
-                            placeholder="Фильтр..."
+                            placeholder={column.filterPlaceholder || ''}
                         />
                     )}
             </div>

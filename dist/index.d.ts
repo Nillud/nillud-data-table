@@ -15,6 +15,7 @@ type Column = {
     headerFilter?: (headerValue: string, rowValue: string) => boolean;
     sortable?: boolean;
     filterable?: boolean;
+    filterPlaceholder?: string;
 };
 type TableProps = {
     tableData: TableData;

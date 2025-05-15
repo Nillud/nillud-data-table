@@ -17,6 +17,7 @@ type Column = {
     headerFilter?: (headerValue: string, rowValue: string) => boolean	// Кастомный фильтр, принимает в себя функуцию, вернуть должен булевое значение
     sortable?: boolean	//  Убирает возможность сортировки, по умолчанию true
     filterable?: boolean // Убирает возможность фильтрации, по умолчанию true
+    filterPlaceholder?: string
 }
 
 type ExportOptions = {

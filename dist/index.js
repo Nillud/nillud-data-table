@@ -46,7 +46,7 @@ var Column = ({ column, getSortField, sortBy, getFilters, filters }) => {
         type: "text",
         value: (_a = filters[column.field]) != null ? _a : "",
         onChange: onFilterChange,
-        placeholder: "\u0424\u0438\u043B\u044C\u0442\u0440..."
+        placeholder: column.filterPlaceholder || ""
       }
     ) })
   ] });
