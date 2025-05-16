@@ -1,10 +1,11 @@
 import React, { useImperativeHandle, useEffect, useState, useCallback, useMemo, forwardRef } from 'react'
-import { DataTableRef, LocalStorageData, LocalStorageSort, PaginationPage, PaginationSize, TableProps } from './types/DataTable.types'
+import { DataTableRef, LocalStorageData, LocalStorageSort, PaginationPage, PaginationSize, TableElement, TableProps } from './types/DataTable.types'
 import TableHeader from './TableHeader'
 import TableBody from './TableBody'
 import TableFooter from './TableFooter'
 import { filterData, sortData } from './utils/sort-data'
 import { useDebouncedEffect } from './utils/useDebouncedEffect'
+// import { groupDataBy } from './utils/groupDataBy'
 // import ExportSection from './ExportSection'
 
 const DataTable = forwardRef<DataTableRef, TableProps>(({
@@ -21,7 +22,7 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
     groupBy = null,
     isTitles = false,
 }: TableProps, ref) => {
-    const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true)
+    // const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true)
 
     const [filters, setFilters] = useState<LocalStorageData>({})
     const [sortBy, setSortBy] = useState<LocalStorageSort>({ col: '', type: 'asc' })
@@ -30,6 +31,29 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
     const [paginationPage, setPaginationPage] = useState<PaginationPage>(0)
 
     const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({})
+
+    const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set())
+
+    const toggleRowSelection = (index: number) => {
+        setSelectedRows(prev => {
+            const updated = new Set(prev)
+            if (updated.has(index)) {
+                updated.delete(index)
+            } else {
+                updated.add(index)
+            }
+            return updated
+        })
+    }
+
+    const toggleAllSelection = () => {
+        if (selectedRows.size === processedData.length) {
+            setSelectedRows(new Set())
+        } else {
+            const all = new Set(processedData.map((_, i) => i))
+            setSelectedRows(all)
+        }
+    }
 
     const toggleGroup = (groupKey: string) => {
         setCollapsedGroups(prev => ({
@@ -61,7 +85,7 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
             setPaginationSize(paginationCounts?.[0] || 0)
             setPaginationPage(0)
         } finally {
-            setIsInitialLoad(false) // Установить флаг после загрузки
+            // setIsInitialLoad(false) // Установить флаг после загрузки
         }
     }, [tableName, paginationCounts])
 
@@ -101,6 +125,12 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
         return processedData.slice(start, start + paginationSize)
     }, [processedData, paginationPage, paginationSize])
 
+    const rowIdMap = useMemo(() => {
+        const map = new Map<TableElement, number>()
+        processedData.forEach((row, i) => map.set(row, i))
+        return map
+    }, [processedData])
+
     // Сброс страницы при изменении фильтров/сортировки
     useEffect(() => {
         if (Object.values(filters).some(value => {
@@ -130,7 +160,8 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
     useImperativeHandle(ref, () => ({
         getData: () => processedData,
         getCurrentData: () => displayData,
-    }), [processedData, displayData]);
+        getSelectedData: () => Array.from(selectedRows).map(i => processedData[i]),
+    }), [processedData, displayData, selectedRows]);
 
     return (
         <div className="ndt-table-container">
@@ -143,6 +174,9 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
                     getFilters={setFilters}
                     widths={widths}
                     headerGroup={headerGroup}
+                    selectedRows={selectedRows}
+                    toggleAllSelection={toggleAllSelection}
+                    displayData={processedData}
                 />
 
                 {loading
@@ -151,6 +185,7 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
                         : <span style={{ marginLeft: 10, fontWeight: 'bold' }}>Загрузка данных...</span>
                     : <TableBody
                         tableData={displayData}
+                        // groupedData={groupedData}
                         columns={columns}
                         scrollable={scrollable}
                         scrollHeight={scrollHeight}
@@ -159,6 +194,11 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
                         collapsedGroups={collapsedGroups}
                         toggleGroup={toggleGroup}
                         isTitles={isTitles}
+                        selectedRows={selectedRows}
+                        toggleRowSelection={toggleRowSelection}
+                        rowIdMap={rowIdMap}
+                        paginationSize={paginationSize}
+                        paginationPage={paginationPage}
                     />
                 }
 

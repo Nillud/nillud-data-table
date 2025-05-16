@@ -22,8 +22,8 @@ var SortUp = () => {
 var SortUp_default = SortUp;
 
 // components/data-table/Column.tsx
-import { jsx as jsx3, jsxs } from "react/jsx-runtime";
-var Column = ({ column, getSortField, sortBy, getFilters, filters }) => {
+import { Fragment, jsx as jsx3, jsxs } from "react/jsx-runtime";
+var Column = ({ column, getSortField, sortBy, getFilters, filters, selectedRows, toggleAllSelection, displayData }) => {
   var _a;
   const currentSort = useMemo(() => {
     return sortBy.col === column.field ? sortBy.type : null;
@@ -35,10 +35,32 @@ var Column = ({ column, getSortField, sortBy, getFilters, filters }) => {
   const onFilterChange = (e) => {
     getFilters({ ...filters, [column.field]: e.target.value });
   };
-  return /* @__PURE__ */ jsxs("div", { className: "ndt-column", children: [
+  const renderSelectable = () => {
+    return /* @__PURE__ */ jsx3("div", { className: "ndt-column ndt-checkbox-column", children: /* @__PURE__ */ jsx3(
+      "input",
+      {
+        type: "checkbox",
+        checked: selectedRows.size === displayData.length && displayData.length > 0,
+        onChange: toggleAllSelection
+      }
+    ) });
+  };
+  const renderColumnHead = () => {
+    if (column.headerFormatter) {
+      return column.headerFormatter(column.title);
+    }
+    return /* @__PURE__ */ jsx3("span", { children: column.title });
+  };
+  const renderColumnSort = () => {
+    if (typeof column.autoinc === "undefined" && (typeof column.sortable === "undefined" || column.sortable)) {
+      return /* @__PURE__ */ jsx3("div", { className: "ndt-sorter", onClick: toggleSort, children: currentSort === "asc" ? /* @__PURE__ */ jsx3(SortDown_default, {}) : currentSort === "desc" ? /* @__PURE__ */ jsx3(SortUp_default, {}) : /* @__PURE__ */ jsx3(SortDown_default, {}) });
+    }
+    return /* @__PURE__ */ jsx3(Fragment, {});
+  };
+  return /* @__PURE__ */ jsx3(Fragment, { children: column.selectable ? renderSelectable() : /* @__PURE__ */ jsxs("div", { className: "ndt-column", children: [
     /* @__PURE__ */ jsxs("div", { className: "ndt-column-head", children: [
-      column.headerFormatter ? column.headerFormatter(column.title) : /* @__PURE__ */ jsx3("span", { children: column.title }),
-      typeof column.autoinc === "undefined" && (typeof column.sortable === "undefined" || column.sortable) && /* @__PURE__ */ jsx3("div", { className: "ndt-sorter", onClick: toggleSort, children: currentSort === "asc" ? /* @__PURE__ */ jsx3(SortDown_default, {}) : currentSort === "desc" ? /* @__PURE__ */ jsx3(SortUp_default, {}) : /* @__PURE__ */ jsx3(SortDown_default, {}) })
+      renderColumnHead(),
+      renderColumnSort()
     ] }),
     /* @__PURE__ */ jsx3("div", { className: "ndt-column-footer", children: typeof column.autoinc === "undefined" && (typeof column.filterable === "undefined" || column.filterable) && /* @__PURE__ */ jsx3(
       "input",
@@ -49,13 +71,13 @@ var Column = ({ column, getSortField, sortBy, getFilters, filters }) => {
         placeholder: column.filterPlaceholder || ""
       }
     ) })
-  ] });
+  ] }) });
 };
 var Column_default = Column;
 
 // components/data-table/TableHeader.tsx
-import { Fragment, jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
-var Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, headerGroup }) => {
+import { Fragment as Fragment2, jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
+var Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, headerGroup, selectedRows, toggleAllSelection, displayData }) => {
   const renderHeaderGroup = () => headerGroup && /* @__PURE__ */ jsx4("div", { className: "ndt-table-columns", style: { gridTemplateColumns: widths || "auto" }, children: headerGroup.map((col, id) => /* @__PURE__ */ jsx4("div", { className: "ndt-column", style: { gridColumn: `span ${col.cols || 1}` }, children: /* @__PURE__ */ jsx4("div", { className: "ndt-column-head", children: /* @__PURE__ */ jsx4("span", { children: col.title }) }) }, `header-group-${id}`)) });
   const renderColumns = () => columns && columns.length > 0 ? columns.map((column, id) => /* @__PURE__ */ jsx4(
     Column_default,
@@ -64,11 +86,14 @@ var Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, head
       getSortField,
       sortBy,
       getFilters,
-      filters
+      filters,
+      selectedRows,
+      toggleAllSelection,
+      displayData
     },
     `column-${id}`
   )) : /* @__PURE__ */ jsx4("div", { className: "ndt-data-error", children: "\u041E\u0448\u0438\u0431\u043A\u0430: columns is undefined" });
-  return /* @__PURE__ */ jsxs2(Fragment, { children: [
+  return /* @__PURE__ */ jsxs2(Fragment2, { children: [
     renderHeaderGroup(),
     /* @__PURE__ */ jsx4("div", { className: "ndt-table-columns", style: { gridTemplateColumns: widths || "auto" }, children: renderColumns() })
   ] });
@@ -79,17 +104,20 @@ var TableHeader_default = React.memo(Header);
 import React2 from "react";
 
 // components/data-table/Cell.tsx
-import { jsx as jsx5 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx5 } from "react/jsx-runtime";
 var Cell = ({
   row,
   column,
-  rowId,
-  isTitles
+  // rowId,
+  displayId,
+  isTitles,
+  isRowSelected,
+  onRowSelect
 }) => {
   const rawValue = row[column.field];
   const stringValue = typeof rawValue !== "undefined" && rawValue !== null ? String(rawValue) : "";
-  const content = column.formatter ? column.formatter(stringValue, row, column) : typeof column.autoinc !== "undefined" ? /* @__PURE__ */ jsx5("span", { children: rowId + 1 }) : /* @__PURE__ */ jsx5("span", { children: stringValue });
-  return /* @__PURE__ */ jsx5(
+  const content = column.formatter ? column.formatter(stringValue, row, column) : column.autoinc ? /* @__PURE__ */ jsx5("span", { children: displayId + 1 }) : /* @__PURE__ */ jsx5("span", { children: stringValue });
+  const renderCell = () => /* @__PURE__ */ jsx5(
     "div",
     {
       className: "ndt-cell",
@@ -97,21 +125,36 @@ var Cell = ({
       children: content
     }
   );
+  const renderSelectableCell = () => /* @__PURE__ */ jsx5("div", { className: "ndt-cell ndt-checkbox-cell", children: /* @__PURE__ */ jsx5("input", { type: "checkbox", checked: !!isRowSelected, onChange: onRowSelect }) });
+  return /* @__PURE__ */ jsx5(Fragment3, { children: column.selectable ? renderSelectableCell() : renderCell() });
 };
 var Cell_default = Cell;
 
 // components/data-table/Row.tsx
 import { jsx as jsx6 } from "react/jsx-runtime";
-var Row = ({ rowId, columns, row, widths, isTitles }) => /* @__PURE__ */ jsx6("div", { className: "ndt-table-row", style: { gridTemplateColumns: widths }, children: columns.map((column, id) => /* @__PURE__ */ jsx6(
-  Cell_default,
-  {
-    row,
-    column,
-    rowId,
-    isTitles
-  },
-  `cell-${rowId}-${id}`
-)) });
+var Row = ({
+  rowId,
+  displayId,
+  columns,
+  row,
+  widths,
+  isTitles,
+  isRowSelected,
+  onRowSelect
+}) => {
+  return /* @__PURE__ */ jsx6("div", { className: "ndt-table-row", style: { gridTemplateColumns: widths }, children: columns.map((column, id) => /* @__PURE__ */ jsx6(
+    Cell_default,
+    {
+      row,
+      column,
+      displayId,
+      isTitles,
+      isRowSelected,
+      onRowSelect
+    },
+    `cell-${rowId}-${id}`
+  )) });
+};
 var Row_default = Row;
 
 // components/data-table/utils/groupDataBy.ts
@@ -132,55 +175,91 @@ import { jsx as jsx7, jsxs as jsxs3 } from "react/jsx-runtime";
 var TableBody = ({
   columns,
   tableData,
+  // groupedData,
   scrollable,
   scrollHeight,
   widths,
   groupBy,
   collapsedGroups = {},
   toggleGroup,
-  isTitles
+  isTitles,
+  selectedRows,
+  toggleRowSelection,
+  rowIdMap,
+  paginationSize,
+  paginationPage
 }) => {
   const grouped = groupBy ? groupDataBy(tableData, groupBy) : [];
   if (!tableData || tableData.length === 0) {
     return /* @__PURE__ */ jsx7("div", { className: `ndt-table-body${scrollable ? " ndt-table-body-scrollable" : ""}`, style: scrollable ? { height: scrollHeight } : {}, children: /* @__PURE__ */ jsx7("div", { className: "ndt-table-row", style: { height: "100%" }, children: /* @__PURE__ */ jsx7("div", { className: "ndt-row-item", style: { margin: "auto", padding: 20, fontWeight: "bold" }, children: "\u0414\u0430\u043D\u043D\u044B\u0445 \u043D\u0435\u0442" }) }) });
   }
-  const renderGroupedRows = () => grouped.map((group, id) => /* @__PURE__ */ jsxs3(React2.Fragment, { children: [
-    /* @__PURE__ */ jsxs3(
-      "div",
-      {
-        className: "ndt-group-header",
-        onClick: () => toggleGroup == null ? void 0 : toggleGroup(group.key),
-        children: [
-          /* @__PURE__ */ jsx7("span", { style: { marginRight: 8 }, children: collapsedGroups[group.key] ? "\u25B6" : "\u25BC" }),
-          group.key,
-          " (",
-          group.items.length,
-          ")"
-        ]
-      }
-    ),
-    !collapsedGroups[group.key] && group.items.map((element, id2) => /* @__PURE__ */ jsx7(
-      Row_default,
-      {
-        rowId: id2,
-        row: element,
-        columns,
-        widths,
-        isTitles
-      },
-      `row-${group.key}-${id2}`
-    ))
-  ] }, `row-${group.key}-${id}`));
-  const renderFlatRows = () => tableData.map((element, id) => /* @__PURE__ */ jsx7(
-    Row_default,
-    {
-      rowId: id,
-      row: element,
-      columns,
-      widths
-    },
-    `row-${id}`
-  ));
+  const renderGroupedRows = () => {
+    let currentIndex = 0;
+    return grouped.map((group) => {
+      const groupHeader = /* @__PURE__ */ jsxs3(
+        "div",
+        {
+          className: "ndt-group-header",
+          onClick: () => toggleGroup == null ? void 0 : toggleGroup(group.key),
+          children: [
+            /* @__PURE__ */ jsx7("span", { style: { marginRight: 8 }, children: collapsedGroups[group.key] ? "\u25B6" : "\u25BC" }),
+            group.key,
+            " (",
+            group.items.length,
+            ")"
+          ]
+        },
+        `group-header-${group.key}`
+      );
+      const rows = !collapsedGroups[group.key] ? group.items.map((element) => {
+        const globalIndex = rowIdMap.get(element);
+        if (globalIndex === void 0) return null;
+        const localIndex = currentIndex++;
+        const displayIndex = paginationSize === 0 ? localIndex : paginationPage * paginationSize + localIndex;
+        return /* @__PURE__ */ jsx7(
+          Row_default,
+          {
+            rowId: globalIndex,
+            displayId: displayIndex,
+            row: element,
+            columns,
+            widths,
+            isTitles,
+            isRowSelected: selectedRows.has(globalIndex),
+            onRowSelect: () => toggleRowSelection(globalIndex)
+          },
+          `row-${group.key}-${globalIndex}`
+        );
+      }) : null;
+      return /* @__PURE__ */ jsxs3(React2.Fragment, { children: [
+        groupHeader,
+        rows
+      ] }, `group-${group.key}`);
+    });
+  };
+  const renderFlatRows = () => {
+    let currentIndex = 0;
+    return tableData.map((element) => {
+      const globalIndex = rowIdMap.get(element);
+      if (globalIndex === void 0) return null;
+      const localIndex = currentIndex++;
+      const displayIndex = paginationSize === 0 ? localIndex : paginationPage * paginationSize + localIndex;
+      return /* @__PURE__ */ jsx7(
+        Row_default,
+        {
+          rowId: globalIndex,
+          displayId: displayIndex,
+          row: element,
+          columns,
+          widths,
+          isTitles,
+          isRowSelected: selectedRows.has(globalIndex),
+          onRowSelect: () => toggleRowSelection(globalIndex)
+        },
+        `row-${globalIndex}`
+      );
+    });
+  };
   return /* @__PURE__ */ jsx7("div", { className: `ndt-table-body${scrollable ? " ndt-table-body-scrollable" : ""}`, style: scrollable ? { height: scrollHeight } : {}, children: groupBy ? renderGroupedRows() : renderFlatRows() });
 };
 var TableBody_default = TableBody;
@@ -418,12 +497,31 @@ var DataTable = forwardRef(({
   groupBy = null,
   isTitles = false
 }, ref) => {
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [filters, setFilters] = useState({});
   const [sortBy, setSortBy] = useState({ col: "", type: "asc" });
   const [paginationSize, setPaginationSize] = useState((paginationCounts == null ? void 0 : paginationCounts[0]) || 0);
   const [paginationPage, setPaginationPage] = useState(0);
   const [collapsedGroups, setCollapsedGroups] = useState({});
+  const [selectedRows, setSelectedRows] = useState(/* @__PURE__ */ new Set());
+  const toggleRowSelection = (index) => {
+    setSelectedRows((prev) => {
+      const updated = new Set(prev);
+      if (updated.has(index)) {
+        updated.delete(index);
+      } else {
+        updated.add(index);
+      }
+      return updated;
+    });
+  };
+  const toggleAllSelection = () => {
+    if (selectedRows.size === processedData.length) {
+      setSelectedRows(/* @__PURE__ */ new Set());
+    } else {
+      const all = new Set(processedData.map((_, i) => i));
+      setSelectedRows(all);
+    }
+  };
   const toggleGroup = (groupKey) => {
     setCollapsedGroups((prev) => ({
       ...prev,
@@ -450,7 +548,6 @@ var DataTable = forwardRef(({
       setPaginationSize((paginationCounts == null ? void 0 : paginationCounts[0]) || 0);
       setPaginationPage(0);
     } finally {
-      setIsInitialLoad(false);
     }
   }, [tableName, paginationCounts]);
   useEffect2(() => {
@@ -476,6 +573,11 @@ var DataTable = forwardRef(({
     const start = paginationPage * paginationSize;
     return processedData.slice(start, start + paginationSize);
   }, [processedData, paginationPage, paginationSize]);
+  const rowIdMap = useMemo2(() => {
+    const map = /* @__PURE__ */ new Map();
+    processedData.forEach((row, i) => map.set(row, i));
+    return map;
+  }, [processedData]);
   useEffect2(() => {
     if (Object.values(filters).some((value) => {
       return value !== null && value !== void 0 && value !== "";
@@ -495,8 +597,9 @@ var DataTable = forwardRef(({
   }, [paginationPage, tableName]);
   useImperativeHandle(ref, () => ({
     getData: () => processedData,
-    getCurrentData: () => displayData
-  }), [processedData, displayData]);
+    getCurrentData: () => displayData,
+    getSelectedData: () => Array.from(selectedRows).map((i) => processedData[i])
+  }), [processedData, displayData, selectedRows]);
   return /* @__PURE__ */ jsx13("div", { className: "ndt-table-container", children: /* @__PURE__ */ jsxs5("div", { className: "ndt-table", children: [
     /* @__PURE__ */ jsx13(
       TableHeader_default,
@@ -507,7 +610,10 @@ var DataTable = forwardRef(({
         filters,
         getFilters: setFilters,
         widths,
-        headerGroup
+        headerGroup,
+        selectedRows,
+        toggleAllSelection,
+        displayData: processedData
       }
     ),
     loading ? loadingElement !== null ? loadingElement : /* @__PURE__ */ jsx13("span", { style: { marginLeft: 10, fontWeight: "bold" }, children: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430 \u0434\u0430\u043D\u043D\u044B\u0445..." }) : /* @__PURE__ */ jsx13(
@@ -521,7 +627,12 @@ var DataTable = forwardRef(({
         groupBy,
         collapsedGroups,
         toggleGroup,
-        isTitles
+        isTitles,
+        selectedRows,
+        toggleRowSelection,
+        rowIdMap,
+        paginationSize,
+        paginationPage
       }
     ),
     isFooter && /* @__PURE__ */ jsx13(

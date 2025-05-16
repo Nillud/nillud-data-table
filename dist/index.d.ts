@@ -15,6 +15,7 @@ type Column = {
     headerFilter?: (headerValue: string, rowValue: string) => boolean;
     sortable?: boolean;
     filterable?: boolean;
+    selectable?: boolean;
     filterPlaceholder?: string;
 };
 type TableProps = {
@@ -37,6 +38,7 @@ type TableProps = {
 type DataTableRef = {
     getData: () => TableData;
     getCurrentData: () => TableData;
+    getSelectedData: () => TableData;
 };
 
 declare const DataTable: React.ForwardRefExoticComponent<TableProps & React.RefAttributes<DataTableRef>>;

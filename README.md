@@ -161,6 +161,7 @@ const columns = [
 | [headerFilter](#headerFilter)         |    -     |  func       | Кастомный фильтр, принимает в себя функуцию, описание далее            |
 | [sortable](#sortable)                 |    -     |  sortable   | Убирает возможность сортировки, по умолчанию true            |
 | [filterable](#filterable)             |    -     |  filterable | Убирает возможность фильтрации, по умолчанию true            |
+| [selectable](#selectable)             |    -     |  selectable | Добавляет возможность отмечать строки таблицы            |
 
 #### field
 
@@ -300,6 +301,29 @@ const headerFilterAddress = (headerValue, rowValue) => {
 #### filterable
 
 Отображение поля фильтрации. По умолчанию **true**
+
+#### selectable
+
+Добавляет возможность отметить строку. По умолчанию **false**
+
+Пример вызова:
+```tsx
+[
+    ...,
+    {
+        field: '',
+        title: '',
+        selectable: true,
+        width: 50
+    },
+    ...
+]
+```
+
+Получить отмеченные строки:
+```tsx
+const selectedData = tableRef.current.getSelectedData()
+```
 
 ### tableData
 
@@ -456,6 +480,7 @@ const tableRef = useRef<DataTableRef>(null);
 const func = () => {
     const data = tableRef.current.getData() // Получить текущие данные, после сортировки и фильтрации
     const currData = tableRef.current.getCurrentData() // Получить данные с текущей таблицы пагинации
+    const selectedData = tableRef.current.getSelectedData() // Получить отмеченные строки
 }
 
 ```

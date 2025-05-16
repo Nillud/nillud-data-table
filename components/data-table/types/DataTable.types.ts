@@ -17,6 +17,7 @@ type Column = {
     headerFilter?: (headerValue: string, rowValue: string) => boolean	// Кастомный фильтр, принимает в себя функуцию, вернуть должен булевое значение
     sortable?: boolean	//  Убирает возможность сортировки, по умолчанию true
     filterable?: boolean // Убирает возможность фильтрации, по умолчанию true
+    selectable?: boolean
     filterPlaceholder?: string
 }
 
@@ -61,6 +62,7 @@ type PaginationPage = number
 type DataTableRef = {
     getData: () => TableData
     getCurrentData: () => TableData
+    getSelectedData: () => TableData
 }
 
 export type { TableElement, TableData, Column, TableProps, LocalStorageData, LocalStorageSort, PaginationSize, PaginationPage, ExportOptions, DataTableRef }

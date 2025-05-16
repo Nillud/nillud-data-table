@@ -1,5 +1,5 @@
 import React from 'react'
-import { Column as ColumnType, LocalStorageData, LocalStorageSort, TableProps } from './types/DataTable.types'
+import { Column as ColumnType, LocalStorageData, LocalStorageSort, TableData, TableProps } from './types/DataTable.types'
 import Column from './Column'
 
 type Props = {
@@ -10,10 +10,12 @@ type Props = {
   filters: LocalStorageData
   widths?: string
   headerGroup: TableProps['headerGroup']
-  [key: string]: unknown
+  selectedRows: Set<number>
+  toggleAllSelection: () => void
+  displayData: TableData
 }
 
-const Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, headerGroup }: Props) => {
+const Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, headerGroup, selectedRows, toggleAllSelection, displayData }: Props) => {
   const renderHeaderGroup = () => (
     headerGroup && (
       <div className={"ndt-table-columns"} style={{ gridTemplateColumns: widths || 'auto' }}>
@@ -38,6 +40,9 @@ const Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, he
           sortBy={sortBy}
           getFilters={getFilters}
           filters={filters}
+          selectedRows={selectedRows}
+          toggleAllSelection={toggleAllSelection}
+          displayData={displayData}
         />
       ))
       : <div className={'ndt-data-error'}>Ошибка: columns is undefined</div>
@@ -45,7 +50,7 @@ const Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, he
   return (
     <>
       {renderHeaderGroup()}
-      
+
       <div className={"ndt-table-columns"} style={{ gridTemplateColumns: widths || 'auto' }}>
         {renderColumns()}
       </div>
