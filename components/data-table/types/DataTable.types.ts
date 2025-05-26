@@ -37,7 +37,7 @@ type TableProps = {
     isFooter?: boolean	// Отображение footer
     paginationCounts?: Array<number> | null	// Принимает массив чисел, число - количество строк для пагинации
     scrollable?: boolean	// Зафиксировать высоту таблицы и добавить скролл
-    scrollHeight?: number	// Высота тела таблицы, работает, если scrollable: true
+    scrollHeight?: number | string	// Высота тела таблицы, работает, если scrollable: true
     headerGroup?: Array<{
         title: string,
         cols: number

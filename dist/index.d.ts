@@ -27,7 +27,7 @@ type TableProps = {
     isFooter?: boolean;
     paginationCounts?: Array<number> | null;
     scrollable?: boolean;
-    scrollHeight?: number;
+    scrollHeight?: number | string;
     headerGroup?: Array<{
         title: string;
         cols: number;

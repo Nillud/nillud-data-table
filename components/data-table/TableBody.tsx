@@ -14,7 +14,7 @@ type Props = {
     // groupedData: GroupedData
     loading?: boolean
     scrollable?: boolean
-    scrollHeight?: number
+    scrollHeight?: number | string
     widths?: string
     groupBy?: TableProps['groupBy']
     collapsedGroups?: Record<string, boolean>
