@@ -22,8 +22,13 @@ const Row = ({
     isRowSelected,
     onRowSelect
 }: Props) => {
+    const isSelectable = columns.find(element => element.selectable)
+
     return (
-        <div className={'ndt-table-row'} style={{ gridTemplateColumns: widths }}>
+        <div
+            className={`ndt-table-row ${isSelectable && 'ndt-table-row-selectable'} ${isRowSelected && 'ndt-table-row-selected'}`}
+            style={{ gridTemplateColumns: widths }}
+        >
             {columns.map((column, id) => (
                 <Cell
                     key={`cell-${rowId}-${id}`}
@@ -34,6 +39,7 @@ const Row = ({
                     isTitles={isTitles}
                     isRowSelected={isRowSelected}
                     onRowSelect={onRowSelect}
+                    isSelectable={!!isSelectable}
                 />
             ))}
         </div>

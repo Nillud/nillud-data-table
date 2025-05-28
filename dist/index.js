@@ -104,7 +104,7 @@ var TableHeader_default = React.memo(Header);
 import React2 from "react";
 
 // components/data-table/Cell.tsx
-import { Fragment as Fragment3, jsx as jsx5 } from "react/jsx-runtime";
+import { jsx as jsx5 } from "react/jsx-runtime";
 var Cell = ({
   row,
   column,
@@ -112,21 +112,50 @@ var Cell = ({
   displayId,
   isTitles,
   isRowSelected,
-  onRowSelect
+  onRowSelect,
+  isSelectable
 }) => {
   const rawValue = row[column.field];
   const stringValue = typeof rawValue !== "undefined" && rawValue !== null ? String(rawValue) : "";
-  const content = column.formatter ? column.formatter(stringValue, row, column) : column.autoinc ? /* @__PURE__ */ jsx5("span", { children: displayId + 1 }) : /* @__PURE__ */ jsx5("span", { children: stringValue });
-  const renderCell = () => /* @__PURE__ */ jsx5(
+  const isAutoinc = !!column.autoinc;
+  const isFormatted = typeof column.formatter !== "undefined";
+  const isEditable = !!column.editable;
+  const isColumnSelectable = !!column.selectable;
+  const formattedContent = column.formatter && column.formatter(stringValue, row, column);
+  const CellWithData = ({ children }) => /* @__PURE__ */ jsx5(
     "div",
     {
       className: "ndt-cell",
       title: isTitles && stringValue ? stringValue : "",
-      children: content
+      onClick: isSelectable && (typeof column.isSelectableCell === "undefined" || column.isSelectableCell || column.editable) ? onRowSelect : () => {
+      },
+      children
     }
   );
-  const renderSelectableCell = () => /* @__PURE__ */ jsx5("div", { className: "ndt-cell ndt-checkbox-cell", children: /* @__PURE__ */ jsx5("input", { type: "checkbox", checked: !!isRowSelected, onChange: onRowSelect }) });
-  return /* @__PURE__ */ jsx5(Fragment3, { children: column.selectable ? renderSelectableCell() : renderCell() });
+  const EditableCell = () => /* @__PURE__ */ jsx5(
+    "input",
+    {
+      className: "ndt-cell ndt-cell-editable",
+      defaultValue: stringValue ? String(stringValue) : "",
+      onChange: (e) => {
+        row[column.field] = e.target.value;
+      }
+    }
+  );
+  const SelectableCell = () => /* @__PURE__ */ jsx5("div", { className: "ndt-cell ndt-checkbox-cell", onClick: onRowSelect, children: /* @__PURE__ */ jsx5("input", { type: "checkbox", checked: !!isRowSelected, onChange: () => {
+  } }) });
+  switch (true) {
+    case isAutoinc:
+      return /* @__PURE__ */ jsx5(CellWithData, { children: displayId + 1 });
+    case isFormatted:
+      return /* @__PURE__ */ jsx5(CellWithData, { children: formattedContent });
+    case isEditable:
+      return /* @__PURE__ */ jsx5(EditableCell, {});
+    case isColumnSelectable:
+      return /* @__PURE__ */ jsx5(SelectableCell, {});
+    default:
+      return /* @__PURE__ */ jsx5(CellWithData, { children: stringValue });
+  }
 };
 var Cell_default = Cell;
 
@@ -142,18 +171,27 @@ var Row = ({
   isRowSelected,
   onRowSelect
 }) => {
-  return /* @__PURE__ */ jsx6("div", { className: "ndt-table-row", style: { gridTemplateColumns: widths }, children: columns.map((column, id) => /* @__PURE__ */ jsx6(
-    Cell_default,
+  const isSelectable = columns.find((element) => element.selectable);
+  return /* @__PURE__ */ jsx6(
+    "div",
     {
-      row,
-      column,
-      displayId,
-      isTitles,
-      isRowSelected,
-      onRowSelect
-    },
-    `cell-${rowId}-${id}`
-  )) });
+      className: `ndt-table-row ${isSelectable && "ndt-table-row-selectable"} ${isRowSelected && "ndt-table-row-selected"}`,
+      style: { gridTemplateColumns: widths },
+      children: columns.map((column, id) => /* @__PURE__ */ jsx6(
+        Cell_default,
+        {
+          row,
+          column,
+          displayId,
+          isTitles,
+          isRowSelected,
+          onRowSelect,
+          isSelectable: !!isSelectable
+        },
+        `cell-${rowId}-${id}`
+      ))
+    }
+  );
 };
 var Row_default = Row;
 

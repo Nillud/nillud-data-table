@@ -18,8 +18,12 @@ type Column = {
     sortable?: boolean	//  Убирает возможность сортировки, по умолчанию true
     filterable?: boolean // Убирает возможность фильтрации, по умолчанию true
     selectable?: boolean
+    isSelectableCell?: boolean
     filterPlaceholder?: string
+    editable?: boolean
 }
+
+type Columns = Column[]
 
 type ExportOptions = {
     fontSize?: number
@@ -65,4 +69,4 @@ type DataTableRef = {
     getSelectedData: () => TableData
 }
 
-export type { TableElement, TableData, Column, TableProps, LocalStorageData, LocalStorageSort, PaginationSize, PaginationPage, ExportOptions, DataTableRef }
+export type { TableElement, TableData, Column, Columns, TableProps, LocalStorageData, LocalStorageSort, PaginationSize, PaginationPage, ExportOptions, DataTableRef }

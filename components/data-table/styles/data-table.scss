@@ -109,7 +109,26 @@
                 }
 
                 &:nth-child(2n) {
-                    background-color: rgba(0, 0, 0, 0.05);
+                    background-color: rgba(0, 0, 0, 0.04);
+                }
+
+                &:hover,
+                &:nth-child(2n):hover {
+                    background-color: rgba(0, 0, 0, 0.08);
+                }
+
+                &.ndt-table-row-selectable {
+                    cursor: pointer;
+
+                    &:hover,
+                    &:nth-child(2n):hover {
+                        background-color: rgba(144, 202, 249, 0.1);
+                    }
+                }
+
+                &.ndt-table-row-selected,
+                &:nth-child(2n).ndt-table-row-selected {
+                    background-color: rgba(144, 202, 249, 0.25);
                 }
 
                 .ndt-cell {
@@ -118,6 +137,19 @@
                     color: #333;
                     font-size: 16px;
                     font-weight: 400;
+
+                    &.ndt-cell-editable {
+                        border: none;
+                        background-color: transparent;
+
+                        &:focus,
+                        &:focus-visible,
+                        &:active {
+                            outline: 1px solid rgba(34, 34, 34, 0.6);
+                            border: none;
+                            box-shadow: none;
+                        }
+                    }
 
                     &:not(:last-child) {
                         border-right: 1px solid #ddd;

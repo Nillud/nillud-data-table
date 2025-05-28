@@ -1,3 +1,4 @@
+import { PropsWithChildren } from 'react'
 import { Column, TableElement, TableProps } from './types/DataTable.types'
 
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
     isTitles: TableProps['isTitles']
     isRowSelected?: boolean
     onRowSelect?: () => void
+    isSelectable?: boolean
 }
 
 const Cell = ({
@@ -17,41 +19,65 @@ const Cell = ({
     displayId,
     isTitles,
     isRowSelected,
-    onRowSelect
+    onRowSelect,
+    isSelectable
 }: Props) => {
     const rawValue = row[column.field]
     const stringValue = typeof rawValue !== 'undefined' && rawValue !== null ? String(rawValue) : ''
 
-    const content = column.formatter
-        ? column.formatter(stringValue, row, column)
-        : column.autoinc
-            ? <span>{displayId + 1}</span>
-            : <span>{stringValue}</span>
+    const isAutoinc = !!column.autoinc
+    const isFormatted = typeof column.formatter !== 'undefined'
+    const isEditable = !!column.editable
+    const isColumnSelectable = !!column.selectable
 
-    const renderCell = () => (
+    const formattedContent = column.formatter && column.formatter(stringValue, row, column)
+
+    const CellWithData = ({ children }: PropsWithChildren) => (
         <div
             className='ndt-cell'
             title={isTitles && stringValue ? stringValue : ''}
-        >
-            {content}
-        </div>
-    )
-
-    const renderSelectableCell = () => (
-        <div className="ndt-cell ndt-checkbox-cell">
-            <input type="checkbox" checked={!!isRowSelected} onChange={onRowSelect} />
-        </div>
-    )
-
-    return (
-        <>
-            {
-                column.selectable
-                    ? renderSelectableCell()
-                    : renderCell()
+            onClick={
+                isSelectable && (
+                    typeof column.isSelectableCell === 'undefined'
+                    || column.isSelectableCell
+                    || column.editable
+                )
+                    ? onRowSelect
+                    : () => { }
             }
-        </>
+        >
+            {children}
+        </div>
     )
+
+    const EditableCell = () => (
+        <input
+            className='ndt-cell ndt-cell-editable'
+            defaultValue={stringValue ? String(stringValue) : ''}
+            onChange={(e) => {
+                row[column.field] = e.target.value
+            }}
+        />
+    )
+
+    const SelectableCell = () => (
+        <div className="ndt-cell ndt-checkbox-cell" onClick={onRowSelect}>
+            <input type="checkbox" checked={!!isRowSelected} onChange={() => { }} />
+        </div>
+    )
+
+    switch (true) {
+        case isAutoinc:
+            return <CellWithData>{displayId + 1}</CellWithData>
+        case isFormatted:
+            return <CellWithData>{formattedContent}</CellWithData>
+        case isEditable:
+            return <EditableCell />
+        case isColumnSelectable:
+            return <SelectableCell />
+        default:
+            return <CellWithData>{stringValue}</CellWithData>
+    }
 }
 
 export default Cell

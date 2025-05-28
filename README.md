@@ -3,11 +3,14 @@
 ## Возможности
 
 ✅ Сортировка и фильтрация  
-✅ Поддержка экспорта в Excel и Word  
+✅ Поддержка кастомных фильтров  
+✅ Редактируемые ячейки  
+✅ Кастомизация контента в ячейках, возможность внедрять React-компоненты 
+✅ Открытые стили, свободное редактирование
 ✅ Группировка строк и заголовков  
-✅ Поддержка кастомных ячеек и фильтров  
 ✅ Локальное сохранение состояния (localStorage)  
 ✅ Поддержка React и TypeScript
+✅ Поддержка экспорта в Excel и Word (Необходимо подключить отдельные модули)
 
 ## Установка
 
@@ -20,7 +23,6 @@ yarn add nillud-data-table
 ## Начало работы
 
 #### **Быстрый пример (Quick Start)**
-Сделай короткий рабочий пример (без кастомных кнопок, модалок и т. д.) — для тех, кто просто хочет запустить:
 
 ```tsx
 import { DataTable } from 'nillud-data-table'
@@ -34,8 +36,6 @@ const data = [{ name: 'Иван' }]
 
 #### **Развернутый пример**
 
-Вызов со всеми пропсами:
-
 ```tsx
 import { DataTable } from 'nillud-data-table'
 import 'nillud-data-table/styles.css'
@@ -47,26 +47,15 @@ const columns = [{ field: 'name', title: 'Имя' }]
 const data = [{ name: 'Иван' }]
 
 <DataTable
+    tableData={tableData}
+    columns={columns}
     tableName='custom-modal'
     loading={loading}
-    loadingElement={loadingElement}
-    columns={columns}
-    tableData={tableData}
-    isFooter
-    paginationCounts={[10, 20, 30, 40, 50, 0]}
-    scrollable
+    loadingElement={<div>Loading...</div>}
+    isFooter={true}
+    paginationCounts={[10, 50, 100, 0]}
+    scrollable={true}
     scrollHeight={410}
-    excelBtn
-    wordBtn
-    WordExportComponent={WordExport}
-    ExportExcelComponent={ExportExcel}
-    downloadSectionLeftSideContent={<button className='base-button' onClick={() => setCanvas(true)}>OffCanvas</button>}
-    excelCustomColumns={[
-        {
-            key: 'name',
-            width: 50
-        }
-    ]}
     headerGroup={[{title: 'Личные данные', cols: 3}, {title: 'Объект', cols: 3}]}
     groupBy={'status'}
     isTitles={true}
@@ -75,25 +64,20 @@ const data = [{ name: 'Иван' }]
 
 Доступные пропсы компонента:
 
-| props                                                                 | required | type         | Описание |
-| :---                                                                  |  :---:   | :---:        |     :--- |
-| [columns](#columns)                                                   |   true   | array [\{\}] | Принимает в себя массив объектов      |
-| [tableData](#tabledata)                                               |   true   | array [\{\}] | Принимает в себя массив объектов      |
-| [tableName](#tablename)                                               |   true   | string       | Наименование таблицы для хранения значений в localStorage        |
-| [loading](#loading)                                                   |    -     | boolean      | Состояние загрузки, принимает в себя state типа boolean         |
-| [loadingElement](#loadingelement)                                     |    -     | React Element| Кастомный лоадер         |
-| [isFooter](#isfooter)                                                 |    -     | boolean      | Отображение footer        |
-| [paginationCounts](#paginationcounts)                                 |    -     | array<number>  | Принимает массив чисел, число - количество строк для пагинации, (0 это все) |
-| [scrollable](#scrollable)                                             |    -     | boolean      | Зафиксировать высоту таблицы и добавить скролл         |
-| [scrollHeight](#scrollheight)                                         |    -     | number       | Высота тела таблицы, работает, если scrollable: true         |
-| [exportSectionComponent](#exportsectioncomponent)                     |    -     | import module|  Необходимо импортировать модуль ExportSection
-| [exportCustomColumns](#exportcustomcolumns)                           |    -     | array [\{\}] |  Принимает в себя массив объектов (\{\ key: string, width: number \}\)  |
-| [excelBtn](#excelbtn)                                                 |    -     | boolean      | Показывать кнопку экспорта Excel        |
-| [wordBtn](#wordbtn)                                                   |    -     | boolean      | Показывать кнопку экспорта Word        |
-| [downloadSectionLeftSideContent](#downloadsectionleftsidecontent)     |    -     | React Element| Отображать контент с левой стороны от кнопок экспорта |
-| [headerGroup](#headergroup)                                           |    -     | array [\{\}] | Группировка столбцов (\{\ title: string, cols: number \}\) |
+| props                                                                 | required | type         | Описание                                                                         |
+| :---                                                                  |  :---:   | :---:        |     :---                                                                         |
+| [columns](#columns)                                                   |   true   | array [\{\}] | Принимает в себя массив объектов                                                 |
+| [tableData](#tabledata)                                               |   true   | array [\{\}] | Принимает в себя массив объектов                                                 |
+| [tableName](#tablename)                                               |   true   | string       | Наименование таблицы для хранения значений в localStorage                        |
+| [loading](#loading)                                                   |    -     | boolean      | Состояние загрузки, принимает в себя state типа boolean                          |
+| [loadingElement](#loadingelement)                                     |    -     | React Element| Кастомный лоадер                                                                 |
+| [isFooter](#isfooter)                                                 |    -     | boolean      | Отображение footer                                                               |
+| [paginationCounts](#paginationcounts)                                 |    -     | array<number>  | Принимает массив чисел, число - количество строк для пагинации, (0 это все)    |
+| [scrollable](#scrollable)                                             |    -     | boolean      | Зафиксировать высоту таблицы и добавить скролл                                   |
+| [scrollHeight](#scrollheight)                                         |    -     | number       | Высота тела таблицы, работает, если scrollable: true                             |
+| [headerGroup](#headergroup)                                           |    -     | array [\{\}] | Группировка столбцов (\{\ title: string, cols: number \}\)                       |
 | [groupBy](#groupby)                                                   |    -     | string       | Группировка данных, указывается заголовок столбца, по которому нужна группировка |
-| [isTitles](#istitles)                                                 |    -     | boolean      | Заголовки при наведении на ячейку, по умолчанию false |
+| [isTitles](#istitles)                                                 |    -     | boolean      | Заголовки при наведении на ячейку, по умолчанию false                            |
 
 Типы описаны components/data-table/DataTable.types.ts
 
@@ -114,6 +98,12 @@ const data = [{ name: 'Иван' }]
 ```tsx
 const columns = [
     {
+        field: '',
+        title: '',
+        width: 50, 
+        selectable: true 
+    },
+    {
         field: 'id',
         title: '№',
         width: 70, 
@@ -123,6 +113,7 @@ const columns = [
         field: 'name',
         title: 'Наименование',
         filterable: false,
+        isSelectableCell: false,
         formatter: function (cell, row) {
             return (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -131,14 +122,12 @@ const columns = [
                 </div>
             )
         },
-        exportCustomCell: function (cell, row) {
-            return `${cell} - ${row.date_to}`
-        },
     },
     {
         field: 'address',
         title: 'Адрес',
-        headerFilter: headerFilterAddress
+        headerFilter: headerFilterAddress,
+        editable: true
     },
     {
         field: 'obj',
@@ -150,18 +139,22 @@ const columns = [
 
 Доступные ключи объекта:
 
-| key                                   | required | type        | description |
-| :---                                  |   :---:  | :---:       |   :---      |
-| [field](#field)                       |  true    |  string     | Устанавливает связь по ключу в массиве данных tableData            |
-| [title](#title)                       |  true    |  string     | Устанавливает заголовок столбца            |
-| [width](#width)                       |    -     |  number     | Принимает числовое значение, ограничивает ширину столбца в пикселях            |
-| [autoinc](#autoinc)                   |    -     |  bool       | Форматирует значения в столбце по порядку в таблице, начиная с 1            |
-| [formatter](#formatter)               |    -     |  func       | Кастомное форматирование, принимает в себя функцию, описание далее             |
-| [exportCustomCell](#exportCustomCell) |    -     |  func       | Кастомное форматирование для Excel и Word, принимает в себя функцию, описание далее             |
-| [headerFilter](#headerFilter)         |    -     |  func       | Кастомный фильтр, принимает в себя функуцию, описание далее            |
-| [sortable](#sortable)                 |    -     |  sortable   | Убирает возможность сортировки, по умолчанию true            |
-| [filterable](#filterable)             |    -     |  filterable | Убирает возможность фильтрации, по умолчанию true            |
-| [selectable](#selectable)             |    -     |  selectable | Добавляет возможность отмечать строки таблицы            |
+| key                                    | required | type        | description                                                                            |
+| :---                                   |   :---:  | :---:       |   :---                                                                                 |
+| [field](#field)                        |  true    |  string     | Устанавливает связь по ключу в массиве данных tableData                                |
+| [title](#title)                        |  true    |  string     | Устанавливает заголовок столбца                                                        |
+| [width](#width)                        |    -     |  number     | Принимает числовое значение, ограничивает ширину столбца в пикселях                    |
+| [autoinc](#autoinc)                    |    -     |  bool       | Форматирует значения в столбце по порядку в таблице, начиная с 1                       |
+| [formatter](#formatter)                |    -     |  func       | Кастомное форматирование, принимает в себя функцию, описание далее                     |
+| [headerFormatter](#headerFormatter)    |    -     |  func       | Кастомное форматирование заголовка колонки, принимает в себя функцию, описание далее   |
+| [exportCustomCell](#exportCustomCell)  |    -     |  func       | Кастомное форматирование для Excel и Word, принимает в себя функцию, описание далее    |
+| [headerFilter](#headerFilter)          |    -     |  func       | Кастомный фильтр, принимает в себя функуцию, описание далее                            |
+| [sortable](#sortable)                  |    -     |  bool       | Убирает возможность сортировки, по умолчанию true                                      |
+| [filterable](#filterable)              |    -     |  bool       | Убирает возможность фильтрации, по умолчанию true                                      |
+| [selectable](#selectable)              |    -     |  bool       | Добавляет возможность отмечать строки таблицы                                          |
+| [isSelectableCell](#isSelectableCell)  |    -     |  bool       | При активном selectable убирает у ячейки функцию отметить строку при нажатии           |
+| [filterPlaceholder](#filterPlaceholder)|    -     |  string     | Задать плейсхолдер для фильтра в инпуте колонки                                        |
+| [editable](#editable)                  |    -     |  bool       | Добавляет возможность редактирования ячейки                                            |
 
 #### field
 
@@ -233,7 +226,24 @@ const columns = [
         return (
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <span style={{ marginBottom: 3 }}>{cell}</span>
-                <span style={{ marginLeft: 5, cursor: 'pointer' }} onClick={() => { setModalShow(true); setRowData(row) }}><PenEdit /></span>
+                <span style={{ marginLeft: 5, cursor: 'pointer' }} onClick={() => { setModalShow(true); setRowData(row); }}><PenEdit /></span>
+            </div>
+        )
+    },
+ }
+```
+
+#### headerFormatter
+
+Кастомное отображение заголовка таблицы. Принимает в себя функцию с аргументом column.title, должна возвращать React Component.
+
+```tsx
+ {
+    ...,
+    headerFormatter: function (column) {
+        return (
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div>Something {column} <Icon size={20} /></div>
             </div>
         )
     },
@@ -324,6 +334,18 @@ const headerFilterAddress = (headerValue, rowValue) => {
 ```tsx
 const selectedData = tableRef.current.getSelectedData()
 ```
+
+#### isSelectableCell
+
+Наличие функции выбора строки при активном **selectable**, в случе если есть логика кнопки или какого то действия, при котором не надо выполнять select строки
+
+#### filterPlaceholder
+
+Добавление плейсхолдера для инпута фильтрации в заголовке колонки
+
+#### editable
+
+Добавляет возможность редактирования строки. По умолчанию **false**
 
 ### tableData
 
@@ -576,12 +598,4 @@ options = {{
     exportCustomColumns={[{...}, {...}]}
     wordOptions={{...}}
 />
-```
-
-##### downloadSectionLeftSideContent
-
-Необязательный параметр. Передается **React.Component**. Отображает компонент с левой стороны от кнопок экспорта. Создано для экономии места
-
-```tsx
-downloadSectionLeftSideContent={<button className='base-button' onClick={() => setCanvas(true)}>OffCanvas</button>}
 ```

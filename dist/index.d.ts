@@ -16,8 +16,11 @@ type Column = {
     sortable?: boolean;
     filterable?: boolean;
     selectable?: boolean;
+    isSelectableCell?: boolean;
     filterPlaceholder?: string;
+    editable?: boolean;
 };
+type Columns = Column[];
 type TableProps = {
     tableData: TableData;
     columns: Array<Column>;
@@ -43,4 +46,4 @@ type DataTableRef = {
 
 declare const DataTable: React.ForwardRefExoticComponent<TableProps & React.RefAttributes<DataTableRef>>;
 
-export { type Column, DataTable, type DataTableRef, type TableElement, type TableProps };
+export { type Column, type Columns, DataTable, type DataTableRef, type TableData, type TableElement, type TableProps };
