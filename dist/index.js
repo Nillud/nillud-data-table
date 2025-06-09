@@ -573,12 +573,8 @@ var DataTable = forwardRef(({
     try {
       const s = localStorage.getItem(`${tableName}-sort-by`);
       const f = localStorage.getItem(`${tableName}-filters`);
-      const c = localStorage.getItem(`${tableName}-counts`);
-      const p = localStorage.getItem(`${tableName}-page`);
       if (s) setSortBy(JSON.parse(s));
       if (f) setFilters(JSON.parse(f));
-      if (c) setPaginationSize(c === "all" ? 0 : Number(c));
-      if (p) setPaginationPage(Number(p));
     } catch (e) {
       console.error("Error parsing localStorage data:", e);
       setSortBy({ col: "", type: "asc" });
@@ -627,12 +623,6 @@ var DataTable = forwardRef(({
   useDebouncedEffect(() => {
     localStorage.setItem(`${tableName}-sort-by`, JSON.stringify(sortBy));
   }, [sortBy, tableName], 500);
-  useEffect2(() => {
-    localStorage.setItem(`${tableName}-counts`, paginationSize === 0 ? "all" : paginationSize.toString());
-  }, [paginationSize, tableName]);
-  useEffect2(() => {
-    localStorage.setItem(`${tableName}-page`, paginationPage.toString());
-  }, [paginationPage, tableName]);
   useImperativeHandle(ref, () => ({
     getData: () => processedData,
     getCurrentData: () => displayData,

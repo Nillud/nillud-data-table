@@ -4,6 +4,10 @@ type TableElement = {
     [key: string]: string | number;
 };
 type TableData = Array<TableElement>;
+type CellAlignment = {
+    vertical: 'top' | 'middle' | 'bottom';
+    horizontal: 'left' | 'center' | 'right';
+};
 type Column = {
     field: string;
     title: string;
@@ -12,6 +16,7 @@ type Column = {
     formatter?: (cell: string, row: TableElement, column: Column) => ReactElement;
     headerFormatter?: (column: string) => ReactElement;
     exportCustomCell?: (title: string, row: TableElement) => string;
+    cellAlignment?: CellAlignment;
     headerFilter?: (headerValue: string, rowValue: string) => boolean;
     sortable?: boolean;
     filterable?: boolean;

@@ -1,13 +1,13 @@
 // exportUtils.ts
 import ExcelJS from 'exceljs'
-import { Column, CustomColumn, CustomColumns, TableElement } from "../export-word/types/ExportWord.types"
+import { Column, CustomColumn, TableElement } from './types/ExportExcel.types'
 
 export const generateExcelColumns = (
     columns: Column[],
-    exportCustomColumns?: CustomColumns
-): Partial<ExcelJS.Column>[] => {
-    let excelColumns = columns.map(column => ({
-        header: column.title,
+    exportCustomColumns?: Array<CustomColumn>
+) => {
+    let excelColumns = columns.filter(column => column.title !== '').map(column => ({
+        title: column.title,
         key: column.field,
         width: 20
     }))
@@ -40,14 +40,20 @@ export const applyHeaderStyles = (row: ExcelJS.Row, columnCount: number) => {
     }
 }
 
-export const applyRowStyles = (row: ExcelJS.Row, columnCount: number) => {
-    row.height = 40
+export const applyRowStyles = (row: ExcelJS.Row, columnCount: number, height = 40, columns: Column[]) => {
+    row.height = height
     row.font = { size: 12 }
     row.alignment = { vertical: 'middle', horizontal: 'center' }
 
     for (let i = 1; i <= columnCount; i++) {
         const cell = row.getCell(i)
-        cell.alignment = { wrapText: true, vertical: 'middle', horizontal: 'center' }
+        const column = columns[i - 1]
+
+        cell.alignment = {
+            wrapText: true,
+            vertical: column.cellAlignment ? column.cellAlignment.vertical : 'middle',
+            horizontal: column.cellAlignment ? column.cellAlignment.horizontal : 'center'
+        }
         cell.border = {
             top: { style: 'thin' },
             left: { style: 'thin' },
@@ -59,20 +65,32 @@ export const applyRowStyles = (row: ExcelJS.Row, columnCount: number) => {
 
 export const generateExcelDataRows = (
     columns: Column[],
-    data: TableElement[]
-): Record<string, string | number>[] => {
-    return data.map(element => {
-        const rowData: Record<string, string | number> = {}
-        columns.forEach(col => {
-            const value = element[col.field]
-            rowData[col.field] =
-                typeof col.exportCustomCell !== 'undefined'
-                    ? col.exportCustomCell(String(value), element)
-                    : value ?? ''
-        })
-        return rowData
-    })
-}
+    data: TableElement[],
+    exportCustomColumns?: CustomColumn[]
+): (string | number | ExcelJS.CellValue)[][] => {
+    return data.map((element, rowIndex) => {
+        return columns.map((col, colIndex) => {
+            const isAutoinc = col.autoinc;
+
+            if (isAutoinc) return rowIndex + 1;
+
+            const value = element[col.field];
+
+            // Проверка: есть ли кастомная колонка с таким ключом?
+            const customCol = exportCustomColumns?.find(custom => custom.key === col.field);
+            if (customCol?.exportCustomCell) {
+                return customCol.exportCustomCell(String(value ?? ''), element);
+            }
+
+            if (typeof col.exportCustomCell !== 'undefined') {
+                return col.exportCustomCell(String(value ?? ''), element);
+            }
+
+            return value ?? '';
+        });
+    });
+};
+
 
 export const setColumnAutoWidths = (sheet: ExcelJS.Worksheet) => {
     sheet.columns?.forEach(column => {

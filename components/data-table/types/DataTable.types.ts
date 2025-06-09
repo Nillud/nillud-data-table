@@ -6,6 +6,11 @@ type TableElement = {
 
 type TableData = Array<TableElement>
 
+type CellAlignment = {
+    vertical: 'top' | 'middle' | 'bottom'
+    horizontal: 'left' | 'center' | 'right'
+}
+
 type Column = {
     field: string	// Устанавливает связь по ключу в массиве данных tableData
     title: string	// Устанавливает заголовок столбца
@@ -14,6 +19,7 @@ type Column = {
     formatter?: (cell: string, row: TableElement, column: Column) => ReactElement // Кастомное форматирование, принимает в себя функцию, возвращает реакт компонент
     headerFormatter?: (column: string) => ReactElement // Кастомное форматирование заголовка таблицы, принимает в себя функцию, возвращает реакт компонент
     exportCustomCell?: (title: string, row: TableElement) => string	// Кастомное форматирование для Excel и Word, принимает в себя функцию, возвращает строку
+    cellAlignment?: CellAlignment
     headerFilter?: (headerValue: string, rowValue: string) => boolean	// Кастомный фильтр, принимает в себя функуцию, вернуть должен булевое значение
     sortable?: boolean	//  Убирает возможность сортировки, по умолчанию true
     filterable?: boolean // Убирает возможность фильтрации, по умолчанию true

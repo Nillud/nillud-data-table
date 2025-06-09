@@ -1,4 +1,4 @@
-# [React](https://react.dev/)  nillud-data-table Component [![npm version](https://img.shields.io/npm/v/data-table-lib)](https://www.npmjs.com/package/data-table-lib)
+# [React](https://react.dev/)  DataTable Component [![npm version](https://img.shields.io/npm/v/data-table-lib)](https://www.npmjs.com/package/data-table-lib)
 
 ## Возможности
 
