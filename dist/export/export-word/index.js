@@ -11,7 +11,7 @@ function prepareExportHeaders(columns) {
   return columns.map((col) => col.title);
 }
 
-// components/export/export-word/ExportWord.tsx
+// components/export/export-word/WordExport.tsx
 import {
   AlignmentType,
   Document,
@@ -27,7 +27,7 @@ import {
 } from "docx";
 import { saveAs } from "file-saver";
 import { jsx } from "react/jsx-runtime";
-var WordExport = ({
+var ExportWord = ({
   wordData,
   columns,
   title,
@@ -90,7 +90,7 @@ var WordExport = ({
   };
   return /* @__PURE__ */ jsx("button", { className: `ndt-buttonExport ndt-Word}`, onClick: createNewWord, children: "\u0421\u043A\u0430\u0447\u0430\u0442\u044C Word" });
 };
-var ExportWord_default = WordExport;
+var WordExport_default = ExportWord;
 export {
-  ExportWord_default as WordExport
+  WordExport_default as WordExport
 };

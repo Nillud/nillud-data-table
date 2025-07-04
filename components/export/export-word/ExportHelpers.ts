@@ -1,4 +1,4 @@
-import { Column, TableElement } from "./types/ExportWord.types"
+import { Column, TableElement } from "./types/WordExport.types"
 
 export function prepareExportRows(
   columns: Column[],

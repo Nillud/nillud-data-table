@@ -1,5 +1,6 @@
 import { Column, TableElement, TableProps } from './types/DataTable.types'
 import Cell from './Cell'
+import { memo } from 'react'
 
 type Props = {
     rowId: number
@@ -46,4 +47,4 @@ const Row = ({
     )
 }
 
-export default Row
+export default memo(Row)

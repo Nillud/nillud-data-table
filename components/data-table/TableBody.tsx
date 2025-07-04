@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 import { Column, PaginationPage, PaginationSize, TableData, TableElement, TableProps } from './types/DataTable.types'
 import Row from '../data-table/Row'
 import { groupDataBy } from './utils/groupDataBy'
@@ -44,7 +44,9 @@ const TableBody = ({
     paginationSize,
     paginationPage
 }: Props) => {
-    const grouped = groupBy ? groupDataBy(tableData, groupBy) : []
+    const grouped = useMemo(() => (
+        groupBy ? groupDataBy(tableData, groupBy) : []
+    ), [tableData, groupBy])
 
     if (!tableData || tableData.length === 0) {
         return (
@@ -153,4 +155,4 @@ const TableBody = ({
     )
 }
 
-export default TableBody
+export default memo(TableBody)

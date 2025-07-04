@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react'
+import { memo, PropsWithChildren, useMemo } from 'react'
 import { Column, TableElement, TableProps } from './types/DataTable.types'
 
 type Props = {
@@ -30,7 +30,9 @@ const Cell = ({
     const isEditable = !!column.editable
     const isColumnSelectable = !!column.selectable
 
-    const formattedContent = column.formatter && column.formatter(stringValue, row, column)
+    const formattedContent = useMemo(() => (
+        column.formatter?.(stringValue, row, column)
+    ), [column.formatter, stringValue, row, column])
 
     const CellWithData = ({ children }: PropsWithChildren) => (
         <div
@@ -66,18 +68,11 @@ const Cell = ({
         </div>
     )
 
-    switch (true) {
-        case isAutoinc:
-            return <CellWithData>{displayId + 1}</CellWithData>
-        case isFormatted:
-            return <CellWithData>{formattedContent}</CellWithData>
-        case isEditable:
-            return <EditableCell />
-        case isColumnSelectable:
-            return <SelectableCell />
-        default:
-            return <CellWithData>{stringValue}</CellWithData>
-    }
+    if (isAutoinc) return <CellWithData>{displayId + 1}</CellWithData>
+    if (isFormatted) return <CellWithData>{formattedContent}</CellWithData>
+    if (isEditable) return <EditableCell />
+    if (isColumnSelectable) return <SelectableCell />
+    return <CellWithData>{stringValue}</CellWithData>
 }
 
-export default Cell
+export default memo(Cell)

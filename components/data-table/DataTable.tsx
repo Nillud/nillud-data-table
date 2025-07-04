@@ -34,34 +34,6 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
 
     const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set())
 
-    const toggleRowSelection = (index: number) => {
-        setSelectedRows(prev => {
-            const updated = new Set(prev)
-            if (updated.has(index)) {
-                updated.delete(index)
-            } else {
-                updated.add(index)
-            }
-            return updated
-        })
-    }
-
-    const toggleAllSelection = () => {
-        if (selectedRows.size === processedData.length) {
-            setSelectedRows(new Set())
-        } else {
-            const all = new Set(processedData.map((_, i) => i))
-            setSelectedRows(all)
-        }
-    }
-
-    const toggleGroup = (groupKey: string) => {
-        setCollapsedGroups(prev => ({
-            ...prev,
-            [groupKey]: !prev[groupKey],
-        }))
-    }
-
     // const [widths, setWidths] = useState<string>('1fr')
 
     const widths = useMemo(() => {
@@ -130,6 +102,33 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
         processedData.forEach((row, i) => map.set(row, i))
         return map
     }, [processedData])
+
+    const toggleRowSelection = (index: number) => {
+        setSelectedRows(prev => {
+            const updated = new Set(prev)
+            if (updated.has(index)) {
+                updated.delete(index)
+            } else {
+                updated.add(index)
+            }
+            return updated
+        })
+    }
+
+    const toggleAllSelection = useCallback(() => {
+        if (selectedRows.size === processedData.length) {
+            setSelectedRows(new Set())
+        } else {
+            setSelectedRows(new Set(processedData.map((_, i) => i)))
+        }
+    }, [processedData, selectedRows])
+
+    const toggleGroup = (groupKey: string) => {
+        setCollapsedGroups(prev => ({
+            ...prev,
+            [groupKey]: !prev[groupKey],
+        }))
+    }
 
     // Сброс страницы при изменении фильтров/сортировки
     useEffect(() => {

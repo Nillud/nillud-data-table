@@ -6,9 +6,9 @@ import {
   Paragraph, Table, TableCell, TableRow, TextRun, VerticalAlign, WidthType
 } from "docx"
 import { saveAs } from "file-saver"
-import { ExportWordTypes } from './types/ExportWord.types'
+import { ExportWordTypes } from './types/WordExport.types'
 
-const WordExport = ({
+const ExportWord = ({
   wordData,
   columns,
   title,
@@ -86,4 +86,4 @@ const WordExport = ({
   )
 }
 
-export default WordExport
+export default ExportWord

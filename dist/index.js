@@ -1,11 +1,8 @@
 // components/data-table/DataTable.tsx
-import { useImperativeHandle, useEffect as useEffect2, useState, useCallback, useMemo as useMemo2, forwardRef } from "react";
-
-// components/data-table/TableHeader.tsx
-import React from "react";
+import { useImperativeHandle, useEffect as useEffect2, useState, useCallback, useMemo as useMemo4, forwardRef } from "react";
 
 // components/data-table/Column.tsx
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 
 // components/data-table/img/SortDown.tsx
 import { jsx } from "react/jsx-runtime";
@@ -49,11 +46,11 @@ var Column = ({ column, getSortField, sortBy, getFilters, filters, selectedRows,
     if (column.headerFormatter) {
       return column.headerFormatter(column.title);
     }
-    return /* @__PURE__ */ jsx3("span", { children: column.title });
+    return /* @__PURE__ */ jsx3("span", { title: `${column.title}`, children: column.title });
   };
   const renderColumnSort = () => {
     if (typeof column.autoinc === "undefined" && (typeof column.sortable === "undefined" || column.sortable)) {
-      return /* @__PURE__ */ jsx3("div", { className: "ndt-sorter", onClick: toggleSort, children: currentSort === "asc" ? /* @__PURE__ */ jsx3(SortDown_default, {}) : currentSort === "desc" ? /* @__PURE__ */ jsx3(SortUp_default, {}) : /* @__PURE__ */ jsx3(SortDown_default, {}) });
+      return /* @__PURE__ */ jsx3("div", { className: "ndt-sorter", role: "button", tabIndex: 1, onClick: toggleSort, children: currentSort === "asc" ? /* @__PURE__ */ jsx3(SortDown_default, {}) : currentSort === "desc" ? /* @__PURE__ */ jsx3(SortUp_default, {}) : /* @__PURE__ */ jsx3(SortDown_default, {}) });
     }
     return /* @__PURE__ */ jsx3(Fragment, {});
   };
@@ -73,12 +70,13 @@ var Column = ({ column, getSortField, sortBy, getFilters, filters, selectedRows,
     ) })
   ] }) });
 };
-var Column_default = Column;
+var Column_default = memo(Column);
 
 // components/data-table/TableHeader.tsx
+import { memo as memo2 } from "react";
 import { Fragment as Fragment2, jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
 var Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, headerGroup, selectedRows, toggleAllSelection, displayData }) => {
-  const renderHeaderGroup = () => headerGroup && /* @__PURE__ */ jsx4("div", { className: "ndt-table-columns", style: { gridTemplateColumns: widths || "auto" }, children: headerGroup.map((col, id) => /* @__PURE__ */ jsx4("div", { className: "ndt-column", style: { gridColumn: `span ${col.cols || 1}` }, children: /* @__PURE__ */ jsx4("div", { className: "ndt-column-head", children: /* @__PURE__ */ jsx4("span", { children: col.title }) }) }, `header-group-${id}`)) });
+  const renderHeaderGroup = () => headerGroup && /* @__PURE__ */ jsx4("div", { className: "ndt-table-columns", style: { gridTemplateColumns: widths || "auto" }, children: headerGroup.map((col, id) => /* @__PURE__ */ jsx4("div", { className: "ndt-column", style: { gridColumn: `span ${col.cols || 1}` }, children: /* @__PURE__ */ jsx4("div", { className: "ndt-column-head", children: /* @__PURE__ */ jsx4("span", { title: col.title, children: col.title }) }) }, `header-group-${id}`)) });
   const renderColumns = () => columns && columns.length > 0 ? columns.map((column, id) => /* @__PURE__ */ jsx4(
     Column_default,
     {
@@ -98,12 +96,13 @@ var Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, head
     /* @__PURE__ */ jsx4("div", { className: "ndt-table-columns", style: { gridTemplateColumns: widths || "auto" }, children: renderColumns() })
   ] });
 };
-var TableHeader_default = React.memo(Header);
+var TableHeader_default = memo2(Header);
 
 // components/data-table/TableBody.tsx
-import React2 from "react";
+import React, { memo as memo5, useMemo as useMemo3 } from "react";
 
 // components/data-table/Cell.tsx
+import { memo as memo3, useMemo as useMemo2 } from "react";
 import { jsx as jsx5 } from "react/jsx-runtime";
 var Cell = ({
   row,
@@ -121,7 +120,10 @@ var Cell = ({
   const isFormatted = typeof column.formatter !== "undefined";
   const isEditable = !!column.editable;
   const isColumnSelectable = !!column.selectable;
-  const formattedContent = column.formatter && column.formatter(stringValue, row, column);
+  const formattedContent = useMemo2(() => {
+    var _a;
+    return (_a = column.formatter) == null ? void 0 : _a.call(column, stringValue, row, column);
+  }, [column.formatter, stringValue, row, column]);
   const CellWithData = ({ children }) => /* @__PURE__ */ jsx5(
     "div",
     {
@@ -144,22 +146,16 @@ var Cell = ({
   );
   const SelectableCell = () => /* @__PURE__ */ jsx5("div", { className: "ndt-cell ndt-checkbox-cell", onClick: onRowSelect, children: /* @__PURE__ */ jsx5("input", { type: "checkbox", checked: !!isRowSelected, onChange: () => {
   } }) });
-  switch (true) {
-    case isAutoinc:
-      return /* @__PURE__ */ jsx5(CellWithData, { children: displayId + 1 });
-    case isFormatted:
-      return /* @__PURE__ */ jsx5(CellWithData, { children: formattedContent });
-    case isEditable:
-      return /* @__PURE__ */ jsx5(EditableCell, {});
-    case isColumnSelectable:
-      return /* @__PURE__ */ jsx5(SelectableCell, {});
-    default:
-      return /* @__PURE__ */ jsx5(CellWithData, { children: stringValue });
-  }
+  if (isAutoinc) return /* @__PURE__ */ jsx5(CellWithData, { children: displayId + 1 });
+  if (isFormatted) return /* @__PURE__ */ jsx5(CellWithData, { children: formattedContent });
+  if (isEditable) return /* @__PURE__ */ jsx5(EditableCell, {});
+  if (isColumnSelectable) return /* @__PURE__ */ jsx5(SelectableCell, {});
+  return /* @__PURE__ */ jsx5(CellWithData, { children: stringValue });
 };
-var Cell_default = Cell;
+var Cell_default = memo3(Cell);
 
 // components/data-table/Row.tsx
+import { memo as memo4 } from "react";
 import { jsx as jsx6 } from "react/jsx-runtime";
 var Row = ({
   rowId,
@@ -193,7 +189,7 @@ var Row = ({
     }
   );
 };
-var Row_default = Row;
+var Row_default = memo4(Row);
 
 // components/data-table/utils/groupDataBy.ts
 var groupDataBy = (data, key) => {
@@ -227,7 +223,7 @@ var TableBody = ({
   paginationSize,
   paginationPage
 }) => {
-  const grouped = groupBy ? groupDataBy(tableData, groupBy) : [];
+  const grouped = useMemo3(() => groupBy ? groupDataBy(tableData, groupBy) : [], [tableData, groupBy]);
   if (!tableData || tableData.length === 0) {
     return /* @__PURE__ */ jsx7("div", { className: `ndt-table-body${scrollable ? " ndt-table-body-scrollable" : ""}`, style: scrollable ? { height: scrollHeight } : {}, children: /* @__PURE__ */ jsx7("div", { className: "ndt-table-row", style: { height: "100%" }, children: /* @__PURE__ */ jsx7("div", { className: "ndt-row-item", style: { margin: "auto", padding: 20, fontWeight: "bold" }, children: "\u0414\u0430\u043D\u043D\u044B\u0445 \u043D\u0435\u0442" }) }) });
   }
@@ -269,7 +265,7 @@ var TableBody = ({
           `row-${group.key}-${globalIndex}`
         );
       }) : null;
-      return /* @__PURE__ */ jsxs3(React2.Fragment, { children: [
+      return /* @__PURE__ */ jsxs3(React.Fragment, { children: [
         groupHeader,
         rows
       ] }, `group-${group.key}`);
@@ -300,7 +296,7 @@ var TableBody = ({
   };
   return /* @__PURE__ */ jsx7("div", { className: `ndt-table-body${scrollable ? " ndt-table-body-scrollable" : ""}`, style: scrollable ? { height: scrollHeight } : {}, children: groupBy ? renderGroupedRows() : renderFlatRows() });
 };
-var TableBody_default = TableBody;
+var TableBody_default = memo5(TableBody);
 
 // components/data-table/img/NextIcon.tsx
 import { jsx as jsx8 } from "react/jsx-runtime";
@@ -541,32 +537,7 @@ var DataTable = forwardRef(({
   const [paginationPage, setPaginationPage] = useState(0);
   const [collapsedGroups, setCollapsedGroups] = useState({});
   const [selectedRows, setSelectedRows] = useState(/* @__PURE__ */ new Set());
-  const toggleRowSelection = (index) => {
-    setSelectedRows((prev) => {
-      const updated = new Set(prev);
-      if (updated.has(index)) {
-        updated.delete(index);
-      } else {
-        updated.add(index);
-      }
-      return updated;
-    });
-  };
-  const toggleAllSelection = () => {
-    if (selectedRows.size === processedData.length) {
-      setSelectedRows(/* @__PURE__ */ new Set());
-    } else {
-      const all = new Set(processedData.map((_, i) => i));
-      setSelectedRows(all);
-    }
-  };
-  const toggleGroup = (groupKey) => {
-    setCollapsedGroups((prev) => ({
-      ...prev,
-      [groupKey]: !prev[groupKey]
-    }));
-  };
-  const widths = useMemo2(() => {
+  const widths = useMemo4(() => {
     return columns.map((c) => c.width ? `${c.width}px` : "1fr").join(" ");
   }, [columns]);
   const loadFromLocalStorage = useCallback(() => {
@@ -587,7 +558,7 @@ var DataTable = forwardRef(({
   useEffect2(() => {
     loadFromLocalStorage();
   }, [loadFromLocalStorage]);
-  const processedData = useMemo2(() => {
+  const processedData = useMemo4(() => {
     let result = [...tableData];
     const columnMap = new Map(columns.map((col) => [col.field, col]));
     for (const field in filters) {
@@ -602,16 +573,40 @@ var DataTable = forwardRef(({
     }
     return result;
   }, [tableData, filters, sortBy, columns]);
-  const displayData = useMemo2(() => {
+  const displayData = useMemo4(() => {
     if (paginationSize === 0) return processedData;
     const start = paginationPage * paginationSize;
     return processedData.slice(start, start + paginationSize);
   }, [processedData, paginationPage, paginationSize]);
-  const rowIdMap = useMemo2(() => {
+  const rowIdMap = useMemo4(() => {
     const map = /* @__PURE__ */ new Map();
     processedData.forEach((row, i) => map.set(row, i));
     return map;
   }, [processedData]);
+  const toggleRowSelection = (index) => {
+    setSelectedRows((prev) => {
+      const updated = new Set(prev);
+      if (updated.has(index)) {
+        updated.delete(index);
+      } else {
+        updated.add(index);
+      }
+      return updated;
+    });
+  };
+  const toggleAllSelection = useCallback(() => {
+    if (selectedRows.size === processedData.length) {
+      setSelectedRows(/* @__PURE__ */ new Set());
+    } else {
+      setSelectedRows(new Set(processedData.map((_, i) => i)));
+    }
+  }, [processedData, selectedRows]);
+  const toggleGroup = (groupKey) => {
+    setCollapsedGroups((prev) => ({
+      ...prev,
+      [groupKey]: !prev[groupKey]
+    }));
+  };
   useEffect2(() => {
     if (Object.values(filters).some((value) => {
       return value !== null && value !== void 0 && value !== "";

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import { Column as ColumnType, LocalStorageData, LocalStorageSort, TableData } from './types/DataTable.types'
 import SortDown from './img/SortDown'
 import SortUp from './img/SortUp'
@@ -43,12 +43,12 @@ const Column = ({ column, getSortField, sortBy, getFilters, filters, selectedRow
             return column.headerFormatter(column.title)
         }
 
-        return <span>{column.title}</span>
+        return <span title={`${column.title}`}>{column.title}</span>
     }
 
     const renderColumnSort = () => {
         if (typeof column.autoinc === 'undefined' && (typeof column.sortable === 'undefined' || column.sortable)) {
-            return <div className="ndt-sorter" onClick={toggleSort}>
+            return <div className="ndt-sorter" role='button' tabIndex={1} onClick={toggleSort}>
                 {currentSort === 'asc'
                     ? <SortDown />
                     : currentSort === 'desc'
@@ -89,4 +89,4 @@ const Column = ({ column, getSortField, sortBy, getFilters, filters, selectedRow
     )
 }
 
-export default Column
+export default memo(Column)

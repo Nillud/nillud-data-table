@@ -1,6 +1,6 @@
-import React from 'react'
 import { Column as ColumnType, LocalStorageData, LocalStorageSort, TableData, TableProps } from './types/DataTable.types'
 import Column from './Column'
+import { memo } from 'react'
 
 type Props = {
   columns: Array<ColumnType>
@@ -22,7 +22,7 @@ const Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, he
         {headerGroup.map((col, id) => (
           <div key={`header-group-${id}`} className={'ndt-column'} style={{ gridColumn: `span ${col.cols || 1}` }}>
             <div className="ndt-column-head">
-              <span>{col.title}</span>
+              <span title={col.title}>{col.title}</span>
             </div>
           </div>
         ))}
@@ -58,4 +58,4 @@ const Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, he
   )
 }
 
-export default React.memo(Header)
+export default memo(Header)

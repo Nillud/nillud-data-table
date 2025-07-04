@@ -29,6 +29,6 @@ type ExportWordTypes = {
     options?: ExportOptions;
 };
 
-declare const WordExport: ({ wordData, columns, title, options }: ExportWordTypes) => react_jsx_runtime.JSX.Element;
+declare const ExportWord: ({ wordData, columns, title, options }: ExportWordTypes) => react_jsx_runtime.JSX.Element;
 
-export { type ExportWordTypes, WordExport };
+export { type ExportWordTypes, ExportWord as WordExport };
