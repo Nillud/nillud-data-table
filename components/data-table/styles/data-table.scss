@@ -53,6 +53,9 @@
                 }
 
                 .ndt-column-footer {
+                    position: relative;
+                    display: flex;
+
                     input {
                         width: 100%;
                         color: #222;
@@ -62,8 +65,16 @@
                         border: 1px solid #d9d9d9;
                         border-radius: 5px;
                         font-size: 14px;
-                        padding: 4px 11px;
+                        padding: 4px 38px 4px 11px;
                         height: 43px;
+                    }
+
+                    span {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        margin-top: 4px;
+                        margin-right: 11px;
                     }
                 }
             }

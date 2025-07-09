@@ -45,6 +45,10 @@
   width: 12px;
   height: 12px;
 }
+.ndt-table-container .ndt-table .ndt-table-columns .ndt-column .ndt-column-footer {
+  position: relative;
+  display: flex;
+}
 .ndt-table-container .ndt-table .ndt-table-columns .ndt-column .ndt-column-footer input {
   width: 100%;
   color: #222;
@@ -54,8 +58,15 @@
   border: 1px solid #d9d9d9;
   border-radius: 5px;
   font-size: 14px;
-  padding: 4px 11px;
+  padding: 4px 38px 4px 11px;
   height: 43px;
+}
+.ndt-table-container .ndt-table .ndt-table-columns .ndt-column .ndt-column-footer span {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 4px;
+  margin-right: 11px;
 }
 .ndt-table-container .ndt-table .ndt-table-body {
   z-index: 1000;
