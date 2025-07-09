@@ -99,9 +99,9 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
 
     const rowIdMap = useMemo(() => {
         const map = new Map<TableElement, number>()
-        processedData.forEach((row, i) => map.set(row, i))
+        tableData.forEach((row, i) => map.set(row, i))
         return map
-    }, [processedData])
+    }, [tableData])
 
     const toggleRowSelection = (index: number) => {
         setSelectedRows(prev => {

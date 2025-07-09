@@ -1,6 +1,6 @@
 {
   "name": "nillud-data-table",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

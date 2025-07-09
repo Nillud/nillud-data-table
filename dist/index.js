@@ -593,9 +593,9 @@ var DataTable = forwardRef(({
   }, [processedData, paginationPage, paginationSize]);
   const rowIdMap = useMemo4(() => {
     const map = /* @__PURE__ */ new Map();
-    processedData.forEach((row, i) => map.set(row, i));
+    tableData.forEach((row, i) => map.set(row, i));
     return map;
-  }, [processedData]);
+  }, [tableData]);
   const toggleRowSelection = (index) => {
     setSelectedRows((prev) => {
       const updated = new Set(prev);
