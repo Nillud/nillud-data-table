@@ -1,4 +1,4 @@
-import { memo, PropsWithChildren, useMemo } from 'react'
+import { CSSProperties, memo, PropsWithChildren, useMemo } from 'react'
 import { Column, TableElement, TableProps } from './types/DataTable.types'
 
 type Props = {
@@ -10,6 +10,14 @@ type Props = {
     isRowSelected?: boolean
     onRowSelect?: () => void
     isSelectable?: boolean
+}
+
+type CellVerticalAlignment = {
+    [key in 'top' | 'middle' | 'bottom']: CSSProperties
+}
+
+type CellHorizontalAlignment = {
+    [key in 'left' | 'center' | 'right']: CSSProperties
 }
 
 const Cell = ({
@@ -34,10 +42,30 @@ const Cell = ({
         column.formatter?.(stringValue, row, column)
     ), [column.formatter, stringValue, row, column])
 
+    const cellVerticalAlignment: CellVerticalAlignment = {
+        'top': { alignItems: 'flex-start' },
+        'middle': { alignItems: 'center' },
+        'bottom': { alignItems: 'flex-end' }
+    }
+
+    const cellHorizontalAlignment: CellHorizontalAlignment = {
+        'left': { justifyContent: 'flex-start' },
+        'center': { justifyContent: 'center' },
+        'right': { justifyContent: 'flex-end' }
+    }
+
     const CellWithData = ({ children }: PropsWithChildren) => (
         <div
             className='ndt-cell'
             title={isTitles && stringValue ? stringValue : ''}
+            style={
+                column.cellAlignment
+                    ? {
+                        ...cellVerticalAlignment[column.cellAlignment.vertical],
+                        ...cellHorizontalAlignment[column.cellAlignment.horizontal]
+                    }
+                    : {}
+            }
             onClick={
                 isSelectable && (
                     typeof column.isSelectableCell === 'undefined'

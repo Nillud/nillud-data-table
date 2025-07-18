@@ -79,7 +79,7 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
             if (!column) continue
 
             result = column.headerFilter
-                ? result.filter(e => column.headerFilter!(filterValue, String(e[field])))
+                ? result.filter(e => column.headerFilter!(filterValue, String(e[field]), e))
                 : filterData(result, field, filterValue)
         }
 

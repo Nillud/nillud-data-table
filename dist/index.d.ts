@@ -17,7 +17,7 @@ type Column = {
     headerFormatter?: (column: string) => ReactElement;
     exportCustomCell?: (title: string, row: TableElement) => string;
     cellAlignment?: CellAlignment;
-    headerFilter?: (headerValue: string, rowValue: string) => boolean;
+    headerFilter?: (headerValue: string, rowValue: string, row: TableElement) => boolean;
     sortable?: boolean;
     filterable?: boolean;
     selectable?: boolean;

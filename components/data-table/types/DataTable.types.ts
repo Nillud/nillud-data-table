@@ -20,7 +20,7 @@ type Column = {
     headerFormatter?: (column: string) => ReactElement // Кастомное форматирование заголовка таблицы, принимает в себя функцию, возвращает реакт компонент
     exportCustomCell?: (title: string, row: TableElement) => string	// Кастомное форматирование для Excel и Word, принимает в себя функцию, возвращает строку
     cellAlignment?: CellAlignment
-    headerFilter?: (headerValue: string, rowValue: string) => boolean	// Кастомный фильтр, принимает в себя функуцию, вернуть должен булевое значение
+    headerFilter?: (headerValue: string, rowValue: string, row: TableElement) => boolean	// Кастомный фильтр, принимает в себя функуцию, вернуть должен булевое значение
     sortable?: boolean	//  Убирает возможность сортировки, по умолчанию true
     filterable?: boolean // Убирает возможность фильтрации, по умолчанию true
     selectable?: boolean

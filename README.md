@@ -118,7 +118,7 @@ const columns = [
             return (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <span style={{ marginBottom: 3 }}>{cell}</span>
-                    <span style={{ marginLeft: 5, cursor: 'pointer' }} onClick={() => { setModalShow(true); setRowData(row) }}><PenEdit /></span>
+                    <span style={{ marginLeft: 5, cursor: 'pointer' }} onClick={() => { setModalShow(true); setRowData(row); }}><PenEdit /></span>
                 </div>
             )
         },
@@ -126,13 +126,15 @@ const columns = [
     {
         field: 'address',
         title: 'Адрес',
-        headerFilter: headerFilterAddress,
-        editable: true
-    },
-    {
-        field: 'obj',
-        title: 'Объект',
-        sortable: false
+        headerFilter(headerValue, rowValue, row) {
+            const values = [
+                rowValue.toLowerCase(),
+                String(row.user_name).toLowerCase(),
+                String(row.org_name).toLowerCase()
+            ]
+
+            return values.some(e => e.includes(headerValue.toLowerCase()))
+        },
     },
 ]
 ```
@@ -148,6 +150,7 @@ const columns = [
 | [formatter](#formatter)                |    -     |  func       | Кастомное форматирование, принимает в себя функцию, описание далее                     |
 | [headerFormatter](#headerFormatter)    |    -     |  func       | Кастомное форматирование заголовка колонки, принимает в себя функцию, описание далее   |
 | [exportCustomCell](#exportCustomCell)  |    -     |  func       | Кастомное форматирование для Excel и Word, принимает в себя функцию, описание далее    |
+| [cellAlignment](#cellAlignment)        |    -     |  string     | Выравнивание контента в ячейке                                                         |
 | [headerFilter](#headerFilter)          |    -     |  func       | Кастомный фильтр, принимает в себя функуцию, описание далее                            |
 | [sortable](#sortable)                  |    -     |  bool       | Убирает возможность сортировки, по умолчанию true                                      |
 | [filterable](#filterable)              |    -     |  bool       | Убирает возможность фильтрации, по умолчанию true                                      |
@@ -263,44 +266,54 @@ const columns = [
 }
 ```
 
+#### cellAlignment
+
+Выравнивание контента ячейки таблицы, так же распространяется на выравнивание в Excel
+
+```tsx
+
+type CellAlignment = {
+    vertical: 'top' | 'middle' | 'bottom'
+    horizontal: 'left' | 'center' | 'right'
+}
+
+const columns = {
+    ...,
+    {
+        field: 'name',
+        title: 'name',
+        cellAlignment: {
+            vertical: 'middle',
+            horizontal: 'center'
+        },
+    }
+    ...
+}
+
+```
+
 #### headerFilter
 
-Кастомный фильтр колонки. Принимает в себя функцию со значениями headerValue и rowValue
+Кастомный фильтр колонки. Принимает в себя функцию со значениями headerValue, rowValue и не обязательным row
 
 ```tsx
 // Функция фильтрации
 
-const headerFilterAddress = (headerValue, rowValue) => {
-    if (headerValue.includes(" ")) {
-        const stringArray = headerValue.split(" ")
+const headerFilter = (headerValue, rowValue, row) => {
+    const values = [
+        rowValue.toLowerCase(),
+        String(row.de_name).toLowerCase(),
+        String(row.dco_name).toLowerCase()
+    ]
 
-        if (!stringArray.includes('')) {
-            var row = rowValue.toLowerCase()
-
-            const filtered = []
-
-            for (let i = 0; i < stringArray.length; i++) {
-                row = rowValue.toLowerCase().includes(stringArray[i].toLowerCase())
-
-                row ? filtered.push(row) : null
-            }
-
-            if (filtered.length === stringArray.length) {
-                return rowValue
-            }
-        } else {
-            return rowValue.toLowerCase().includes(stringArray[0].toLowerCase())
-        }
-    } else {
-        return rowValue.toLowerCase().includes(headerValue.toLowerCase())
-    }
+    return values.some(e => e.includes(headerValue.toLowerCase()))
 }
 
 // Объект массива columns
 
 {
     ...,
-    headerFilter: headerFilterAddress
+    headerFilter: headerFilter
 }
 ```
 

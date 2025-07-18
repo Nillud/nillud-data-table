@@ -137,11 +137,25 @@ var Cell = ({
     var _a;
     return (_a = column.formatter) == null ? void 0 : _a.call(column, stringValue, row, column);
   }, [column.formatter, stringValue, row, column]);
+  const cellVerticalAlignment = {
+    "top": { alignItems: "flex-start" },
+    "middle": { alignItems: "center" },
+    "bottom": { alignItems: "flex-end" }
+  };
+  const cellHorizontalAlignment = {
+    "left": { justifyContent: "flex-start" },
+    "center": { justifyContent: "center" },
+    "right": { justifyContent: "flex-end" }
+  };
   const CellWithData = ({ children }) => /* @__PURE__ */ jsx6(
     "div",
     {
       className: "ndt-cell",
       title: isTitles && stringValue ? stringValue : "",
+      style: column.cellAlignment ? {
+        ...cellVerticalAlignment[column.cellAlignment.vertical],
+        ...cellHorizontalAlignment[column.cellAlignment.horizontal]
+      } : {},
       onClick: isSelectable && (typeof column.isSelectableCell === "undefined" || column.isSelectableCell || column.editable) ? onRowSelect : () => {
       },
       children
@@ -579,7 +593,7 @@ var DataTable = forwardRef(({
       if (filterValue === "") continue;
       const column = columnMap.get(field);
       if (!column) continue;
-      result = column.headerFilter ? result.filter((e) => column.headerFilter(filterValue, String(e[field]))) : filterData(result, field, filterValue);
+      result = column.headerFilter ? result.filter((e) => column.headerFilter(filterValue, String(e[field]), e)) : filterData(result, field, filterValue);
     }
     if (sortBy.col) {
       result = sortData(result, sortBy.col, sortBy.type);
