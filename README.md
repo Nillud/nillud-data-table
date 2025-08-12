@@ -10,7 +10,6 @@
 ✅ Группировка строк и заголовков  
 ✅ Локальное сохранение состояния (localStorage)  
 ✅ Поддержка React и TypeScript
-✅ Поддержка экспорта в Excel и Word (Необходимо подключить отдельные модули)
 
 ## Установка
 
@@ -39,9 +38,6 @@ const data = [{ name: 'Иван' }]
 ```tsx
 import { DataTable } from 'nillud-data-table'
 import 'nillud-data-table/styles.css'
-
-import ExportExcel from 'nillud-data-table/export/ExportExcel';
-import WordExport from 'nillud-data-table/export/WordExport';
 
 const columns = [{ field: 'name', title: 'Имя' }]
 const data = [{ name: 'Иван' }]
@@ -149,7 +145,7 @@ const columns = [
 | [autoinc](#autoinc)                    |    -     |  bool       | Форматирует значения в столбце по порядку в таблице, начиная с 1                       |
 | [formatter](#formatter)                |    -     |  func       | Кастомное форматирование, принимает в себя функцию, описание далее                     |
 | [headerFormatter](#headerFormatter)    |    -     |  func       | Кастомное форматирование заголовка колонки, принимает в себя функцию, описание далее   |
-| [exportCustomCell](#exportCustomCell)  |    -     |  func       | Кастомное форматирование для Excel и Word, принимает в себя функцию, описание далее    |
+| [exportCustomCell](#exportCustomCell)  |    -     |  func       | Кастомное форматирование для Excel, принимает в себя функцию, описание далее           |
 | [cellAlignment](#cellAlignment)        |    -     |  string     | Выравнивание контента в ячейке                                                         |
 | [headerFilter](#headerFilter)          |    -     |  func       | Кастомный фильтр, принимает в себя функуцию, описание далее                            |
 | [sortable](#sortable)                  |    -     |  bool       | Убирает возможность сортировки, по умолчанию true                                      |
@@ -255,7 +251,7 @@ const columns = [
 
 #### exportCustomCell
 
-Кастомное отображение ячейки excel или ячейки таблицы word. Принимает в себя функцию с аргументами cell и row, должна возвращать значение типа string.
+Кастомное отображение ячейки excel. Принимает в себя функцию с аргументами cell и row, должна возвращать значение типа string.
 
 ```tsx
 {
@@ -518,97 +514,4 @@ const func = () => {
     const selectedData = tableRef.current.getSelectedData() // Получить отмеченные строки
 }
 
-```
-
-## Возможности экспорта данных
-
-### ExportExcel
-
-Требует установки пакета Exceljs
-
-```bash
-npm install exceljs
-# или
-yarn add exceljs
-```
-
-Пример вызова
-```tsx
-<ExportExcel
-    columns={columns} // Колонки таблицы
-    excelData={tableData} // Данные таблицы
-    title={'table-name'} // Название таблицы
-    exportCustomColumns={[{
-        header: 'Наименование',
-        key: 'name',
-        width: 50,
-        ...
-    }]} // Описание ниже
-/>
-```
-
-#### exportCustomColumns
-
-Необязательный параметр. Принимает в себя массив объектов формата.
-По умолчанию:
-- Ключ header содержит в себе значение **title** объекта из массива columns
-- Ключ key содержит в себе значение **field** объекта из массива columns
-- Ключ width по умолчанию умеет ширину 20 у.е. по системе Excel
-
-Дополнительные параметры можно добавлять исходя из документации [exceljs](https://www.npmjs.com/package/exceljs). 
-Для изменения/добавления каких-либо параметров в массиве необходимо указать объект с нужным ключом **key**
-
-### ExportWord
-
-Требует установки пакетов docx и file-saver
-
-```bash
-npm install docx file-saver
-# или
-yarn add docx file-saver
-```
-
-Пример вызова
-```tsx
-<ExportWord
-    columns={columns} // Колонки таблицы
-    wordData={tableData} // Данные таблицы
-    title={'table-name'} // Название таблицы
-    options={
-        fontSize: 20,
-        boldHeaders: false,
-        autoLandscape: false,
-        maxColumnsBeforeLandscape: 5
-    } // Описание ниже
-/>
-```
-
-#### wordOptions
-
-Необязательный параметр. Принимает в себя объект:
-
-```tsx
-options = {{
-    fontSize: 20, // размер шрифта, 
-    boldHeaders: false, // Заголовки жирным начертанием, 
-    autoLandscape: false, // делать ли альбомный формат, 
-    maxColumnsBeforeLandscape: 5 // и от скольки столбцов. 
-}}
-```
-
-### ExportSection
-
-Если нужно использовать секцию, по умолчанию 2 кнопки Word и Excel справа. А так же **downloadSectionLeftSideContent** принимает **React.Component**
-
-```tsx
-<ExportSection
-    wordBtn // boolean - использовать экспорт Word
-    excelBtn // boolean - использовать экспорт Excel
-    downloadSectionLeftSideContent={<>...</>} // React.Component - произвольный контент
-    tableData={tableData} // Данные таблицы
-    columns={columns} // Колонки таблицы
-    tableName={'table-name'} // Название таблицы
-    exportCustomColumns={[{...}, {...}]}
-    wordOptions={{...}}
-/>
 ```

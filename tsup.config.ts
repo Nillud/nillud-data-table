@@ -2,9 +2,7 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig({
   entry: [
-    'index.ts',
-    'export/export-excel/index.ts',
-    'export/export-word/index.ts'
+    'index.ts'
   ],
   dts: true,
   sourcemap: false,
@@ -12,10 +10,7 @@ export default defineConfig({
   format: ['esm'],
   external: [
     'react',
-    'react-dom',
-    'docx',
-    'exceljs',
-    'file-saver'
+    'react-dom'
   ],
   minify: false,
   target: 'es2018',
