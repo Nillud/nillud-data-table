@@ -157,6 +157,10 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
         localStorage.setItem(`${tableName}-sort-by`, JSON.stringify(sortBy))
     }, [sortBy, tableName], 500)
 
+    useDebouncedEffect(() => {
+        localStorage.setItem(`${tableName}-counts`, JSON.stringify(paginationSize))
+    }, [paginationSize, tableName], 500)
+
     useImperativeHandle(ref, () => ({
         getData: () => processedData,
         getCurrentData: () => displayData,
