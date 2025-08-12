@@ -3,7 +3,7 @@ import Cell from './Cell'
 import { memo } from 'react'
 
 type Props = {
-    rowId: number
+    rowId: string | number
     displayId: number
     row: TableElement
     columns: Array<Column>
@@ -35,7 +35,6 @@ const Row = ({
                     key={`cell-${rowId}-${id}`}
                     row={row}
                     column={column}
-                    // rowId={rowId}
                     displayId={displayId}
                     isTitles={isTitles}
                     isRowSelected={isRowSelected}

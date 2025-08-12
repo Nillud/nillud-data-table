@@ -1,17 +1,11 @@
 import React, { memo, useMemo } from 'react'
-import { Column, PaginationPage, PaginationSize, TableData, TableElement, TableProps } from './types/DataTable.types'
+import { Column, PaginationPage, PaginationSize, TableData, TableProps } from './types/DataTable.types'
 import Row from '../data-table/Row'
 import { groupDataBy } from './utils/groupDataBy'
-
-// type GroupedData = {
-//     key: string
-//     items: TableData
-// }
 
 type Props = {
     columns: Array<Column>
     tableData: TableData
-    // groupedData: GroupedData
     loading?: boolean
     scrollable?: boolean
     scrollHeight?: number | string
@@ -20,9 +14,9 @@ type Props = {
     collapsedGroups?: Record<string, boolean>
     toggleGroup?: (groupKey: string) => void
     isTitles: TableProps['isTitles']
-    selectedRows: Set<number>
-    toggleRowSelection: (id: number) => void
-    rowIdMap: Map<TableElement, number>
+    selectedRows: Set<string | number>
+    toggleRowSelection: (id: string | number) => void
+    idIndexMap: Map<string | number, number>
     paginationSize: PaginationSize;
     paginationPage: PaginationPage;
 }
@@ -30,7 +24,6 @@ type Props = {
 const TableBody = ({
     columns,
     tableData,
-    // groupedData,
     scrollable,
     scrollHeight,
     widths,
@@ -40,7 +33,7 @@ const TableBody = ({
     isTitles,
     selectedRows,
     toggleRowSelection,
-    rowIdMap,
+    idIndexMap,
     paginationSize,
     paginationPage
 }: Props) => {
@@ -78,7 +71,7 @@ const TableBody = ({
 
                 const rows = !collapsedGroups[group.key]
                     ? group.items.map((element) => {
-                        const globalIndex = rowIdMap.get(element)
+                        const globalIndex = element.id ? idIndexMap.get(element.id) : undefined
                         if (globalIndex === undefined) return null
 
                         const localIndex = currentIndex++
@@ -89,15 +82,15 @@ const TableBody = ({
 
                         return (
                             <Row
-                                key={`row-${group.key}-${globalIndex}`}
-                                rowId={globalIndex}
+                                key={`row-${group.key}-${element.id}`}
+                                rowId={element.id!}
                                 displayId={displayIndex}
                                 row={element}
                                 columns={columns}
                                 widths={widths}
                                 isTitles={isTitles}
-                                isRowSelected={selectedRows.has(globalIndex)}
-                                onRowSelect={() => toggleRowSelection(globalIndex)}
+                                isRowSelected={!!(element.id && selectedRows.has(element.id))}
+                                onRowSelect={() => element.id && toggleRowSelection(element.id)}
                             />
                         )
                     })
@@ -118,7 +111,7 @@ const TableBody = ({
 
         return (
             tableData.map((element) => {
-                const globalIndex = rowIdMap.get(element)
+                const globalIndex = element.id ? idIndexMap.get(element.id) : undefined
                 if (globalIndex === undefined) return null
 
                 const localIndex = currentIndex++
@@ -129,15 +122,15 @@ const TableBody = ({
 
                 return (
                     <Row
-                        key={`row-${globalIndex}`}
-                        rowId={globalIndex}
+                        key={`row-${element.id}`}
+                        rowId={element.id!}
                         displayId={displayIndex}
                         row={element}
                         columns={columns}
                         widths={widths}
                         isTitles={isTitles}
-                        isRowSelected={selectedRows.has(globalIndex)}
-                        onRowSelect={() => toggleRowSelection(globalIndex)}
+                        isRowSelected={!!(element.id && selectedRows.has(element.id))}
+                        onRowSelect={() => element.id && toggleRowSelection(element.id)}
                     />
                 )
             })

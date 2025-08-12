@@ -1,4 +1,4 @@
-import { Column as ColumnType, LocalStorageData, LocalStorageSort, TableData, TableProps } from './types/DataTable.types'
+import { Column as ColumnType, LocalStorageData, LocalStorageSort, TableData, TableElement, TableProps } from './types/DataTable.types'
 import Column from './Column'
 import { memo } from 'react'
 
@@ -10,7 +10,7 @@ type Props = {
   filters: LocalStorageData
   widths?: string
   headerGroup: TableProps['headerGroup']
-  selectedRows: Set<number>
+  selectedRows: Set<string | number>
   toggleAllSelection: () => void
   displayData: TableData
 }
@@ -30,6 +30,8 @@ const Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, he
     )
   )
 
+  const getRowId = (row: TableElement): string | number => row.id!
+
   const renderColumns = () => (
     columns && columns.length > 0
       ? columns.map((column, id) => (
@@ -43,6 +45,7 @@ const Header = ({ columns, getSortField, sortBy, getFilters, filters, widths, he
           selectedRows={selectedRows}
           toggleAllSelection={toggleAllSelection}
           displayData={displayData}
+          getRowId={getRowId}
         />
       ))
       : <div className={'ndt-data-error'}>Ошибка: columns is undefined</div>

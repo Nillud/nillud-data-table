@@ -1,12 +1,11 @@
-import React, { useImperativeHandle, useEffect, useState, useCallback, useMemo, forwardRef } from 'react'
-import { DataTableRef, LocalStorageData, LocalStorageSort, PaginationPage, PaginationSize, TableElement, TableProps } from './types/DataTable.types'
+import React, { useImperativeHandle, useEffect, useState, useCallback, useMemo, forwardRef, useRef } from 'react'
+import { DataTableRef, LocalStorageData, LocalStorageSort, PaginationPage, PaginationSize, TableElement, TableProps, TableData } from './types/DataTable.types'
 import TableHeader from './TableHeader'
 import TableBody from './TableBody'
 import TableFooter from './TableFooter'
 import { filterData, sortData } from './utils/sort-data'
 import { useDebouncedEffect } from './utils/useDebouncedEffect'
-// import { groupDataBy } from './utils/groupDataBy'
-// import ExportSection from './ExportSection'
+import { v4 as uuidv4 } from 'uuid'
 
 const DataTable = forwardRef<DataTableRef, TableProps>(({
     tableData,
@@ -22,7 +21,21 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
     groupBy = null,
     isTitles = false,
 }: TableProps, ref) => {
-    // const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true)
+    const idMapRef = useRef<Map<TableElement, string | number>>(new Map())
+
+    const dataWithIds = useMemo(() => {
+        return tableData.map((row) => {
+            if (typeof row.id !== 'undefined' && row.id !== null) return row
+
+            const existing = idMapRef.current.get(row)
+            if (existing) return { ...row, id: existing }
+
+            const newId = uuidv4()
+            idMapRef.current.set(row, newId)
+
+            return { ...row, id: newId }
+        })
+    }, [tableData])
 
     const [filters, setFilters] = useState<LocalStorageData>({})
     const [sortBy, setSortBy] = useState<LocalStorageSort>({ col: '', type: 'asc' })
@@ -32,9 +45,7 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
 
     const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({})
 
-    const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set())
-
-    // const [widths, setWidths] = useState<string>('1fr')
+    const [selectedRows, setSelectedRows] = useState<Set<string | number>>(new Set())
 
     const widths = useMemo(() => {
         return columns.map(c => c.width ? `${c.width}px` : '1fr').join(' ')
@@ -44,11 +55,11 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
         try {
             const s = localStorage.getItem(`${tableName}-sort-by`)
             const f = localStorage.getItem(`${tableName}-filters`)
-            // const c = localStorage.getItem(`${tableName}-counts`)
+            const c = localStorage.getItem(`${tableName}-counts`)
             // const p = localStorage.getItem(`${tableName}-page`)
             if (s) setSortBy(JSON.parse(s))
             if (f) setFilters(JSON.parse(f))
-            // if (c) setPaginationSize(c === 'all' ? 0 : Number(c))
+            if (c) setPaginationSize(c === 'all' ? 0 : Number(c))
             // if (p) setPaginationPage(Number(p))
         } catch (e) {
             console.error('Error parsing localStorage data:', e)
@@ -56,8 +67,6 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
             setFilters({})
             setPaginationSize(paginationCounts?.[0] || 0)
             setPaginationPage(0)
-        } finally {
-            // setIsInitialLoad(false) // Установить флаг после загрузки
         }
     }, [tableName, paginationCounts])
 
@@ -65,9 +74,9 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
         loadFromLocalStorage()
     }, [loadFromLocalStorage])
 
-    // Обработка данных (фильтрация + сортировка)
-    const processedData = useMemo(() => {
-        let result = [...tableData]
+    // Обработка данных (фильтрация + сортировка) — работаем с dataWithIds
+    const processedData: TableData = useMemo(() => {
+        let result = [...dataWithIds]
 
         const columnMap = new Map(columns.map(col => [col.field, col]))
 
@@ -88,7 +97,7 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
         }
 
         return result
-    }, [tableData, filters, sortBy, columns])
+    }, [dataWithIds, filters, sortBy, columns])
 
     // Пагинация
     const displayData = useMemo(() => {
@@ -97,29 +106,33 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
         return processedData.slice(start, start + paginationSize)
     }, [processedData, paginationPage, paginationSize])
 
-    const rowIdMap = useMemo(() => {
-        const map = new Map<TableElement, number>()
-        tableData.forEach((row, i) => map.set(row, i))
+    // id -> индекс в исходном (dataWithIds)
+    const idIndexMap = useMemo(() => {
+        const map = new Map<string | number, number>()
+        dataWithIds.forEach((row, i) => {
+            if (typeof row.id !== 'undefined') map.set(row.id, i)
+        })
         return map
-    }, [tableData])
+    }, [dataWithIds])
 
-    const toggleRowSelection = (index: number) => {
+    const toggleRowSelection = (id: string | number) => {
         setSelectedRows(prev => {
             const updated = new Set(prev)
-            if (updated.has(index)) {
-                updated.delete(index)
+            if (updated.has(id)) {
+                updated.delete(id)
             } else {
-                updated.add(index)
+                updated.add(id)
             }
             return updated
         })
     }
 
     const toggleAllSelection = useCallback(() => {
-        if (selectedRows.size === processedData.length) {
+        const allSelected = processedData.every(r => typeof r.id !== 'undefined' && selectedRows.has(r.id))
+        if (allSelected) {
             setSelectedRows(new Set())
         } else {
-            setSelectedRows(new Set(processedData.map((_, i) => i)))
+            setSelectedRows(new Set(processedData.map(r => r.id!)))
         }
     }, [processedData, selectedRows])
 
@@ -130,35 +143,24 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
         }))
     }
 
-    // Сброс страницы при изменении фильтров/сортировки
     useEffect(() => {
         if (Object.values(filters).some(value => {
             return value !== null && value !== undefined && value !== '';
         })) setPaginationPage(0)
     }, [filters])
 
-    // Сохраняем filters с задержкой
     useDebouncedEffect(() => {
         localStorage.setItem(`${tableName}-filters`, JSON.stringify(filters))
     }, [filters, tableName], 500)
 
-    // Сохраняем sortBy с задержкой
     useDebouncedEffect(() => {
         localStorage.setItem(`${tableName}-sort-by`, JSON.stringify(sortBy))
     }, [sortBy, tableName], 500)
 
-    // useEffect(() => {
-    //     localStorage.setItem(`${tableName}-counts`, paginationSize === 0 ? 'all' : paginationSize.toString())
-    // }, [paginationSize, tableName])
-
-    // useEffect(() => {
-    //     localStorage.setItem(`${tableName}-page`, paginationPage.toString())
-    // }, [paginationPage, tableName])
-
     useImperativeHandle(ref, () => ({
         getData: () => processedData,
         getCurrentData: () => displayData,
-        getSelectedData: () => Array.from(selectedRows).map(i => processedData[i]),
+        getSelectedData: () => processedData.filter(row => typeof row.id !== 'undefined' && selectedRows.has(row.id))
     }), [processedData, displayData, selectedRows]);
 
     return (
@@ -183,7 +185,6 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
                         : <span style={{ marginLeft: 10, fontWeight: 'bold' }}>Загрузка данных...</span>
                     : <TableBody
                         tableData={displayData}
-                        // groupedData={groupedData}
                         columns={columns}
                         scrollable={scrollable}
                         scrollHeight={scrollHeight}
@@ -194,7 +195,7 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
                         isTitles={isTitles}
                         selectedRows={selectedRows}
                         toggleRowSelection={toggleRowSelection}
-                        rowIdMap={rowIdMap}
+                        idIndexMap={idIndexMap}
                         paginationSize={paginationSize}
                         paginationPage={paginationPage}
                     />
@@ -203,7 +204,7 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
                 {isFooter && (
                     <TableFooter
                         paginationCounts={paginationCounts}
-                        tableData={processedData} // Передаем все отфильтрованные данные
+                        tableData={processedData}
                         paginationSize={paginationSize}
                         getPaginationSize={setPaginationSize}
                         paginationPage={paginationPage}

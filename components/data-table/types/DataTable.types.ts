@@ -1,7 +1,8 @@
 import { ReactElement } from "react"
 
 type TableElement = {
-    [key: string]: string | number
+    id?: string | number
+    [key: string]: string | number | undefined
 }
 
 type TableData = Array<TableElement>

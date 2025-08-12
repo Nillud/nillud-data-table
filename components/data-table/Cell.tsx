@@ -4,7 +4,6 @@ import { Column, TableElement, TableProps } from './types/DataTable.types'
 type Props = {
     row: TableElement
     column: Column
-    // rowId: number
     displayId: number
     isTitles: TableProps['isTitles']
     isRowSelected?: boolean
@@ -40,7 +39,7 @@ const Cell = ({
 
     const formattedContent = useMemo(() => (
         column.formatter?.(stringValue, row, column)
-    ), [column.formatter, stringValue, row, column])
+    ), [stringValue, row, column])
 
     const cellVerticalAlignment: CellVerticalAlignment = {
         'top': { alignItems: 'flex-start' },

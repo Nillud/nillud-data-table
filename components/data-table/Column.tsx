@@ -1,8 +1,7 @@
-import { memo, useMemo } from 'react'
-import { Column as ColumnType, LocalStorageData, LocalStorageSort, TableData } from './types/DataTable.types'
+import { useMemo } from 'react'
+import { Column as ColumnType, LocalStorageData, LocalStorageSort, TableData, TableElement } from './types/DataTable.types'
 import SortDown from './img/SortDown'
 import SortUp from './img/SortUp'
-import CloseIcon from './img/CloseIcon'
 
 type Props = {
     column: ColumnType
@@ -10,12 +9,23 @@ type Props = {
     sortBy: LocalStorageSort
     getFilters: (element: LocalStorageData) => void
     filters: LocalStorageData
-    selectedRows: Set<number>
+    selectedRows: Set<string | number>
     toggleAllSelection: () => void
     displayData: TableData
+    getRowId: (row: TableElement) => string | number
 }
 
-const Column = ({ column, getSortField, sortBy, getFilters, filters, selectedRows, toggleAllSelection, displayData }: Props) => {
+const Column = ({
+    column,
+    getSortField,
+    sortBy,
+    getFilters,
+    filters,
+    selectedRows,
+    toggleAllSelection,
+    displayData,
+    getRowId
+}: Props) => {
     const currentSort = useMemo(() => {
         return sortBy.col === column.field ? sortBy.type : null
     }, [sortBy, column.field])
@@ -25,15 +35,17 @@ const Column = ({ column, getSortField, sortBy, getFilters, filters, selectedRow
         getSortField({ col: column.field, type: nextType })
     }
 
-    const onFilterChange = (value: string) => {
-        getFilters({ ...filters, [column.field]: value })
+    const onFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        getFilters({ ...filters, [column.field]: e.target.value })
     }
 
     const renderSelectable = () => {
+        const allSelected = displayData.length > 0 && displayData.every(row => selectedRows.has(getRowId(row)))
+
         return <div className="ndt-column ndt-checkbox-column">
             <input
                 type="checkbox"
-                checked={selectedRows.size === displayData.length && displayData.length > 0}
+                checked={allSelected}
                 onChange={toggleAllSelection}
             />
         </div>
@@ -44,12 +56,12 @@ const Column = ({ column, getSortField, sortBy, getFilters, filters, selectedRow
             return column.headerFormatter(column.title)
         }
 
-        return <span title={`${column.title}`}>{column.title}</span>
+        return <span>{column.title}</span>
     }
 
     const renderColumnSort = () => {
         if (typeof column.autoinc === 'undefined' && (typeof column.sortable === 'undefined' || column.sortable)) {
-            return <div className="ndt-sorter" role='button' tabIndex={1} onClick={toggleSort}>
+            return <div className="ndt-sorter" onClick={toggleSort}>
                 {currentSort === 'asc'
                     ? <SortDown />
                     : currentSort === 'desc'
@@ -76,22 +88,12 @@ const Column = ({ column, getSortField, sortBy, getFilters, filters, selectedRow
                         <div className="ndt-column-footer">
                             {typeof column.autoinc === 'undefined' &&
                                 (typeof column.filterable === 'undefined' || column.filterable) && (
-                                    <>
-                                        <input
-                                            type="text"
-                                            value={filters[column.field] ?? ''}
-                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => onFilterChange(e.target.value)}
-                                            placeholder={column.filterPlaceholder || ''}
-                                        />
-
-                                        {
-                                            typeof filters[column.field] !== 'undefined' && filters[column.field] !== '' && (
-                                                <span onClick={() => onFilterChange('')}>
-                                                    <CloseIcon size={16} fill='#707695' />
-                                                </span>
-                                            )
-                                        }
-                                    </>
+                                    <input
+                                        type="text"
+                                        value={filters[column.field] ?? ''}
+                                        onChange={onFilterChange}
+                                        placeholder={column.filterPlaceholder || ''}
+                                    />
                                 )}
                         </div>
                     </div>
@@ -100,4 +102,4 @@ const Column = ({ column, getSortField, sortBy, getFilters, filters, selectedRow
     )
 }
 
-export default memo(Column)
+export default Column
