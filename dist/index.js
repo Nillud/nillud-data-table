@@ -87,7 +87,9 @@ var Column = ({
           type: "text",
           value: (_a = filters[column.field]) != null ? _a : "",
           onChange: (e) => onFilterChange(e.target.value),
-          placeholder: column.filterPlaceholder || ""
+          placeholder: column.filterPlaceholder || "",
+          id: `col-${column.field}-filter`,
+          name: `col-${column.field}-filter`
         }
       ),
       typeof filters[column.field] !== "undefined" && filters[column.field] !== "" && /* @__PURE__ */ jsx4("span", { onClick: () => onFilterChange(""), children: /* @__PURE__ */ jsx4(CloseIcon_default, { size: 16, fill: "#707695" }) })

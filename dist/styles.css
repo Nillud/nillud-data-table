@@ -59,15 +59,18 @@
   border-radius: 5px;
   font-size: 14px;
   padding: 4px 20px 4px 6px;
-  height: 43px;
 }
 .ndt-table-container .ndt-table .ndt-table-columns .ndt-column .ndt-column-footer span {
   position: absolute;
   display: flex;
   top: 0;
   right: 0;
-  margin-top: 13.5px;
+  margin-top: 11px;
   margin-right: 6px;
+  width: 12px;
+  height: 12px;
+}
+.ndt-table-container .ndt-table .ndt-table-columns .ndt-column .ndt-column-footer span svg {
   width: 12px;
   height: 12px;
 }

@@ -95,6 +95,8 @@ const Column = ({
                                             value={filters[column.field] ?? ''}
                                             onChange={(e) => onFilterChange(e.target.value)}
                                             placeholder={column.filterPlaceholder || ''}
+                                            id={`col-${column.field}-filter`}
+                                            name={`col-${column.field}-filter`}
                                         />
 
                                         {
