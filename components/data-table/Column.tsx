@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { Column as ColumnType, LocalStorageData, LocalStorageSort, TableData, TableElement } from './types/DataTable.types'
 import SortDown from './img/SortDown'
 import SortUp from './img/SortUp'
+import CloseIcon from './img/CloseIcon'
 
 type Props = {
     column: ColumnType
@@ -35,8 +36,8 @@ const Column = ({
         getSortField({ col: column.field, type: nextType })
     }
 
-    const onFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        getFilters({ ...filters, [column.field]: e.target.value })
+    const onFilterChange = (value: string) => {
+        getFilters({ ...filters, [column.field]: value })
     }
 
     const renderSelectable = () => {
@@ -88,12 +89,22 @@ const Column = ({
                         <div className="ndt-column-footer">
                             {typeof column.autoinc === 'undefined' &&
                                 (typeof column.filterable === 'undefined' || column.filterable) && (
-                                    <input
-                                        type="text"
-                                        value={filters[column.field] ?? ''}
-                                        onChange={onFilterChange}
-                                        placeholder={column.filterPlaceholder || ''}
-                                    />
+                                    <>
+                                        <input
+                                            type="text"
+                                            value={filters[column.field] ?? ''}
+                                            onChange={(e) => onFilterChange(e.target.value)}
+                                            placeholder={column.filterPlaceholder || ''}
+                                        />
+
+                                        {
+                                            typeof filters[column.field] !== 'undefined' && filters[column.field] !== '' && (
+                                                <span onClick={() => onFilterChange('')}>
+                                                    <CloseIcon size={16} fill='#707695' />
+                                                </span>
+                                            )
+                                        }
+                                    </>
                                 )}
                         </div>
                     </div>
