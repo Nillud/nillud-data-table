@@ -59,7 +59,10 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
             // const p = localStorage.getItem(`${tableName}-page`)
             if (s) setSortBy(JSON.parse(s))
             if (f) setFilters(JSON.parse(f))
-            if (c && paginationCounts && paginationCounts.includes(+c)) setPaginationSize(c === 'all' ? 0 : Number(c))
+            if (paginationCounts) {
+                if (c && paginationCounts.includes(+c)) setPaginationSize(c === 'all' ? 0 : Number(c))
+                else setPaginationSize(paginationCounts[0])
+            }
             // if (p) setPaginationPage(Number(p))
         } catch (e) {
             console.error('Error parsing localStorage data:', e)

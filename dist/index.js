@@ -600,7 +600,10 @@ var DataTable = forwardRef(({
       const c = localStorage.getItem(`${tableName}-counts`);
       if (s) setSortBy(JSON.parse(s));
       if (f) setFilters(JSON.parse(f));
-      if (c && paginationCounts && paginationCounts.includes(+c)) setPaginationSize(c === "all" ? 0 : Number(c));
+      if (paginationCounts) {
+        if (c && paginationCounts.includes(+c)) setPaginationSize(c === "all" ? 0 : Number(c));
+        else setPaginationSize(paginationCounts[0]);
+      }
     } catch (e) {
       console.error("Error parsing localStorage data:", e);
       setSortBy({ col: "", type: "asc" });
