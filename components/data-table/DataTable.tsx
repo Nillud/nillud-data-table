@@ -11,6 +11,7 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
     tableData,
     columns,
     tableName = 'table-data',
+    className = '',
     loading = false,
     loadingElement = null,
     isFooter = false,
@@ -20,6 +21,7 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
     headerGroup = null,
     groupBy = null,
     isTitles = false,
+    selectByField,
     events
 }: TableProps, ref) => {
     const idMapRef = useRef<Map<TableElement, string | number>>(new Map())
@@ -143,6 +145,13 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
             events?.onSelect(processedData)
         }
     }, [events, processedData, selectedRows])
+
+    useEffect(() => {
+        if (typeof selectByField !== 'undefined' && processedData.length !== 0) {
+            console.log(processedData.map(r => r[selectByField!]!))
+            setSelectedRows(new Set(processedData.map(r => r[selectByField!]! && r.id!)))
+        }
+    }, [columns, processedData, selectByField])
 
     const toggleGroup = (groupKey: string) => {
         setCollapsedGroups(prev => ({
