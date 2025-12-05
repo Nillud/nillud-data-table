@@ -563,6 +563,7 @@ var DataTable = forwardRef(({
   tableData,
   columns,
   tableName = "table-data",
+  className = "",
   loading = false,
   loadingElement = null,
   isFooter = false,
@@ -572,6 +573,7 @@ var DataTable = forwardRef(({
   headerGroup = null,
   groupBy = null,
   isTitles = false,
+  selectByField,
   events
 }, ref) => {
   const idMapRef = useRef(/* @__PURE__ */ new Map());
@@ -665,6 +667,12 @@ var DataTable = forwardRef(({
       events == null ? void 0 : events.onSelect(processedData);
     }
   }, [events, processedData, selectedRows]);
+  useEffect2(() => {
+    if (typeof selectByField !== "undefined" && processedData.length !== 0) {
+      console.log(processedData.map((r) => r[selectByField]));
+      setSelectedRows(new Set(processedData.map((r) => r[selectByField] && r.id)));
+    }
+  }, [columns, processedData, selectByField]);
   const toggleGroup = (groupKey) => {
     setCollapsedGroups((prev) => ({
       ...prev,
