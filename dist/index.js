@@ -571,7 +571,8 @@ var DataTable = forwardRef(({
   scrollHeight = 300,
   headerGroup = null,
   groupBy = null,
-  isTitles = false
+  isTitles = false,
+  events
 }, ref) => {
   const idMapRef = useRef(/* @__PURE__ */ new Map());
   const dataWithIds = useMemo4(() => {
@@ -650,6 +651,7 @@ var DataTable = forwardRef(({
       } else {
         updated.add(id);
       }
+      events == null ? void 0 : events.onSelect(processedData.filter((el) => new Set(updated).has(el.id)));
       return updated;
     });
   };
@@ -657,10 +659,12 @@ var DataTable = forwardRef(({
     const allSelected = processedData.every((r) => typeof r.id !== "undefined" && selectedRows.has(r.id));
     if (allSelected) {
       setSelectedRows(/* @__PURE__ */ new Set());
+      events == null ? void 0 : events.onSelect([]);
     } else {
       setSelectedRows(new Set(processedData.map((r) => r.id)));
+      events == null ? void 0 : events.onSelect(processedData);
     }
-  }, [processedData, selectedRows]);
+  }, [events, processedData, selectedRows]);
   const toggleGroup = (groupKey) => {
     setCollapsedGroups((prev) => ({
       ...prev,

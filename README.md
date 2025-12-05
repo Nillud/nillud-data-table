@@ -65,6 +65,7 @@ const data = [{ name: 'Иван' }]
 | [columns](#columns)                                                   |   true   | array [\{\}] | Принимает в себя массив объектов                                                 |
 | [tableData](#tabledata)                                               |   true   | array [\{\}] | Принимает в себя массив объектов                                                 |
 | [tableName](#tablename)                                               |   true   | string       | Наименование таблицы для хранения значений в localStorage                        |
+| [className](#classname)                                               |    -     | string | Принимает в себя строку (Css класс)                                                    |
 | [loading](#loading)                                                   |    -     | boolean      | Состояние загрузки, принимает в себя state типа boolean                          |
 | [loadingElement](#loadingelement)                                     |    -     | React Element| Кастомный лоадер                                                                 |
 | [isFooter](#isfooter)                                                 |    -     | boolean      | Отображение footer                                                               |
@@ -74,6 +75,8 @@ const data = [{ name: 'Иван' }]
 | [headerGroup](#headergroup)                                           |    -     | array [\{\}] | Группировка столбцов (\{\ title: string, cols: number \}\)                       |
 | [groupBy](#groupby)                                                   |    -     | string       | Группировка данных, указывается заголовок столбца, по которому нужна группировка |
 | [isTitles](#istitles)                                                 |    -     | boolean      | Заголовки при наведении на ячейку, по умолчанию false                            |
+| [selectByField](#selectbyfield)                                       |    -     | string       | Предвыбрать поля, при использовании selectable                                   |
+| [events](#events)                                                     |    -     | {...events}  | Объект событий (onSelect)                                                        |
 
 Типы описаны components/data-table/DataTable.types.ts
 
@@ -431,6 +434,10 @@ const columns = [
 - filter
 - pagination-counter
 
+### className
+
+Необязательный параметр. Добавляет кастомный CSS класс таблице.
+
 ### loading
 
 Необязательный параметр. Состояние загрузки, тип **boolean**, по умолчанию **false**. При значении **true** в теле таблицы отображается соответствующая информация о загрузке данных. Передавать значение React State
@@ -488,6 +495,24 @@ groupBy={'status'}
 ### isTitles
 
 Необязательный параметр. Передается **boolean** значение. Отображает **html title** при наведении на ячейку, по умолчанию **false**
+
+### selectByField
+
+Необязательный параметр. Передается строка (ключ в массиве данных, значение которого имеет boolean значение) для предвыбора строки при использовании selectable.
+
+### events
+
+Необязательный параметр. Передается объект событий. 
+На данный момент имеются:
+- onSelect
+
+```tsx
+events={{
+    onSelect: (data) => {
+        console.log(data)
+    }
+}}
+```
 
 ```tsx
 isTitles

@@ -39,10 +39,15 @@ type ExportOptions = {
     maxColumnsBeforeLandscape?: number
 }
 
+type Events = {
+    onSelect: (data: TableData) => void
+}
+
 type TableProps = {
     tableData: TableData
     columns: Array<Column>
     tableName: string	// Наименование таблицы для хранения значений в localStorage
+    className?: string // Кастомный CSS класс
     loading?: boolean	// Состояние загрузки, принимает в себя state типа boolean
     loadingElement?: ReactElement | null
     isFooter?: boolean	// Отображение footer
@@ -55,6 +60,8 @@ type TableProps = {
     }> | null // Добавляет группировку заголовков (заголовок - title, растягивается на cols - столбцов)
     groupBy?: string | null // Добавляет группировку по полю (groupBy = column.field)
     isTitles?: boolean // Добавляет html title в ячейки, по умолчанию column.title
+    selectByField?: string // Предвыбрать строки по полю
+    events?: Events // Подписка на события
 }
 
 type LocalStorageData = {

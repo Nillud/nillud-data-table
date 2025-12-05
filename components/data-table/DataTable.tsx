@@ -20,6 +20,7 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
     headerGroup = null,
     groupBy = null,
     isTitles = false,
+    events
 }: TableProps, ref) => {
     const idMapRef = useRef<Map<TableElement, string | number>>(new Map())
 
@@ -126,6 +127,8 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
             } else {
                 updated.add(id)
             }
+
+            events?.onSelect(processedData.filter(el => new Set(updated).has(el.id!)))
             return updated
         })
     }
@@ -134,10 +137,12 @@ const DataTable = forwardRef<DataTableRef, TableProps>(({
         const allSelected = processedData.every(r => typeof r.id !== 'undefined' && selectedRows.has(r.id))
         if (allSelected) {
             setSelectedRows(new Set())
+            events?.onSelect([])
         } else {
             setSelectedRows(new Set(processedData.map(r => r.id!)))
+            events?.onSelect(processedData)
         }
-    }, [processedData, selectedRows])
+    }, [events, processedData, selectedRows])
 
     const toggleGroup = (groupKey: string) => {
         setCollapsedGroups(prev => ({

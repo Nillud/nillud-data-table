@@ -27,10 +27,14 @@ type Column = {
     editable?: boolean;
 };
 type Columns = Column[];
+type Events = {
+    onSelect: (data: TableData) => void;
+};
 type TableProps = {
     tableData: TableData;
     columns: Array<Column>;
     tableName: string;
+    className?: string;
     loading?: boolean;
     loadingElement?: ReactElement | null;
     isFooter?: boolean;
@@ -43,6 +47,8 @@ type TableProps = {
     }> | null;
     groupBy?: string | null;
     isTitles?: boolean;
+    selectByField?: string;
+    events?: Events;
 };
 type DataTableRef = {
     getData: () => TableData;
